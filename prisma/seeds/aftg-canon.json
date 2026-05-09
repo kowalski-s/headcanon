@@ -1,0 +1,81 @@
+{
+  "fandomSlug": "all-for-the-game",
+  "characters": [
+    {
+      "name": "Neil Josten",
+      "bible": {
+        "physical": "TODO founder: ~5'3, auburn hair, brown contacts hide blue eyes",
+        "voice": "TODO founder: deflective, sarcastic, evasive about past",
+        "core_traits": [
+          "TODO founder: stubborn",
+          "TODO founder: traumatized",
+          "TODO founder: loyal to Foxes"
+        ],
+        "canon_relationships": {
+          "Andrew Minyard": "TODO founder: tentative trust → eventual partnership",
+          "Kevin Day": "TODO founder: shared past, complicated"
+        },
+        "speech_patterns": "TODO founder: short sentences, deflects with questions",
+        "do_not": "TODO founder: write him as openly emotional in early chapters; he is closed off"
+      }
+    },
+    {
+      "name": "Andrew Minyard",
+      "bible": {
+        "physical": "TODO founder: 5'0, blond, dead eyes, smile when threatening",
+        "voice": "TODO founder: flat affect, monotone unless on meds",
+        "core_traits": ["TODO founder", "TODO founder", "TODO founder"],
+        "canon_relationships": {
+          "Neil Josten": "TODO founder",
+          "Aaron Minyard": "TODO founder: twin, fraught"
+        },
+        "speech_patterns": "TODO founder",
+        "do_not": "TODO founder"
+      }
+    },
+    {
+      "name": "Kevin Day",
+      "bible": {
+        "physical": "TODO founder",
+        "voice": "TODO founder",
+        "core_traits": ["TODO founder", "TODO founder", "TODO founder"],
+        "canon_relationships": {},
+        "speech_patterns": "TODO founder",
+        "do_not": "TODO founder"
+      }
+    },
+    {
+      "name": "Aaron Minyard",
+      "bible": {
+        "physical": "TODO founder",
+        "voice": "TODO founder",
+        "core_traits": ["TODO founder", "TODO founder", "TODO founder"],
+        "canon_relationships": {},
+        "speech_patterns": "TODO founder",
+        "do_not": "TODO founder"
+      }
+    },
+    {
+      "name": "Nicky Hemmick",
+      "bible": {
+        "physical": "TODO founder",
+        "voice": "TODO founder",
+        "core_traits": ["TODO founder", "TODO founder", "TODO founder"],
+        "canon_relationships": {},
+        "speech_patterns": "TODO founder",
+        "do_not": "TODO founder"
+      }
+    },
+    {
+      "name": "Matt Boyd",
+      "bible": {
+        "physical": "TODO founder",
+        "voice": "TODO founder",
+        "core_traits": ["TODO founder", "TODO founder", "TODO founder"],
+        "canon_relationships": {},
+        "speech_patterns": "TODO founder",
+        "do_not": "TODO founder"
+      }
+    }
+  ]
+}
