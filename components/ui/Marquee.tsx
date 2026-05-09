@@ -13,6 +13,7 @@ export function Marquee({
         {[0, 1].map((i) => (
           <span
             key={i}
+            aria-hidden={i === 1 ? true : undefined}
             className="font-mono text-mono-m tracking-caps text-bg uppercase whitespace-nowrap"
           >
             {items.map((item, idx) => (
