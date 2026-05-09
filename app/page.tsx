@@ -1,0 +1,8 @@
+export default function Home() {
+  return (
+    <main style={{ padding: 32 }}>
+      <h1>Headcanon — bootstrapping…</h1>
+      <p>Если ты видишь этот текст в баклажановом фоне — Tailwind работает.</p>
+    </main>
+  );
+}

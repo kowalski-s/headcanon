@@ -2,6 +2,14 @@
 .claude/
 node_modules/
 .next/
+out/
 .env
 .env.local
+.env*.local
 *.log
+next-env.d.ts
+.vercel
+.turbo
+storybook-static
+coverage
+*.tsbuildinfo

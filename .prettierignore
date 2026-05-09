@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+prisma/migrations
+pnpm-lock.yaml
+public
+handoff
+docs
+CLAUDE.md
