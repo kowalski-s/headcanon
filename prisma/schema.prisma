@@ -1,0 +1,355 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// =============================================================================
+// USERS & AUTH
+// =============================================================================
+
+model User {
+  id                String      @id @default(uuid()) @db.Uuid
+  email             String      @unique
+  handle            String      @unique
+  displayName       String?
+  avatarUrl         String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  ageConfirmedAt    DateTime?   // 18+ для M/E content
+  betaInviteId      String?     @unique @db.Uuid
+  betaInvite        Invite?     @relation("InviteRedeemer", fields: [betaInviteId], references: [id])
+
+  stories           Story[]     @relation("StoryAuthor")
+  likes             Like[]
+  saves             Save[]
+  comments          Comment[]
+  follows           Follow[]    @relation("Follower")
+  followedBy        Follow[]    @relation("Followee")
+  generatedInvites  Invite[]    @relation("InviteGenerator")
+}
+
+// =============================================================================
+// STORIES & CHAPTERS
+// =============================================================================
+
+enum Visibility {
+  PRIVATE
+  UNLISTED
+  PUBLIC
+}
+
+enum ChapterStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Story {
+  id            String      @id @default(uuid()) @db.Uuid
+  authorId      String      @db.Uuid
+  author        User        @relation("StoryAuthor", fields: [authorId], references: [id])
+  title         String
+  premise       String?
+  visibility    Visibility  @default(PRIVATE)
+  curated       Boolean     @default(false)  // флаг "Curated tab"
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  publishedAt   DateTime?
+
+  chapters      Chapter[]
+  characters    Character[]
+  characterStates CharacterState[]
+  worldState    WorldState?
+  scenes        Scene[]
+  tags          StoryTag[]
+  likes         Like[]
+  saves         Save[]
+  comments      Comment[]
+
+  @@index([authorId])
+  @@index([visibility, publishedAt])
+}
+
+model Chapter {
+  id            String         @id @default(uuid()) @db.Uuid
+  storyId       String         @db.Uuid
+  story         Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  ordinal       Int
+  title         String?
+  text          String         // полный текст главы
+  status        ChapterStatus  @default(DRAFT)
+  userEdited    Boolean        @default(false)
+  regensCount   Int            @default(0)
+  tokenCost     Decimal        @default(0) @db.Decimal(10, 6)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  publishedAt   DateTime?
+
+  summary       ChapterSummary?
+  scenes        Scene[]
+
+  @@unique([storyId, ordinal])
+  @@index([storyId, status])
+}
+
+model ChapterSummary {
+  chapterId   String   @id @db.Uuid
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  summary     String
+  updatedAt   DateTime @updatedAt
+}
+
+// =============================================================================
+// CHARACTERS & STATE (drift control)
+// =============================================================================
+
+model Character {
+  id              String      @id @default(uuid()) @db.Uuid
+  storyId         String      @db.Uuid
+  story           Story       @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  name            String
+  description     String
+  ageCanonical    Int?        // для banlist-проверки
+  descriptionSeed String?     // из canon seed или из первой главы
+  voiceId         String?     // ElevenLabs voice id (Phase 3)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  states          CharacterState[]
+  references      CharacterReference[]
+
+  @@unique([storyId, name])
+  @@index([storyId])
+}
+
+model CharacterState {
+  characterId         String     @db.Uuid
+  storyId             String     @db.Uuid
+  stateJson           Json       // {emotional_state, recent_events, relationships, arc_progress, voice_traits_drift}
+  updatedAtChapter    Int        // номер главы после которой state валиден
+  updatedAt           DateTime   @updatedAt
+  character           Character  @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  story               Story      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@id([characterId, storyId])
+  @@index([storyId])
+}
+
+model WorldState {
+  storyId             String     @id @db.Uuid
+  story               Story      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  stateJson           Json       // {current_location, story_time, active_plot_threads, foreshadowing}
+  updatedAtChapter    Int
+  updatedAt           DateTime   @updatedAt
+}
+
+model CharacterReference {
+  id                        String     @id @default(uuid()) @db.Uuid
+  characterId               String?    @db.Uuid
+  character                 Character? @relation(fields: [characterId], references: [id], onDelete: SetNull)
+  fandomNormalized          String
+  characterNameNormalized   String
+  imageUrl                  String
+  templateId                String
+  templateVersion           Int        @default(1)
+  cost                      Decimal    @default(0) @db.Decimal(10, 6)
+  createdAt                 DateTime   @default(now())
+
+  @@unique([fandomNormalized, characterNameNormalized])
+}
+
+// =============================================================================
+// SCENES (parser output)
+// =============================================================================
+
+model Scene {
+  id          String     @id @default(uuid()) @db.Uuid
+  chapterId   String     @db.Uuid
+  chapter     Chapter    @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  storyId     String     @db.Uuid
+  story       Story      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  sceneIndex  Int
+  emotion     String     // enum string в JSON, не Prisma enum (могут расширяться)
+  whoInScene  String[]   // имена персонажей
+  camera      String     // closeup | wide | mid | over_shoulder | etc
+  locationId  String?    @db.Uuid
+  json        Json       // полный structured output
+
+  assets      Asset[]
+
+  @@unique([chapterId, sceneIndex])
+  @@index([storyId])
+}
+
+model Asset {
+  id              String   @id @default(uuid()) @db.Uuid
+  sceneId         String   @db.Uuid
+  scene           Scene    @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  type            String   // image | video | audio
+  url             String
+  cost            Decimal  @default(0) @db.Decimal(10, 6)
+  templateId      String
+  templateVersion Int      @default(1)
+  createdAt       DateTime @default(now())
+
+  @@index([sceneId])
+}
+
+// =============================================================================
+// TAGS (AO3-like)
+// =============================================================================
+
+enum TagType {
+  RATING
+  WARNING
+  CATEGORY
+  FANDOM
+  RELATIONSHIP
+  CHARACTER_TAG
+  FREEFORM
+}
+
+model Tag {
+  id            String      @id @default(uuid()) @db.Uuid
+  type          TagType
+  name          String
+  slug          String
+  count         Int         @default(0)
+  canonicalId   String?     @db.Uuid
+  canonical     Tag?        @relation("TagCanonicalization", fields: [canonicalId], references: [id])
+  variants      Tag[]       @relation("TagCanonicalization")
+  createdAt     DateTime    @default(now())
+
+  stories       StoryTag[]
+
+  @@unique([type, slug])
+  @@index([type])
+  @@index([canonicalId])
+}
+
+model StoryTag {
+  storyId   String   @db.Uuid
+  tagId     String   @db.Uuid
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, tagId])
+  @@index([tagId])
+}
+
+// =============================================================================
+// FANDOM CANON SEEDS (для AftG и будущих niche фандомов)
+// =============================================================================
+
+model FandomCanonSeed {
+  id              String   @id @default(uuid()) @db.Uuid
+  fandomTagId     String   @db.Uuid           // FK к Tag (type=FANDOM)
+  characterName   String
+  bibleJson       Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([fandomTagId, characterName])
+  @@index([fandomTagId])
+}
+
+// =============================================================================
+// INVITES (closed beta)
+// =============================================================================
+
+model Invite {
+  id            String    @id @default(uuid()) @db.Uuid
+  code          String    @unique           // 8-char human-readable
+  generatedById String    @db.Uuid
+  generatedBy   User      @relation("InviteGenerator", fields: [generatedById], references: [id])
+  redeemedBy    User?     @relation("InviteRedeemer")  // back-relation, single-use (User.betaInviteId @unique)
+  usedAt        DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+// =============================================================================
+// SOCIAL
+// =============================================================================
+
+model Like {
+  userId    String   @db.Uuid
+  storyId   String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, storyId])
+  @@index([storyId])
+}
+
+model Save {
+  userId    String   @db.Uuid
+  storyId   String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, storyId])
+  @@index([storyId])
+}
+
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  storyId   String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  text      String
+  createdAt DateTime @default(now())
+
+  @@index([storyId])
+}
+
+model Follow {
+  followerId  String   @db.Uuid
+  followeeId  String   @db.Uuid
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followee    User     @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@id([followerId, followeeId])
+  @@index([followeeId])
+}
+
+// =============================================================================
+// JOBS (background queue)
+// =============================================================================
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum JobType {
+  EXTRACT_BIBLE
+  GENERATE_IMAGE
+  GENERATE_VIDEO
+  GENERATE_TTS
+  AUTO_TAG
+}
+
+model Job {
+  id          String     @id @default(uuid()) @db.Uuid
+  type        JobType
+  status      JobStatus  @default(PENDING)
+  payload     Json
+  retries     Int        @default(0)
+  error       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  startedAt   DateTime?
+  finishedAt  DateTime?
+
+  @@index([status, type])
+  @@index([createdAt])
+}
