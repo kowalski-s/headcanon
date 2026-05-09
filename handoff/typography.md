@@ -2,12 +2,12 @@
 
 ## Стек шрифтов (Literary typeset)
 
-| Роль | Семейство | Источник | Веса | Notes |
-|---|---|---|---|---|
-| Display | **Bodoni Moda** | Google Fonts | 400, 500, 600, 700 + italic | Cyrillic subset обязателен |
-| Body | **EB Garamond** | Google Fonts | 400, 500, 600 + italic | Cyrillic subset обязателен |
-| UI | **DM Sans** | Google Fonts | 400, 500, 600, 700 | Cyrillic subset обязателен |
-| Mono | **JetBrains Mono** | Google Fonts | 400, 500 | таймкоды, mono-метки |
+| Роль    | Семейство          | Источник     | Веса                        | Notes                      |
+| ------- | ------------------ | ------------ | --------------------------- | -------------------------- |
+| Display | **Bodoni Moda**    | Google Fonts | 400, 500, 600, 700 + italic | Cyrillic subset обязателен |
+| Body    | **EB Garamond**    | Google Fonts | 400, 500, 600 + italic      | Cyrillic subset обязателен |
+| UI      | **DM Sans**        | Google Fonts | 400, 500, 600, 700          | Cyrillic subset обязателен |
+| Mono    | **JetBrains Mono** | Google Fonts | 400, 500                    | таймкоды, mono-метки       |
 
 ## Подключение в Next.js
 
@@ -63,21 +63,21 @@ fontFamily: {
 
 Mobile-first, рассчитана на 375–414px viewport. Desktop — увеличиваем display через breakpoint.
 
-| Token | px | Tailwind | Где |
-|---|---|---|---|
-| `display.xxl` | 78 | `text-[78px]` | Hero на desktop feed |
-| `display.xl` | 56 | `text-[56px]` | Hero mobile, story page title |
-| `display.l` | 32 | `text-[32px]` | Reader chapter title, create stage заголовок |
-| `display.m` | 22 | `text-[22px]` | Section heads на desktop |
-| `display.s` | 16 | `text-[16px]` | Sticky-CTA, ep title now |
-| `display.xs` | 14 | `text-[14px]` | Episode chip title, NEXT preview |
-| `body.l` | 16 | `text-base` | Reader body **(жесткий минимум)** |
-| `body.m` | 13 | `text-[13px]` | Story description, taglines |
-| `body.s` | 12 | `text-xs` | Подписи постеров, caption |
-| `ui.l` | 14 | `text-sm` | CTA, toggle |
-| `ui.m` | 12 | `text-xs` | Чипы, tab bar |
-| `mono.m` | 11 | `text-[11px]` | Mono лейблы (`EP 02 / 04`, `40%`) |
-| `mono.s` | 9.5 | `text-[9.5px]` | Mono метки на постерах |
+| Token         | px  | Tailwind       | Где                                          |
+| ------------- | --- | -------------- | -------------------------------------------- |
+| `display.xxl` | 78  | `text-[78px]`  | Hero на desktop feed                         |
+| `display.xl`  | 56  | `text-[56px]`  | Hero mobile, story page title                |
+| `display.l`   | 32  | `text-[32px]`  | Reader chapter title, create stage заголовок |
+| `display.m`   | 22  | `text-[22px]`  | Section heads на desktop                     |
+| `display.s`   | 16  | `text-[16px]`  | Sticky-CTA, ep title now                     |
+| `display.xs`  | 14  | `text-[14px]`  | Episode chip title, NEXT preview             |
+| `body.l`      | 16  | `text-base`    | Reader body **(жесткий минимум)**            |
+| `body.m`      | 13  | `text-[13px]`  | Story description, taglines                  |
+| `body.s`      | 12  | `text-xs`      | Подписи постеров, caption                    |
+| `ui.l`        | 14  | `text-sm`      | CTA, toggle                                  |
+| `ui.m`        | 12  | `text-xs`      | Чипы, tab bar                                |
+| `mono.m`      | 11  | `text-[11px]`  | Mono лейблы (`EP 02 / 04`, `40%`)            |
+| `mono.s`      | 9.5 | `text-[9.5px]` | Mono метки на постерах                       |
 
 **Не уменьшать body ниже 16px** — пользователь читает по 30+ минут в кровати.
 
@@ -106,6 +106,7 @@ Mobile-first, рассчитана на 375–414px viewport. Desktop — уве
 ## Italic как продуктовый голос
 
 `<em>` в Bodoni-italic с амбер-цветом — фирменный приём. Используется:
+
 - На акцентных словах в hero («`Письмо, которое нельзя было писать.`»)
 - В диалогах watch-mode (`«я очень устал»`)
 - В метках типа «★ полночное чтиво»
@@ -122,9 +123,9 @@ Mobile-first, рассчитана на 375–414px viewport. Desktop — уве
   hyphens: auto;
   text-wrap: pretty;
 }
-.reader-body[lang="ru"] {
+.reader-body[lang='ru'] {
   /* русские переносы — критично для justified */
-  hyphenate-character: "‐";
+  hyphenate-character: '‐';
 }
 ```
 
@@ -137,12 +138,11 @@ Mobile-first, рассчитана на 375–414px viewport. Desktop — уве
 Все mono-надписи — uppercase + letterspacing.
 
 ```tsx
-<span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-dim">
-  EP 02 / 04
-</span>
+<span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-dim">EP 02 / 04</span>
 ```
 
 Tailwind:
+
 ```js
 // tailwind.preset.js
 extend: {

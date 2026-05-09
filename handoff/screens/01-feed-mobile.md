@@ -33,12 +33,12 @@
 
 ## Состояния
 
-| State | Что показываем |
-|---|---|
-| `loading` | Skeleton: 1 hero placeholder + 4 grid skeletons. Амбер-shimmer на surface. |
+| State                | Что показываем                                                                                        |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| `loading`            | Skeleton: 1 hero placeholder + 4 grid skeletons. Амбер-shimmer на surface.                            |
 | `empty` (новый юзер) | Bodoni-italic «выбери первый фандом → ст», CTA `+ начать` (amber pill). Маркизу всё равно показываем. |
-| `error` | Тостер сверху: `глава застряла в подземельях. retry?` |
-| `offline` | Кэшированный контент + sticky badge `mono` «✦ оффлайн». |
+| `error`              | Тостер сверху: `глава застряла в подземельях. retry?`                                                 |
+| `offline`            | Кэшированный контент + sticky badge `mono` «✦ оффлайн».                                               |
 
 ---
 

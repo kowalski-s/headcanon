@@ -4,6 +4,4 @@ out
 prisma/migrations
 pnpm-lock.yaml
 public
-handoff
-docs
-CLAUDE.md
+handoff/prototypes

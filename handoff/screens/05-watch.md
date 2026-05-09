@@ -55,6 +55,7 @@ type Subtitle = {
 ## Cinematic still
 
 Это **не реальные кадры из фильма** (copyright). Это:
+
 - Той же обложки градиент в 16:9 пропорции
 - Плёночное зерно (`textures/grain.png`, opacity 0.18, blend overlay)
 - Виньетка

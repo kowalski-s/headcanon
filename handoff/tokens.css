@@ -4,49 +4,54 @@
 
 :root {
   /* Colors */
-  --hc-bg:           #160B22;
-  --hc-bg-alt:       #1F1230;
-  --hc-bg-deep:      #06030C;
+  --hc-bg: #160b22;
+  --hc-bg-alt: #1f1230;
+  --hc-bg-deep: #06030c;
 
-  --hc-surface:      rgba(245, 239, 224, 0.04);
+  --hc-surface: rgba(245, 239, 224, 0.04);
   --hc-surface-raised: rgba(245, 239, 224, 0.06);
 
-  --hc-ink:          #F5EFE0;
-  --hc-ink-dim:      #A89BB5;
-  --hc-ink-faint:    #6E6478;
+  --hc-ink: #f5efe0;
+  --hc-ink-dim: #a89bb5;
+  --hc-ink-faint: #6e6478;
 
-  --hc-amber:        #E5A95A;
-  --hc-amber-soft:   rgba(229, 169, 90, 0.18);
-  --hc-rose:         #D67890;
+  --hc-amber: #e5a95a;
+  --hc-amber-soft: rgba(229, 169, 90, 0.18);
+  --hc-rose: #d67890;
 
-  --hc-chrome-1:     #C9D4E8;
-  --hc-chrome-2:     #E5A95A;
-  --hc-chrome-3:     #D67890;
-  --hc-chrome-gradient: linear-gradient(110deg, var(--hc-chrome-1), var(--hc-chrome-2) 50%, var(--hc-chrome-3));
+  --hc-chrome-1: #c9d4e8;
+  --hc-chrome-2: #e5a95a;
+  --hc-chrome-3: #d67890;
+  --hc-chrome-gradient: linear-gradient(
+    110deg,
+    var(--hc-chrome-1),
+    var(--hc-chrome-2) 50%,
+    var(--hc-chrome-3)
+  );
 
-  --hc-border:       rgba(229, 169, 90, 0.12);
+  --hc-border: rgba(229, 169, 90, 0.12);
   --hc-border-strong: rgba(229, 169, 90, 0.22);
 
   /* Typography (CSS vars set by next/font in layout.tsx) */
   /* --font-display, --font-body, --font-ui, --font-mono */
 
   /* Radii */
-  --hc-radius-sm:    4px;
-  --hc-radius-md:    8px;
-  --hc-radius-lg:    10px;
-  --hc-radius-xl:    14px;
-  --hc-radius-full:  999px;
+  --hc-radius-sm: 4px;
+  --hc-radius-md: 8px;
+  --hc-radius-lg: 10px;
+  --hc-radius-xl: 14px;
+  --hc-radius-full: 999px;
 
   /* Shadows */
-  --hc-shadow-poster:     0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --hc-shadow-poster: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   --hc-shadow-amber-glow: 0 6px 24px rgba(229, 169, 90, 0.55), 0 0 0 4px rgba(229, 169, 90, 0.18);
   --hc-shadow-chrome-cta: 0 0 0 1px rgba(245, 239, 224, 0.13), 0 4px 14px rgba(229, 169, 90, 0.55);
 
   /* Motion */
   --hc-ease-cinematic: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --hc-duration-fast:  200ms;
-  --hc-duration-base:  320ms;
-  --hc-duration-slow:  600ms;
+  --hc-duration-fast: 200ms;
+  --hc-duration-base: 320ms;
+  --hc-duration-slow: 600ms;
 
   /* Effects */
   --hc-candle: radial-gradient(circle, rgba(229, 169, 90, 0.53), transparent 60%);
@@ -54,7 +59,8 @@
 }
 
 /* Базовые сбросы под late-night */
-html, body {
+html,
+body {
   background: var(--hc-bg);
   color: var(--hc-ink);
   font-family: var(--font-body), 'EB Garamond', Georgia, serif;
@@ -62,7 +68,9 @@ html, body {
 
 /* prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

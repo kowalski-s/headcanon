@@ -21,16 +21,16 @@
 
 ## Решённые технические выборы (не пересматривать без явного запроса)
 
-| Слой | Выбор |
-|---|---|
-| Frontend | **Next.js (App Router) + TypeScript + Tailwind** |
-| БД + backend | **self-hosted Supabase** на Hetzner DE (Postgres + Auth + Storage + Realtime) |
-| ORM | **Prisma** |
-| Деплой | **Coolify** на собственном VPS (не Vercel/Netlify) |
-| Платежи | **YooKassa** |
-| LLM | **OpenRouter** (или прокси VseGPT/ProxyAPI) |
-| Генерация картинок/видео | **Replicate** / **fal.ai** |
-| TTS | **ElevenLabs** |
+| Слой                     | Выбор                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| Frontend                 | **Next.js (App Router) + TypeScript + Tailwind**                              |
+| БД + backend             | **self-hosted Supabase** на Hetzner DE (Postgres + Auth + Storage + Realtime) |
+| ORM                      | **Prisma**                                                                    |
+| Деплой                   | **Coolify** на собственном VPS (не Vercel/Netlify)                            |
+| Платежи                  | **YooKassa**                                                                  |
+| LLM                      | **OpenRouter** (или прокси VseGPT/ProxyAPI)                                   |
+| Генерация картинок/видео | **Replicate** / **fal.ai**                                                    |
+| TTS                      | **ElevenLabs**                                                                |
 
 ---
 
