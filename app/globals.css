@@ -14,6 +14,30 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  color: var(--hc-ink);
+  text-wrap: balance;
+}
+
+p {
+  font-family: var(--font-body);
+  color: var(--hc-ink);
+  text-wrap: pretty;
+  line-height: 1.6;
+}
+
+code,
+kbd {
+  font-family: var(--font-mono);
+}
+
+[aria-hidden] {
+  speak: none;
+}
+
 ::selection {
   background: var(--hc-amber);
   color: var(--hc-bg);
