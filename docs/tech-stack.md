@@ -1,0 +1,75 @@
+# Tech stack
+
+> Стек оптимизирован под запуск из РФ без VPN-боли. Стандартный «Vercel + Supabase Cloud + Stripe» здесь не работает.
+
+## Frontend
+- **Next.js (App Router) + TypeScript**
+- **Tailwind CSS v4** с подключённым `handoff/tailwind.preset.js`
+- **Шрифты через `next/font`:** Bodoni Moda (display), EB Garamond (body), DM Sans (UI), JetBrains Mono (timecodes/badges)
+- **Mobile-first, тёмная тема по умолчанию** (late-night reading)
+
+Дизайн-направление — **Editorial Y2K** (микс кино-журнальной типографики и Y2K-энергии): глубокий баклажан + тёплый амбер как свет свечи + хром-голограмма на Watch CTA, малярные скотч-теги и burst-стикеры на постерах, маркизы-тикеры. Серифная типографика, drop caps в ридере, justified body.
+
+**Источник правды по дизайну:** [`/handoff`](../handoff/README.md). Подключение токенов и пресета описано в [handoff/TASKS.md](../handoff/TASKS.md) → M0-02, M0-03. Альтернативные направления (Cozy Cinematic / Y2K Tumblr / Anime) — в [Notion](https://www.notion.so/35b2a47b0ca181b8b0bdfcda42a084b8), отброшены в пользу Editorial Y2K.
+
+## Backend / БД
+
+> SQLite/Pocketbase для UGC-платформы с лайками, фидами и видео-ассетами — тупик. Postgres с первого дня. Managed Supabase из РФ проблемен (Stripe-биллинг, периодические блокировки), поэтому self-host на Hetzner DE.
+
+| Вариант | Когда использовать |
+|---|---|
+| **Self-hosted Supabase на Hetzner DE** ⭐ | MVP-выбор. Postgres + Auth (GoTrue) + Storage + Realtime + автогенерируемый REST/GraphQL в одной развёртке. Coolify + официальный шаблон, поднимается за час. Мигрировать никуда не надо потом — это и есть Supabase, просто на твоей машине. |
+| Managed Postgres (Yandex / Selectel) + Auth.js | Если хочется развести по сервисам и держать данные в РФ-периметре. Больше кода, больше контроля. |
+| Managed Supabase (EU) | Запасной через посредника для оплаты. Дёшево, но риск отвала биллинга. |
+
+## ORM
+
+| Вариант | Заметки |
+|---|---|
+| **Prisma** ⭐ | Схема в одном файле, миграции человеческие, отличный DX. Чуть тяжелее по бандлу — для проекта твоего масштаба разница нулевая. Работает поверх Supabase Postgres напрямую (Supabase JS-клиент использовать необязательно). |
+| Drizzle | Легче и быстрее, но DX хуже на больших схемах. **Решено: не используем.** |
+
+## Деплой
+
+- **Coolify** на собственный VPS — self-hosted Vercel-аналог. Бесплатно, ставится за час, поддерживает Next.js, авто-деплой из Git.
+- **VPS:** Hetzner DE, минимум CX32 (Supabase ест RAM, на CX22 будет тесно). Из РФ доступен. Оплата: посредники / крипта / Wise.
+- ❌ **Не Vercel/Netlify** — проблемы оплаты и периодические бан-волны на РФ-IP.
+
+## AI-провайдеры
+
+| Сервис | Зачем |
+|---|---|
+| **OpenRouter** | LLM: Claude, GPT, Llama, Gemini в одном API. Если коннектится напрямую — идеально. |
+| **VseGPT, ProxyAPI** | Российские прокси к Anthropic / OpenAI с рублёвой оплатой. Backup. |
+| **Replicate / fal.ai** | Картинки (Flux) и видео (Kling, Runway). |
+| **ElevenLabs** | TTS / голоса. |
+| **Suno, Udio** | Музыка. Альтернатива — лицензированная Epidemic Sound (стабильнее). |
+| **Kandinsky (Sber)** | Бесплатные картинки в free-tier. |
+
+## Платежи
+
+| Сервис | Когда |
+|---|---|
+| **YooKassa** ⭐ | Основной Stripe-аналог. Самозанятая или ИП. Подписки нативно, REST API, доки на русском. |
+| Тинькофф Эквайринг | Альтернатива. Документы построже. |
+| CloudPayments | Хороший вариант для подписок. |
+| Lava.top / Boosty | Для приёма из-за рубежа на старте. |
+
+## Аналитика
+
+- **Yandex Metrika** — базовый трекинг
+- **PostHog (self-hosted)** — продуктовые события и retention
+
+## Email
+
+- **SendPulse** или **UniSender** — транзакционка и рассылки
+
+## Хранилище ассетов
+
+- **Supabase Storage** на старте (идёт из коробки в self-hosted раскладке)
+- **Selectel S3-compatible bucket** — переход когда перерастём (картинки растут быстро, проверять на 7-й день)
+
+## Архитектурный совет
+Лучшая раскладка: **бэкенд на Hetzner DE, оттуда напрямую к Anthropic / OpenAI / Replicate без прокси**. Платежи и пользовательская часть — в РФ-периметре через YooKassa, AI-вызовы из EU.
+
+Полные альтернативы и прочие варианты — в [Notion](https://www.notion.so/35b2a47b0ca181a6823cc9fa9e041533).
