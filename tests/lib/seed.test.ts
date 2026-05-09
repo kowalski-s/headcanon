@@ -21,7 +21,7 @@ describe('seed: fandom tags', () => {
 });
 
 describe('seed: AftG canon bible', () => {
-  it('has 6 character bibles', async () => {
+  it('has 15 character bibles covering main cast', async () => {
     const aftg = await prisma.tag.findUnique({
       where: { type_slug: { type: 'FANDOM', slug: 'all-for-the-game' } },
     });
@@ -29,7 +29,7 @@ describe('seed: AftG canon bible', () => {
     const bibles = await prisma.fandomCanonSeed.findMany({
       where: { fandomTagId: aftg!.id },
     });
-    expect(bibles.length).toBe(6);
+    expect(bibles.length).toBe(15);
     const names = bibles.map((b) => b.characterName);
     expect(names).toEqual(
       expect.arrayContaining([
@@ -39,6 +39,15 @@ describe('seed: AftG canon bible', () => {
         'Aaron Minyard',
         'Nicky Hemmick',
         'Matt Boyd',
+        'Dan Wilds',
+        'Renee Walker',
+        'Allison Reynolds',
+        'Seth Gordon',
+        'Jean Moreau',
+        'Jeremy Knox',
+        'Riko Moriyama',
+        'David Wymack',
+        'Betsy Dobson',
       ]),
     );
   });

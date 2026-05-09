@@ -65,7 +65,9 @@ async function main() {
     });
   }
 
-  console.log('Seed complete: 4 fandom tags + 6 AftG character bibles');
+  console.log(
+    `Seed complete: ${fandomTags.length} fandom tags + ${aftgCanon.characters.length} AftG character bibles`,
+  );
 }
 
 main()
