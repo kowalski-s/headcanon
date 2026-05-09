@@ -1,38 +1,27 @@
-export default function Home() {
-  return (
-    <main className="mx-auto min-h-screen max-w-[640px] px-6 py-12 text-ink">
-      <span
-        aria-hidden
-        className="font-mono mb-3 block text-mono-m tracking-caps text-amber uppercase"
-      >
-        ✦ M0 · foundation
-      </span>
-      <h1 className="text-display-l">Headcanon</h1>
-      <p className="font-body mt-4 text-body-l text-ink-dim">
-        Скелет проекта поднят. Дизайн-токены работают, шрифты с кириллицей загружены, основной фон —
-        глубокий баклажан, текст — кремовый. Дальше — данные и UI-примитивы.
-      </p>
+import { FeedHeader } from '@/components/feed/FeedHeader';
+import { FeedHeroDesktop } from '@/components/feed/FeedHeroDesktop';
+import { FeedGrid } from '@/components/feed/FeedGrid';
+import { FooterDesktop } from '@/components/feed/FooterDesktop';
+import { Marquee } from '@/components/ui/Marquee';
+import { Ornament } from '@/components/ui/Ornament';
+import { heroStory, feedStories } from '@/lib/fixtures/stories';
+import { trendingTropes } from '@/lib/fixtures/tropes';
 
-      <div className="mt-10 border-t border-border pt-6">
-        <h2 className="text-display-m text-amber italic">★ типографика</h2>
-        <p className="font-body mt-3 text-body-l">
-          Тогда снег падал крупными хлопьями. Драко стоял у окна, не оборачиваясь.{' '}
-          <em className="text-amber">«Я не хочу говорить об этом»</em> — сказал он негромко.
+export default function FeedPage() {
+  const tickerItems = trendingTropes.map((t) => `★ ${t.toUpperCase()}`);
+  return (
+    <div className="min-h-screen bg-bg-deep text-ink">
+      <FeedHeader />
+      <Marquee items={tickerItems} className="hidden lg:block" />
+      <FeedHeroDesktop story={heroStory} />
+      <div className="hidden lg:block py-8 text-center">
+        <Ornament />
+        <p className="mt-3 font-mono text-xs uppercase tracking-wider text-ink-dim">
+          ★ полночное чтиво для тех, кто не спит ★
         </p>
       </div>
-
-      <div className="mt-10 border-t border-border pt-6">
-        <h2 className="text-display-m">палитра</h2>
-        <div className="mt-3 grid grid-cols-4 gap-3">
-          <div className="aspect-square rounded-md bg-amber" title="amber" />
-          <div className="aspect-square rounded-md bg-rose" title="rose" />
-          <div className="aspect-square rounded-md bg-surface" title="surface" />
-          <div
-            className="aspect-square rounded-md border border-border-strong bg-bg-alt"
-            title="bg-alt"
-          />
-        </div>
-      </div>
-    </main>
+      <FeedGrid stories={feedStories} columns={5} />
+      <FooterDesktop />
+    </div>
   );
 }
