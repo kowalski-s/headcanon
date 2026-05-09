@@ -29,8 +29,7 @@ export function GrainCover({
         aria-hidden
         className="absolute inset-0"
         style={{
-          background:
-            'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)',
         }}
       />
       <div className="relative z-10">{children}</div>
