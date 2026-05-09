@@ -1,8 +1,20 @@
 @import 'tailwindcss';
+@config '../tailwind.config.ts';
+@import '../handoff/tokens.css';
 
-html,
+html {
+  background: var(--hc-bg);
+  color: var(--hc-ink);
+}
+
 body {
-  background: #160b22;
-  color: #f5efe0;
-  font-family: system-ui, sans-serif;
+  background: var(--hc-bg);
+  color: var(--hc-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--hc-amber);
+  color: var(--hc-bg);
 }
