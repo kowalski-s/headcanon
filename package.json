@@ -19,7 +19,8 @@
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
-    "db:seed": "tsx --env-file=.env prisma/seed.ts"
+    "db:seed": "tsx --env-file=.env prisma/seed.ts",
+    "qa:responsive": "tsx --env-file=.env scripts/responsive-smoke.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed.ts"
