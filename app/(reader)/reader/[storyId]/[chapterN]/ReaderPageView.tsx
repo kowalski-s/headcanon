@@ -9,6 +9,7 @@ import { ReaderSettingsSheet } from '@/components/reader/ReaderSettingsSheet';
 import { NextChapterCard } from '@/components/reader/NextChapterCard';
 import { Ornament } from '@/components/ui/Ornament';
 import { useReaderSettings } from '@/lib/reader/useReaderSettings';
+import { useReadingProgress } from '@/lib/reader/useReadingProgress';
 import { getStoryDetail, getChapterContent } from '@/lib/fixtures/chapters';
 import { track } from '@/lib/track';
 
@@ -19,6 +20,9 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
   const detail = getStoryDetail(storyId);
   const content = getChapterContent(storyId, n);
   const { settings, setSetting } = useReaderSettings();
+  const { percent, containerRef } = useReadingProgress(content?.paragraphs.length ?? 0);
+  const pagesTotal = Math.max(1, Math.ceil((content?.paragraphs.length ?? 0) / 2));
+  const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
         chapterTitle={content.title}
         onOpenSettings={() => setSettingsOpen(true)}
       />
-      <ReaderProgressBar percent={0} pageLabel="стр 1 / 9" />
+      <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
       <div className="mx-auto max-w-[660px] px-4 pt-6">
         <span className="font-display text-sm italic text-amber">
           глава {n === 7 ? 'седьмая' : n}
@@ -53,7 +57,7 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
           <Ornament size="sm" />
         </div>
       </div>
-      <ReaderBody paragraphs={content.paragraphs} settings={settings} />
+      <ReaderBody paragraphs={content.paragraphs} settings={settings} bodyRef={containerRef} />
       <NextChapterCard
         storyId={storyId}
         nextChapter={nextChapter}
