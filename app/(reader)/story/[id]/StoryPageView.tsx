@@ -27,7 +27,7 @@ export function StoryPageView({ id }: { id: string }) {
   const ctaLabel = progress ? `★ продолжить гл. ${continueChapter} ★` : '★ начать ★';
 
   return (
-    <div className="min-h-screen bg-bg-deep pb-24 text-ink">
+    <div className="min-h-screen bg-bg pb-24 text-ink">
       <header className="flex items-center justify-between px-4 py-3">
         <Link href="/" aria-label="back" className="font-mono text-base">
           ←
@@ -82,11 +82,11 @@ export function StoryPageView({ id }: { id: string }) {
         ))}
       </ul>
 
-      <div className="fixed inset-x-0 bottom-0 border-t border-ink-faint/20 bg-bg-deep/95 p-3 backdrop-blur lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 border-t border-ink-faint/20 bg-bg/95 p-3 backdrop-blur lg:hidden">
         <Link
           href={`/reader/${story.id}/${continueChapter}` as Route}
           onClick={() => track('story_continue_tap', { last_n: continueChapter })}
-          className="block w-full rounded-full bg-amber py-3 text-center font-mono text-xs uppercase tracking-wider text-bg-deep"
+          className="block w-full rounded-full bg-amber py-3 text-center font-mono text-xs uppercase tracking-wider text-bg"
         >
           {ctaLabel}
         </Link>

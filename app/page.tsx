@@ -23,7 +23,7 @@ export default function FeedPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-bg-deep text-ink pb-16 lg:pb-0">
+    <div className="min-h-screen bg-bg text-ink pb-16 lg:pb-0">
       <FeedHeader />
       <FeedHeaderMobile />
       <Marquee items={tickerItems} />

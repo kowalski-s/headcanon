@@ -1,11 +1,13 @@
 export function GrainCover({
   from,
   to,
+  glow = true,
   className = '',
   children,
 }: {
   from: string;
   to: string;
+  glow?: boolean;
   className?: string;
   children?: React.ReactNode;
 }) {
@@ -14,6 +16,17 @@ export function GrainCover({
       className={`relative overflow-hidden ${className}`}
       style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
     >
+      {glow ? (
+        <div
+          data-layer="amber-glow"
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 70% 55% at 50% 45%, rgba(229,169,90,0.28), transparent 70%)',
+          }}
+        />
+      ) : null}
       <div
         data-layer="grain"
         aria-hidden
@@ -29,7 +42,7 @@ export function GrainCover({
         aria-hidden
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.7) 100%)',
         }}
       />
       <div className="relative z-10">{children}</div>

@@ -12,7 +12,7 @@ const tabs: Array<{ key: TabKey; label: string; href: string }> = [
 
 export function TabBarMobile({ active }: { active: TabKey }) {
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 grid grid-cols-4 border-t border-ink-faint/20 bg-bg-deep/95 backdrop-blur">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 grid grid-cols-4 border-t border-ink-faint/20 bg-bg/95 backdrop-blur">
       {tabs.map((t) => (
         <Link
           key={t.key}

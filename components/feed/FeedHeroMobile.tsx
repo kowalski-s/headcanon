@@ -9,7 +9,7 @@ export function FeedHeroMobile({ story }: { story: Story }) {
       <div className="relative aspect-[4/3]">
         <GrainCover from={story.fandom.color1} to={story.fandom.color2} className="h-full w-full">
           <BurstSticker label="★ хит" rotate={-8} className="absolute right-3 top-3" />
-          <div className="absolute inset-x-0 bottom-0 bg-bg-deep/70 px-3 py-2 backdrop-blur">
+          <div className="absolute inset-x-0 bottom-0 bg-bg/80 px-3 py-2 backdrop-blur">
             <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wide">
               <span>
                 {story.fandom.name} · {story.pair}

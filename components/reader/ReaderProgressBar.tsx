@@ -3,7 +3,7 @@ type Props = { percent: number; pageLabel: string };
 export function ReaderProgressBar({ percent, pageLabel }: Props) {
   const clamped = Math.max(0, Math.min(100, percent));
   return (
-    <div className="sticky top-12 z-20 flex items-center gap-3 bg-bg-deep px-4 py-1">
+    <div className="sticky top-12 z-20 flex items-center gap-3 bg-bg px-4 py-1">
       <div
         role="progressbar"
         aria-valuenow={clamped}

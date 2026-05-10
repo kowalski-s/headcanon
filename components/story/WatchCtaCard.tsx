@@ -9,9 +9,9 @@ export function WatchCtaCard({ story }: { story: Story }) {
   if (!story.hasWatch) return null;
   return (
     <Link
-      href={`/reader/${story.id}/1` as Route}
+      href={`/watch/${story.id}/1` as Route}
       onClick={() => track('story_watch_tap')}
-      className="mx-4 flex items-center justify-between rounded-lg border border-chrome-1/40 bg-bg-deep p-4"
+      className="mx-4 flex items-center justify-between rounded-lg border border-chrome-1/40 bg-bg-alt p-4"
     >
       <div className="flex flex-col gap-1">
         <span className="font-mono text-[10px] uppercase tracking-wider text-chrome-1">

@@ -5,7 +5,7 @@ import type { Route } from 'next';
 
 export function FeedHeader({ authed = false }: { authed?: boolean }) {
   return (
-    <header className="hidden lg:flex sticky top-0 z-30 items-center justify-between gap-6 border-b border-ink-faint/20 bg-bg-deep/95 px-8 py-4 backdrop-blur">
+    <header className="hidden lg:flex sticky top-0 z-30 items-center justify-between gap-6 border-b border-ink-faint/20 bg-bg/95 px-8 py-4 backdrop-blur">
       <Link href="/" className="font-display text-2xl">
         head<span className="italic text-amber">canon</span>
       </Link>
@@ -33,7 +33,7 @@ export function FeedHeader({ authed = false }: { authed?: boolean }) {
         />
         <button
           type="button"
-          className="rounded-full bg-amber px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-bg-deep"
+          className="rounded-full bg-amber px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-bg"
         >
           {authed ? '+ new ☆' : '★ войти'}
         </button>

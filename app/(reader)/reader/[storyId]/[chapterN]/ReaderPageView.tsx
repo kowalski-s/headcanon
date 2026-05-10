@@ -43,7 +43,7 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
 
   return (
     <div
-      className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg-deep'}`}
+      className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg'}`}
     >
       <ReaderTopBar
         storyId={storyId}

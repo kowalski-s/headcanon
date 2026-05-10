@@ -29,12 +29,12 @@ export function ReaderSettingsSheet({ open, settings, onChange, onClose }: Props
         type="button"
         aria-label="close settings"
         onClick={onClose}
-        className="fixed inset-0 z-30 bg-bg-deep/60 backdrop-blur-sm"
+        className="fixed inset-0 z-30 bg-bg-deep/70 backdrop-blur-sm"
       />
       <section
         role="dialog"
         aria-label="настройки чтения"
-        className="fixed inset-x-0 bottom-0 z-40 flex flex-col gap-5 rounded-t-2xl bg-bg-deep p-6 lg:left-1/2 lg:max-w-md lg:-translate-x-1/2"
+        className="fixed inset-x-0 bottom-0 z-40 flex flex-col gap-5 rounded-t-2xl border border-amber/20 bg-bg-alt p-6 lg:left-1/2 lg:max-w-md lg:-translate-x-1/2"
       >
         <div className="flex flex-col gap-2">
           <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">шрифт</span>
@@ -46,7 +46,7 @@ export function ReaderSettingsSheet({ open, settings, onChange, onClose }: Props
                 onClick={() => onChange('font', f.value)}
                 className={`rounded-full border px-3 py-1.5 font-mono text-xs uppercase ${
                   settings.font === f.value
-                    ? 'border-amber bg-amber text-bg-deep'
+                    ? 'border-amber bg-amber text-bg'
                     : 'border-ink-faint/30 text-ink'
                 }`}
               >
@@ -99,7 +99,7 @@ export function ReaderSettingsSheet({ open, settings, onChange, onClose }: Props
                 onClick={() => onChange('theme', t.value)}
                 className={`rounded-full border px-3 py-1.5 font-mono text-xs uppercase ${
                   settings.theme === t.value
-                    ? 'border-amber bg-amber text-bg-deep'
+                    ? 'border-amber bg-amber text-bg'
                     : 'border-ink-faint/30 text-ink'
                 }`}
               >
