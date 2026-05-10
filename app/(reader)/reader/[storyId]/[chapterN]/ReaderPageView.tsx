@@ -10,6 +10,7 @@ import { NextChapterCard } from '@/components/reader/NextChapterCard';
 import { Ornament } from '@/components/ui/Ornament';
 import { useReaderSettings } from '@/lib/reader/useReaderSettings';
 import { useReadingProgress } from '@/lib/reader/useReadingProgress';
+import { useLateNightDim } from '@/lib/reader/useLateNightDim';
 import { getStoryDetail, getChapterContent } from '@/lib/fixtures/chapters';
 import { track } from '@/lib/track';
 
@@ -21,6 +22,7 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
   const content = getChapterContent(storyId, n);
   const { settings, setSetting } = useReaderSettings();
   const { percent, containerRef } = useReadingProgress(content?.paragraphs.length ?? 0);
+  const dimmed = useLateNightDim();
   const pagesTotal = Math.max(1, Math.ceil((content?.paragraphs.length ?? 0) / 2));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -40,7 +42,7 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
   const nextChapter = detail.chapters.find((c) => c.n === n + 1) ?? null;
 
   return (
-    <div className="min-h-screen bg-bg-deep text-ink">
+    <div className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg-deep'}`}>
       <ReaderTopBar
         storyId={storyId}
         chapterN={n}
