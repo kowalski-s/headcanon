@@ -8,8 +8,8 @@ describe('Reader page', () => {
     render(<ReaderPageView storyId="hero-1" chapterN="7" />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/полночное чтиво/i);
     expect(
-      screen.getByText((_, el) =>
-        el?.tagName === 'P' && /Крыша всё ещё держала/i.test(el?.textContent ?? ''),
+      screen.getByText(
+        (_, el) => el?.tagName === 'P' && /Крыша всё ещё держала/i.test(el?.textContent ?? ''),
       ),
     ).toBeInTheDocument();
   });

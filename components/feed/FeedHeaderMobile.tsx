@@ -7,8 +7,12 @@ export function FeedHeaderMobile() {
         head<span className="italic text-amber">canon</span>
       </Link>
       <div className="flex gap-3 font-mono text-base">
-        <button type="button" aria-label="search">🔍</button>
-        <button type="button" aria-label="saved">♡</button>
+        <button type="button" aria-label="search">
+          🔍
+        </button>
+        <button type="button" aria-label="saved">
+          ♡
+        </button>
       </div>
     </header>
   );

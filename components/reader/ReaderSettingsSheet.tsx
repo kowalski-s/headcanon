@@ -37,9 +37,7 @@ export function ReaderSettingsSheet({ open, settings, onChange, onClose }: Props
         className="fixed inset-x-0 bottom-0 z-40 flex flex-col gap-5 rounded-t-2xl bg-bg-deep p-6 lg:left-1/2 lg:max-w-md lg:-translate-x-1/2"
       >
         <div className="flex flex-col gap-2">
-          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">
-            шрифт
-          </span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">шрифт</span>
           <div className="flex gap-2">
             {fonts.map((f) => (
               <button
@@ -92,9 +90,7 @@ export function ReaderSettingsSheet({ open, settings, onChange, onClose }: Props
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">
-            тема
-          </span>
+          <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">тема</span>
           <div className="flex gap-2">
             {themes.map((t) => (
               <button

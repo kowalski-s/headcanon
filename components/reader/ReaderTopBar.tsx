@@ -11,11 +11,7 @@ type Props = {
 export function ReaderTopBar({ storyId, chapterN, chapterTitle, onOpenSettings }: Props) {
   return (
     <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-ink-faint/10 bg-bg-deep/95 px-4 py-2 backdrop-blur">
-      <Link
-        href={`/story/${storyId}` as Route}
-        aria-label="back"
-        className="font-mono text-base"
-      >
+      <Link href={`/story/${storyId}` as Route} aria-label="back" className="font-mono text-base">
         ←
       </Link>
       <div className="flex flex-col items-center text-center">

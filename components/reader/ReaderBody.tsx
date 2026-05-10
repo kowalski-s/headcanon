@@ -14,8 +14,8 @@ export function ReaderBody({ paragraphs, settings, bodyRef }: Props) {
     settings.font === 'bodoni'
       ? 'font-display'
       : settings.font === 'cormorant'
-      ? 'font-display' // M1: cormorant пока не подключён, используем display fallback
-      : 'font-body';
+        ? 'font-display' // M1: cormorant пока не подключён, используем display fallback
+        : 'font-body';
 
   return (
     <article
@@ -32,10 +32,7 @@ export function ReaderBody({ paragraphs, settings, bodyRef }: Props) {
         const showOrnament = (i + 1) % 4 === 0 && i !== paragraphs.length - 1;
         return (
           <Fragment key={i}>
-            <p
-              className={i === 0 ? 'reader-first-paragraph' : ''}
-              style={{ marginBottom: '1em' }}
-            >
+            <p className={i === 0 ? 'reader-first-paragraph' : ''} style={{ marginBottom: '1em' }}>
               {i === 0 ? (
                 <>
                   <span

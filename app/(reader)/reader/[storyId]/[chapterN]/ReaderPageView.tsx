@@ -42,7 +42,9 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
   const nextChapter = detail.chapters.find((c) => c.n === n + 1) ?? null;
 
   return (
-    <div className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg-deep'}`}>
+    <div
+      className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg-deep'}`}
+    >
       <ReaderTopBar
         storyId={storyId}
         chapterN={n}

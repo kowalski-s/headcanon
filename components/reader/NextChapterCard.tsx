@@ -12,10 +12,7 @@ export function NextChapterCard({ storyId, nextChapter, hasWatch }: Props) {
   return (
     <div className="mx-auto mt-12 max-w-[660px] border-t border-ink-faint/20 px-4 py-6">
       <div className="flex items-center justify-between gap-4">
-        <Link
-          href={`/reader/${storyId}/${nextChapter.n}` as Route}
-          className="flex flex-col gap-1"
-        >
+        <Link href={`/reader/${storyId}/${nextChapter.n}` as Route} className="flex flex-col gap-1">
           <span className="font-mono text-[10px] uppercase tracking-wider text-ink-dim">
             следующая глава
           </span>

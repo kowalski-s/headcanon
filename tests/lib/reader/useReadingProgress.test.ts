@@ -45,9 +45,9 @@ describe('useReadingProgress', () => {
     });
     const obs = MockObserver.instances[0];
     expect(obs).toBeDefined();
-    const entries = Array.from(div.children).slice(0, 5).map(
-      (el) => ({ target: el, isIntersecting: true }) as unknown as IntersectionObserverEntry,
-    );
+    const entries = Array.from(div.children)
+      .slice(0, 5)
+      .map((el) => ({ target: el, isIntersecting: true }) as unknown as IntersectionObserverEntry);
     act(() => {
       obs.callback(entries, obs as unknown as IntersectionObserver);
     });

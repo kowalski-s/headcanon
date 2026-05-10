@@ -18,30 +18,21 @@ describe('ChapterListItem', () => {
 
   it('shows continue marker when state=reading', () => {
     render(
-      <ChapterListItem
-        storyId="s1"
-        chapter={{ n: 7, title: 'a', minutes: 4, state: 'reading' }}
-      />,
+      <ChapterListItem storyId="s1" chapter={{ n: 7, title: 'a', minutes: 4, state: 'reading' }} />,
     );
     expect(screen.getByText(/продолжить/i)).toBeInTheDocument();
   });
 
   it('shows read marker when state=read', () => {
     render(
-      <ChapterListItem
-        storyId="s1"
-        chapter={{ n: 1, title: 'a', minutes: 4, state: 'read' }}
-      />,
+      <ChapterListItem storyId="s1" chapter={{ n: 1, title: 'a', minutes: 4, state: 'read' }} />,
     );
     expect(screen.getByText(/прочитано/i)).toBeInTheDocument();
   });
 
   it('renders a non-clickable link when locked', () => {
     render(
-      <ChapterListItem
-        storyId="s1"
-        chapter={{ n: 14, title: 'a', minutes: 8, state: 'locked' }}
-      />,
+      <ChapterListItem storyId="s1" chapter={{ n: 14, title: 'a', minutes: 8, state: 'locked' }} />,
     );
     const link = screen.queryByRole('link');
     expect(link).toBeNull();

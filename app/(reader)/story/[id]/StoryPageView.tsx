@@ -24,9 +24,7 @@ export function StoryPageView({ id }: { id: string }) {
 
   const { story, chapters, progress, watchAvailable, saved } = detail;
   const continueChapter = progress?.lastChapterN ?? 1;
-  const ctaLabel = progress
-    ? `★ продолжить гл. ${continueChapter} ★`
-    : '★ начать ★';
+  const ctaLabel = progress ? `★ продолжить гл. ${continueChapter} ★` : '★ начать ★';
 
   return (
     <div className="min-h-screen bg-bg-deep pb-24 text-ink">

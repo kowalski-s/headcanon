@@ -11,10 +11,7 @@ export function ReaderProgressBar({ percent, pageLabel }: Props) {
         aria-valuemax={100}
         className="h-0.5 flex-1 bg-ink-faint/20"
       >
-        <div
-          className="h-full bg-amber transition-[width]"
-          style={{ width: `${clamped}%` }}
-        />
+        <div className="h-full bg-amber transition-[width]" style={{ width: `${clamped}%` }} />
       </div>
       <span className="font-mono text-[9px] uppercase tracking-wider text-ink-dim">
         {pageLabel}
