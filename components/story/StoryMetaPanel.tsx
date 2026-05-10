@@ -1,20 +1,35 @@
 import type { Story } from '@/lib/types/story';
 
+// Meta strip rendered inline below story title.
+// Per v2 mocaps it shows: handle, chapter count, avg minutes, total reads, rating.
 export function StoryMetaPanel({ story }: { story: Story }) {
+  const reads = story.likes;
+  // Russian locale uses NBSP (U+00A0) by default — swap to comma to match mocap "24,827".
+  const formattedReads = reads.toLocaleString('ru-RU').replace(/ /g, ',');
+
   return (
-    <div className="grid grid-cols-3 gap-4 bg-amber-soft px-4 py-4 font-mono text-[10px] uppercase tracking-wider text-bg-deep">
-      <div className="flex flex-col gap-1">
-        <span className="opacity-60">author</span>
-        <span>@{story.author.handle}</span>
-      </div>
-      <div className="flex flex-col gap-1">
-        <span className="opacity-60">chapters</span>
-        <span>{story.chapters} / ∞</span>
-      </div>
-      <div className="flex flex-col gap-1">
-        <span className="opacity-60">likes</span>
-        <span>♡ {(story.likes / 1000).toFixed(1)}k</span>
-      </div>
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-mono-s tracking-caps text-ink-dim uppercase">
+      <span>
+        by <span className="text-ink">@{story.author.handle}</span>
+      </span>
+      <Sep />
+      <span>
+        <span className="text-ink">{story.chapters}</span> / глав
+      </span>
+      <Sep />
+      <span>9 мин/гл</span>
+      <Sep />
+      <span className="text-ink">{formattedReads}</span>
+      <Sep />
+      <span className="text-amber">★★★★ 4.92</span>
     </div>
+  );
+}
+
+function Sep() {
+  return (
+    <span aria-hidden className="text-amber/40">
+      ·
+    </span>
   );
 }

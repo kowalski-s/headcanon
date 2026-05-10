@@ -4,9 +4,12 @@
 
 :root {
   /* Colors */
-  --hc-bg: #160b22;
-  --hc-bg-alt: #1f1230;
-  --hc-bg-deep: #06030c;
+  /* warmer plum than M1-initial #160b22 — matches v2 mocaps (CleanShot 2026-05-10) where
+     Hogwarts/Dramione covers are richer plum/burgundy than the cooler navy palette of
+     refs/01..08. Bumped after side-by-side diff in tmp/m1-actual vs handoff/screens/refs/v2-*. */
+  --hc-bg: #1a0e26;
+  --hc-bg-alt: #221432;
+  --hc-bg-deep: #08040f;
 
   --hc-surface: rgba(245, 239, 224, 0.04);
   --hc-surface-raised: rgba(245, 239, 224, 0.06);

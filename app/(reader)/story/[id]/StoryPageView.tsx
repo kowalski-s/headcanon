@@ -6,12 +6,14 @@ import type { Route } from 'next';
 import { notFound } from 'next/navigation';
 import { StoryHero } from '@/components/story/StoryHero';
 import { StoryMetaPanel } from '@/components/story/StoryMetaPanel';
-import { WatchCtaCard } from '@/components/story/WatchCtaCard';
 import { ChapterListItem } from '@/components/story/ChapterListItem';
+import { FeedHeader } from '@/components/feed/FeedHeader';
 import { Ornament } from '@/components/ui/Ornament';
 import { MonoBadge } from '@/components/ui/MonoBadge';
 import { getStoryDetail } from '@/lib/fixtures/chapters';
 import { track } from '@/lib/track';
+
+const HERO_GENRES = ['enemies-to-lovers', 'slow burn'];
 
 export function StoryPageView({ id }: { id: string }) {
   const detail = getStoryDetail(id);
@@ -24,15 +26,19 @@ export function StoryPageView({ id }: { id: string }) {
 
   const { story, chapters, progress, watchAvailable, saved } = detail;
   const continueChapter = progress?.lastChapterN ?? 1;
-  const ctaLabel = progress ? `★ продолжить гл. ${continueChapter} ★` : '★ начать ★';
+  const ctaLabel = progress ? `★ продолжить главу ${continueChapter}` : '★ начать ★';
+  const watchLabel = `▸ watch · ${story.watchEpisodes ?? 0}m`;
+  const headlineMain = story.title.replace(/\.$/, '');
+  const headlineHasDot = story.title.endsWith('.');
 
   return (
-    <div className="min-h-screen bg-bg pb-24 text-ink">
-      <header className="flex items-center justify-between px-4 py-3">
-        <Link href="/" aria-label="back" className="font-mono text-base">
+    <div className="min-h-screen bg-bg pb-24 text-ink lg:pb-12">
+      {/* Mobile topbar — sticky compact action row */}
+      <header className="lg:hidden flex items-center justify-between px-4 py-3">
+        <Link href="/" aria-label="back" className="font-mono text-base text-ink-dim">
           ←
         </Link>
-        <div className="flex gap-3 font-mono text-base">
+        <div className="flex gap-4 font-mono text-base text-ink-dim">
           <button
             type="button"
             aria-label="save"
@@ -49,32 +55,113 @@ export function StoryPageView({ id }: { id: string }) {
         </div>
       </header>
 
-      <StoryHero story={story} />
+      {/* Desktop header — same wordmark/nav/CTA as feed */}
+      <FeedHeader />
 
-      <div className="flex flex-col gap-3 px-4 py-5">
-        <MonoBadge tone="amber">
-          vol.1 · {story.pair} · {story.chapters} ch
-        </MonoBadge>
-        <h1 className="font-display text-3xl text-balance">{story.title}</h1>
-        <p className="font-body text-sm italic text-ink-dim">{story.tagline}</p>
+      {/* Desktop breadcrumb */}
+      <nav
+        aria-label="breadcrumb"
+        className="hidden lg:flex items-center gap-2 px-10 pt-6 font-mono text-mono-s tracking-caps text-ink-dim uppercase"
+      >
+        <Link href="/" className="hover:text-ink">
+          лента
+        </Link>
+        <span aria-hidden>/</span>
+        <span>{story.fandom.name}</span>
+        <span aria-hidden>/</span>
+        <span>{story.pair.toLowerCase()}</span>
+        <span aria-hidden>/</span>
+        <span className="text-ink">эта история</span>
+      </nav>
+
+      {/* Mobile: cover + meta block stacked */}
+      <div className="lg:hidden">
+        <StoryHero story={story} continueChapter={continueChapter} variant="mobile" />
+
+        <div className="px-4 pt-5">
+          <MonoBadge tone="amber">{story.fandom.name.toLowerCase()} · 1997 · must read</MonoBadge>
+        </div>
+
+        <div className="flex flex-col gap-4 px-4 pt-3">
+          <h1 className="font-display text-[34px] leading-[1.05] text-balance">
+            {headlineMain}
+            {headlineHasDot ? <span className="text-amber">.</span> : null}
+          </h1>
+
+          <p className="font-body text-body-l italic text-ink-dim">{story.tagline}</p>
+
+          <StoryMetaPanel story={story} />
+
+          {watchAvailable ? (
+            <Link
+              href={`/watch/${story.id}/${continueChapter}` as Route}
+              onClick={() => track('story_watch_tap')}
+              className="mt-1 flex items-center justify-between rounded-full border border-chrome-1/30 bg-surface-raised px-4 py-2.5 font-mono text-mono-s tracking-caps uppercase"
+            >
+              <span className="flex items-center gap-2 text-chrome-1">
+                <span aria-hidden>▸</span>
+                watch mode · {story.watchEpisodes}m
+              </span>
+              <span aria-hidden className="text-amber">
+                ☀
+              </span>
+            </Link>
+          ) : null}
+        </div>
       </div>
 
-      <StoryMetaPanel story={story} />
+      {/* Desktop: 2-col cover + text */}
+      <section className="hidden lg:grid grid-cols-[1fr_1.05fr] items-start gap-12 px-10 pt-8 pb-12">
+        <StoryHero story={story} continueChapter={continueChapter} variant="desktop" />
 
-      {watchAvailable ? (
-        <div className="py-4">
-          <WatchCtaCard story={story} />
+        <div className="flex flex-col gap-6 pt-6">
+          <MonoBadge tone="amber">
+            vol.1 · {story.pair.toLowerCase()} · {story.chapters} ch
+          </MonoBadge>
+
+          <h1 className="font-display text-[68px] leading-[0.95] tracking-tight text-balance">
+            {headlineMain}
+            {headlineHasDot ? <span className="text-amber">.</span> : null}
+          </h1>
+
+          <p className="max-w-[40ch] font-body text-body-l italic text-ink-dim">{story.tagline}</p>
+
+          <StoryMetaPanel story={story} />
+
+          <div className="mt-2 flex items-center gap-3">
+            <Link
+              href={`/reader/${story.id}/${continueChapter}` as Route}
+              onClick={() => track('story_continue_tap', { last_n: continueChapter })}
+              className="rounded-full bg-amber px-7 py-3.5 font-mono text-mono-m tracking-caps uppercase text-bg-deep shadow-amber-glow"
+            >
+              {ctaLabel}
+            </Link>
+            {watchAvailable ? (
+              <Link
+                href={`/watch/${story.id}/${continueChapter}` as Route}
+                onClick={() => track('story_watch_tap')}
+                className="rounded-full border border-chrome-1/40 bg-surface-raised px-5 py-3 font-mono text-mono-m tracking-caps uppercase text-chrome-1"
+              >
+                {watchLabel}
+              </Link>
+            ) : null}
+          </div>
+
+          <div className="mt-1 font-mono text-mono-s tracking-caps text-ink-faint uppercase">
+            {HERO_GENRES.join(' · ')}
+          </div>
         </div>
-      ) : null}
+      </section>
 
-      <div className="py-6">
+      {/* Chapter list — shared layout, narrower on desktop */}
+      <div className="mx-auto max-w-[760px] py-8 lg:py-10">
         <Ornament />
-        <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-wider text-ink-dim">
+        <p className="mt-3 text-center font-mono text-mono-s tracking-caps uppercase text-ink-dim">
           ★ главы ★
         </p>
       </div>
 
-      <ul className="flex flex-col">
+      <ul className="mx-auto flex max-w-[760px] flex-col">
         {chapters.map((ch) => (
           <li key={ch.n}>
             <ChapterListItem storyId={story.id} chapter={ch} />
@@ -82,11 +169,12 @@ export function StoryPageView({ id }: { id: string }) {
         ))}
       </ul>
 
-      <div className="fixed inset-x-0 bottom-0 border-t border-ink-faint/20 bg-bg/95 p-3 backdrop-blur lg:hidden">
+      {/* Mobile sticky CTA */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-faint/20 bg-bg/95 p-3 backdrop-blur lg:hidden">
         <Link
           href={`/reader/${story.id}/${continueChapter}` as Route}
           onClick={() => track('story_continue_tap', { last_n: continueChapter })}
-          className="block w-full rounded-full bg-amber py-3 text-center font-mono text-xs uppercase tracking-wider text-bg"
+          className="block w-full rounded-full bg-amber py-3.5 text-center font-mono text-mono-s tracking-caps uppercase text-bg-deep shadow-amber-glow"
         >
           {ctaLabel}
         </Link>

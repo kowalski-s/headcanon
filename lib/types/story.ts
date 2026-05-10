@@ -57,5 +57,7 @@ export type ChapterContent = {
   storyId: string;
   n: number;
   title: string;
+  // Optional scene title shown as body h1 (chapter.title stays in breadcrumb/TOC).
+  section?: string;
   paragraphs: string[];
 };

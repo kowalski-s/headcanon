@@ -6,8 +6,10 @@ import { StoryPageView } from '@/app/(reader)/story/[id]/StoryPageView';
 describe('Story page', () => {
   it('renders story title, meta panel, and chapter list when id matches', () => {
     render(<StoryPageView id="hero-1" />);
-    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByText(/palmetto/i)).toBeInTheDocument();
+    // Two h1 nodes are rendered — mobile and desktop layouts toggle by CSS, JSDOM keeps both.
+    expect(screen.getAllByRole('heading', { level: 1 }).length).toBeGreaterThanOrEqual(1);
+    // @LunaHalf appears in both mobile and desktop meta strips.
+    expect(screen.getAllByText(/lunahalf/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('07')).toBeInTheDocument();
   });
 });

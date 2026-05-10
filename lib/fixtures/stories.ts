@@ -2,56 +2,58 @@ import type { Story, Fandom, FandomChip } from '@/lib/types/story';
 
 const aftg: Fandom = {
   id: 'aftg',
-  name: 'All for the Game',
+  name: 'foxhole court',
   slug: 'all-for-the-game',
-  color1: '#1a0f0a',
-  color2: '#2d1810',
+  color1: '#3a160a',
+  color2: '#1a0a06',
 };
 
 const hp: Fandom = {
   id: 'hp',
-  name: 'Harry Potter',
+  name: 'Hogwarts',
   slug: 'harry-potter',
-  color1: '#0e1a2b',
-  color2: '#1a2438',
+  color1: '#2d1432',
+  color2: '#4a1d35',
 };
 
 const naruto: Fandom = {
   id: 'naruto',
   name: 'Naruto',
   slug: 'naruto',
-  color1: '#2b0e0e',
-  color2: '#3a1818',
+  color1: '#3a1010',
+  color2: '#1a0808',
 };
 
 const jjk: Fandom = {
   id: 'jjk',
   name: 'JJK',
   slug: 'jjk',
-  color1: '#1a1a2e',
-  color2: '#16213e',
+  color1: '#1a1432',
+  color2: '#2a1a4a',
 };
 
 export const fandomChips: FandomChip[] = [
   { id: 'all', name: 'все', active: true },
-  { id: 'aftg', name: 'AFTG', sub: 'foxhole court' },
-  { id: 'hp', name: 'HP', sub: 'дрэмиона' },
-  { id: 'naruto', name: 'naruto', sub: 'sasunaru' },
-  { id: 'jjk', name: 'JJK', sub: 'satosugu' },
+  { id: 'hp', name: 'Хогвартс' },
+  { id: 'aftg', name: "Baldur's Gate 3" },
+  { id: 'avatar', name: 'Avatar' },
+  { id: 'naruto', name: 'Дары смерти' },
 ];
 
+// Hero matches v2 mocaps: HP/Dramione, Зимний свет в подземельях, @LunaHalf, 14ch / на 7-й.
 export const heroStory: Story = {
   id: 'hero-1',
-  title: 'кто остаётся в полночь',
-  fandom: aftg,
-  pair: 'Эндрю × Нил',
-  tagline: 'когда лисы спят, на крыше остаются только двое',
+  title: 'Зимний свет в подземельях.',
+  fandom: hp,
+  pair: 'Драко × Гермиона',
+  tagline:
+    'Год седьмой. Хогвартс под комендантским часом — единственный, кто заметил её отсутствие в библиотеке, последний человек, которого она хотела бы видеть.',
   cover: null,
   likes: 24800,
   chapters: 14,
   hasWatch: true,
   watchEpisodes: 4,
-  author: { id: 'u1', handle: 'palmetto' },
+  author: { id: 'u-luna', handle: 'LunaHalf' },
 };
 
 export const feedStories: Story[] = [

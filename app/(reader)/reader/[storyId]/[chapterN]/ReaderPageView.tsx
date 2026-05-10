@@ -7,6 +7,7 @@ import { ReaderProgressBar } from '@/components/reader/ReaderProgressBar';
 import { ReaderBody } from '@/components/reader/ReaderBody';
 import { ReaderSettingsSheet } from '@/components/reader/ReaderSettingsSheet';
 import { NextChapterCard } from '@/components/reader/NextChapterCard';
+import { ReaderSpreadDesktop } from '@/components/reader/ReaderSpreadDesktop';
 import { Ornament } from '@/components/ui/Ornament';
 import { useReaderSettings } from '@/lib/reader/useReaderSettings';
 import { useReadingProgress } from '@/lib/reader/useReadingProgress';
@@ -40,33 +41,54 @@ export function ReaderPageView({ storyId, chapterN }: Props) {
   if (!detail || !content) notFound();
 
   const nextChapter = detail.chapters.find((c) => c.n === n + 1) ?? null;
+  const prevChapter = detail.chapters.find((c) => c.n === n - 1) ?? null;
 
   return (
     <div
       className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg'}`}
     >
-      <ReaderTopBar
-        storyId={storyId}
-        chapterN={n}
-        chapterTitle={content.title}
-        onOpenSettings={() => setSettingsOpen(true)}
-      />
-      <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
-      <div className="mx-auto max-w-[660px] px-4 pt-6">
-        <span className="font-display text-sm italic text-amber">
-          глава {n === 7 ? 'седьмая' : n}
-        </span>
-        <h1 className="mt-2 font-display text-3xl text-balance">{content.title}</h1>
-        <div className="my-4">
-          <Ornament size="sm" />
+      {/* Mobile reader — sticky topbar + single column body */}
+      <div className="lg:hidden">
+        <ReaderTopBar
+          storyId={storyId}
+          chapterN={n}
+          chapterTitle={content.title}
+          onOpenSettings={() => setSettingsOpen(true)}
+        />
+        <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
+        <div className="mx-auto max-w-[660px] px-4 pt-6">
+          <span className="font-display text-sm italic text-amber">
+            глава {n === 7 ? 'седьмая' : n}
+          </span>
+          <h1 className="mt-2 font-display text-3xl text-balance">
+            {content.section ?? content.title}
+          </h1>
+          <div className="my-4">
+            <Ornament size="sm" />
+          </div>
         </div>
+        <ReaderBody paragraphs={content.paragraphs} settings={settings} bodyRef={containerRef} />
+        <NextChapterCard
+          storyId={storyId}
+          nextChapter={nextChapter}
+          hasWatch={detail.watchAvailable}
+        />
       </div>
-      <ReaderBody paragraphs={content.paragraphs} settings={settings} bodyRef={containerRef} />
-      <NextChapterCard
+
+      {/* Desktop reader — magazine spread, side arrows, inline next card */}
+      <ReaderSpreadDesktop
         storyId={storyId}
+        chapter={n}
+        pagesTotal={pagesTotal}
+        currentPage={currentPage}
+        content={content}
+        prevChapter={prevChapter}
         nextChapter={nextChapter}
         hasWatch={detail.watchAvailable}
+        settings={settings}
+        onOpenSettings={() => setSettingsOpen(true)}
       />
+
       <ReaderSettingsSheet
         open={settingsOpen}
         settings={settings}

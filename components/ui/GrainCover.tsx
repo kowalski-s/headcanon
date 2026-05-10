@@ -13,7 +13,11 @@ export function GrainCover({
 }) {
   return (
     <div
-      className={`relative overflow-hidden ${className}`}
+      // Caller passes `absolute inset-0` to size the cover; we add `overflow-hidden` and a
+      // gradient background. We do NOT add `relative` here — Tailwind's `.relative` is
+      // declared after `.absolute` in the cascade, so combining both makes `inset-0` a no-op
+      // and the cover collapses (all internal layers are absolute).
+      className={`overflow-hidden ${className}`}
       style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
     >
       {glow ? (
@@ -45,7 +49,7 @@ export function GrainCover({
           background: 'radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.7) 100%)',
         }}
       />
-      <div className="relative z-10">{children}</div>
+      <div className="absolute inset-0 z-10">{children}</div>
     </div>
   );
 }

@@ -14,8 +14,10 @@ const shots: Shot[] = [
   { name: 'story-desktop', route: '/story/hero-1', viewport: { width: 1280, height: 900 } },
   { name: 'reader-mobile', route: '/reader/hero-1/7', viewport: { width: 375, height: 812 } },
   { name: 'reader-desktop', route: '/reader/hero-1/7', viewport: { width: 1280, height: 900 } },
-  { name: 'watch-stub-mobile', route: '/watch/hero-1/1', viewport: { width: 375, height: 812 } },
-  { name: 'create-stub-mobile', route: '/create', viewport: { width: 375, height: 812 } },
+  { name: 'watch-mobile', route: '/watch/hero-1/7', viewport: { width: 375, height: 812 } },
+  { name: 'watch-desktop', route: '/watch/hero-1/7', viewport: { width: 1280, height: 900 } },
+  { name: 'create-mobile', route: '/create', viewport: { width: 375, height: 812 } },
+  { name: 'create-desktop', route: '/create', viewport: { width: 1280, height: 900 } },
 ];
 
 async function main() {

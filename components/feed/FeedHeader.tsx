@@ -5,38 +5,39 @@ import type { Route } from 'next';
 
 export function FeedHeader({ authed = false }: { authed?: boolean }) {
   return (
-    <header className="hidden lg:flex sticky top-0 z-30 items-center justify-between gap-6 border-b border-ink-faint/20 bg-bg/95 px-8 py-4 backdrop-blur">
-      <Link href="/" className="font-display text-2xl">
-        head<span className="italic text-amber">canon</span>
+    <header className="hidden lg:flex sticky top-0 z-30 items-center gap-8 border-b border-ink-faint/15 bg-bg/95 px-10 py-5 backdrop-blur">
+      <Link href="/" className="font-display text-[26px] leading-none">
+        head
+        <span className="italic text-amber">canon</span>
       </Link>
 
-      <nav className="flex gap-6 font-mono text-xs uppercase tracking-wide">
+      <nav className="flex gap-5 font-mono text-mono-s tracking-caps uppercase">
         <Link href="/" className="text-amber">
-          feed
+          ✦ лента
         </Link>
-        <Link href={'/fandoms' as Route} className="text-ink-dim hover:text-ink">
-          fandoms
+        <Link href={'/fandoms' as Route} className="text-ink-dim transition-colors hover:text-ink">
+          фандомы
         </Link>
-        <Link href={'/tropes' as Route} className="text-ink-dim hover:text-ink">
-          tropes
+        <Link href={'/tropes' as Route} className="text-ink-dim transition-colors hover:text-ink">
+          тропы
         </Link>
-        <Link href={'/watch' as Route} className="text-ink-dim hover:text-ink">
+        <Link href={'/watch' as Route} className="text-ink-dim transition-colors hover:text-ink">
           watch ▸
         </Link>
       </nav>
 
-      <div className="flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-3">
         <input
           type="search"
-          placeholder="искать..."
-          className="rounded-full border border-ink-faint/30 bg-transparent px-4 py-1.5 font-body text-sm placeholder:text-ink-dim"
+          placeholder="✦ shape me up..."
+          className="w-[180px] rounded-full border border-ink-faint/30 bg-transparent px-4 py-1.5 font-body text-sm italic placeholder:text-ink-faint placeholder:italic focus:border-amber/60 focus:outline-none"
         />
-        <button
-          type="button"
-          className="rounded-full bg-amber px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-bg"
+        <Link
+          href={'/create' as Route}
+          className="rounded-full bg-amber px-5 py-2 font-mono text-mono-s tracking-caps uppercase text-bg-deep shadow-amber-glow"
         >
-          {authed ? '+ new ☆' : '★ войти'}
-        </button>
+          {authed ? '+ новая история' : '+ новая история'}
+        </Link>
       </div>
     </header>
   );

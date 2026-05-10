@@ -1,6 +1,8 @@
 export type TrackEventName =
   | 'feed_viewed'
   | 'feed_hero_tap'
+  | 'feed_hero_read_tap'
+  | 'feed_hero_watch_tap'
   | 'feed_chip_tap'
   | 'feed_card_tap'
   | 'feed_watch_chip_tap'
@@ -15,6 +17,7 @@ export type TrackEventName =
   | 'reader_progress_milestone'
   | 'reader_settings_changed'
   | 'reader_watch_chip_tap'
+  | 'reader_next_tap'
   | 'reader_chapter_completed'
   | 'reader_stream_error';
 

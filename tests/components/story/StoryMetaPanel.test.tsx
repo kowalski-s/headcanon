@@ -7,8 +7,9 @@ import { heroStory } from '@/lib/fixtures/stories';
 describe('StoryMetaPanel', () => {
   it('renders author handle, chapter count, and likes', () => {
     render(<StoryMetaPanel story={heroStory} />);
-    expect(screen.getByText(/palmetto/i)).toBeInTheDocument();
+    expect(screen.getByText(/lunahalf/i)).toBeInTheDocument();
     expect(screen.getByText(/14/)).toBeInTheDocument();
-    expect(screen.getByText(/24\.8k/)).toBeInTheDocument();
+    // v2 mocaps switched the metric from likes ("24.8k") to total reads ("24,800") in mono caps.
+    expect(screen.getByText(/24,800/)).toBeInTheDocument();
   });
 });

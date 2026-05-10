@@ -8,13 +8,13 @@ describe('FandomChips', () => {
   it('renders all chips and marks active one', () => {
     render(<FandomChips chips={fandomChips} onSelect={() => {}} />);
     expect(screen.getByText(/все/i)).toBeInTheDocument();
-    expect(screen.getByText(/AFTG/i)).toBeInTheDocument();
+    expect(screen.getByText(/Хогвартс/i)).toBeInTheDocument();
   });
 
   it('fires onSelect with chip id when clicked', () => {
     const onSelect = vi.fn();
     render(<FandomChips chips={fandomChips} onSelect={onSelect} />);
-    fireEvent.click(screen.getByText(/AFTG/i));
-    expect(onSelect).toHaveBeenCalledWith('aftg');
+    fireEvent.click(screen.getByText(/Хогвартс/i));
+    expect(onSelect).toHaveBeenCalledWith('hp');
   });
 });

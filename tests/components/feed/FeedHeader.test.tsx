@@ -8,17 +8,17 @@ describe('FeedHeader', () => {
     render(<FeedHeader />);
     expect(screen.getByText(/head/i)).toBeInTheDocument();
     expect(screen.getByText(/canon/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /feed/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /fandoms/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /лента/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /фандомы/i })).toBeInTheDocument();
   });
 
-  it('renders + NEW CTA when authed prop is true', () => {
+  it('renders + новая история CTA when authed prop is true', () => {
     render(<FeedHeader authed />);
-    expect(screen.getByRole('button', { name: /new/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /новая история/i })).toBeInTheDocument();
   });
 
-  it('renders ВОЙТИ when authed false', () => {
+  it('renders + новая история CTA also when authed false (M1 single CTA)', () => {
     render(<FeedHeader authed={false} />);
-    expect(screen.getByRole('button', { name: /войти/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /новая история/i })).toBeInTheDocument();
   });
 });
