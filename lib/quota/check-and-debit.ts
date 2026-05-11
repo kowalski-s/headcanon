@@ -6,11 +6,16 @@ export type ChapterResource = 'regens' | 'continues' | 'promptTweaks';
 
 const CHAPTER_RESOURCE_ALLOWLIST: ChapterResource[] = ['regens', 'continues', 'promptTweaks'];
 
+// Dev-only bypass — set DISABLE_QUOTAS=1 in .env when iterating locally.
+// MUST be removed/disabled before public launch (see handoff/TASKS.md).
+const QUOTAS_DISABLED = process.env.DISABLE_QUOTAS === '1';
+
 export async function debitChapter(
   chapterId: string,
   resource: ChapterResource,
   limit: number,
 ): Promise<{ allowed: boolean; remaining: number }> {
+  if (QUOTAS_DISABLED) return { allowed: true, remaining: limit };
   if (!(CHAPTER_RESOURCE_ALLOWLIST as string[]).includes(resource)) {
     throw new Error(`Invalid ChapterResource: ${resource}`);
   }
@@ -33,6 +38,7 @@ export async function debitDaily(
   resource: DailyResource,
   limit: number,
 ): Promise<{ allowed: boolean; remaining: number }> {
+  if (QUOTAS_DISABLED) return { allowed: true, remaining: limit };
   const day = new Date();
   day.setUTCHours(0, 0, 0, 0);
   const rows = await prisma.$queryRaw<Array<{ stories: number }>>`
