@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { ReaderTopBar } from '@/components/reader/ReaderTopBar';
 import { ReaderProgressBar } from '@/components/reader/ReaderProgressBar';
 import { ReaderBody } from '@/components/reader/ReaderBody';
+import { EditableReaderBody } from '@/components/reader/EditableReaderBody';
 import { ReaderSettingsSheet } from '@/components/reader/ReaderSettingsSheet';
 import { NextChapterCard } from '@/components/reader/NextChapterCard';
 import { ReaderSpreadDesktop } from '@/components/reader/ReaderSpreadDesktop';
@@ -24,7 +25,8 @@ export type LiveChapterData = {
   chapterId: string;
   title: string;
   ordinal: number;
-  initialParagraphs: string[];
+  authorId: string;
+  initialParagraphs: Array<{ id: string; text: string }>;
 };
 
 type Props = {
@@ -167,8 +169,7 @@ function LiveReader({
 
   const hasDbParagraphs = live.initialParagraphs.length > 0;
 
-  // paragraphsToRender: either DB paragraphs OR accumulating stream output.
-  const [dbParagraphs] = useState<string[]>(live.initialParagraphs);
+  const canEdit = live.authorId === DEV_TEST_USER_ID;
 
   const handleStreamFinish = useCallback(
     async (fullText: string) => {
@@ -213,19 +214,23 @@ function LiveReader({
     });
   }, [storyId, n]);
 
-  const activeParagraphs = hasDbParagraphs ? dbParagraphs : streamParagraphs;
+  // Desktop spread needs string[]; mobile editable path uses {id, text}[].
+  const desktopParagraphs: string[] = hasDbParagraphs
+    ? live.initialParagraphs.map((p) => p.text)
+    : streamParagraphs;
 
-  const { percent, containerRef } = useReadingProgress(activeParagraphs.length);
-  const pagesTotal = Math.max(1, Math.ceil(activeParagraphs.length / 2));
+  const { percent, containerRef } = useReadingProgress(desktopParagraphs.length);
+  const pagesTotal = Math.max(1, Math.ceil(desktopParagraphs.length / 2));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
 
   // Build a ChapterContent shape compatible with ReaderSpreadDesktop.
+  // TODO(M2-C+): desktop inline edit — ReaderSpreadDesktop renders string[]; integration deferred
   const content: ChapterContent = {
     storyId,
     n,
     title: live.title,
     section: `глава ${live.ordinal}`,
-    paragraphs: activeParagraphs,
+    paragraphs: desktopParagraphs,
   };
 
   return (
@@ -261,18 +266,25 @@ function LiveReader({
             <Ornament size="sm" />
           </div>
         </div>
-        {status === 'streaming' && activeParagraphs.length === 0 ? (
+        {status === 'streaming' && desktopParagraphs.length === 0 ? (
           <div className="mx-auto max-w-[660px] px-4 py-6 font-mono text-sm text-ink-dim animate-pulse">
             генерируем главу…
           </div>
+        ) : hasDbParagraphs ? (
+          <EditableReaderBody
+            paragraphs={live.initialParagraphs}
+            settings={settings}
+            canEdit={canEdit}
+            bodyRef={containerRef}
+          />
         ) : (
-          <ReaderBody paragraphs={activeParagraphs} settings={settings} bodyRef={containerRef} />
+          <ReaderBody paragraphs={streamParagraphs} settings={settings} bodyRef={containerRef} />
         )}
         {/* No NextChapterCard in live path (no chapter list from server) */}
       </div>
 
       {/* Desktop reader */}
-      {activeParagraphs.length > 0 ? (
+      {desktopParagraphs.length > 0 ? (
         <ReaderSpreadDesktop
           storyId={storyId}
           chapter={n}

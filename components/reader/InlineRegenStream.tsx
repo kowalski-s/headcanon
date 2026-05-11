@@ -5,11 +5,12 @@ interface Props {
   oldText: string;
   endpoint: string;
   body: object;
+  headers?: Record<string, string>;
   onFinish: (newText: string) => void;
   onError?: (e: Error) => void;
 }
 
-export function InlineRegenStream({ oldText, endpoint, body, onFinish, onError }: Props) {
+export function InlineRegenStream({ oldText, endpoint, body, headers, onFinish, onError }: Props) {
   const [streamed, setStreamed] = useState('');
   const [done, setDone] = useState(false);
 
@@ -20,7 +21,7 @@ export function InlineRegenStream({ oldText, endpoint, body, onFinish, onError }
         const res = await fetch(endpoint, {
           method: 'POST',
           body: JSON.stringify(body),
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', ...(headers ?? {}) },
           signal: abort.signal,
         });
         if (!res.ok || !res.body) {

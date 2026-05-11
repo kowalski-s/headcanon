@@ -30,7 +30,7 @@ export default async function ReaderPage({
     where: { storyId, ordinal },
     include: {
       paragraphs: { orderBy: { ordinal: 'asc' } },
-      story: { select: { title: true } },
+      story: { select: { title: true, authorId: true } },
     },
   });
 
@@ -44,7 +44,8 @@ export default async function ReaderPage({
         chapterId: chapter.id,
         title: chapter.story.title,
         ordinal: chapter.ordinal,
-        initialParagraphs: chapter.paragraphs.map((p) => p.text),
+        authorId: chapter.story.authorId,
+        initialParagraphs: chapter.paragraphs.map((p) => ({ id: p.id, text: p.text })),
       }}
     />
   );

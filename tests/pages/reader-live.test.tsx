@@ -30,9 +30,9 @@ vi.mock('next/navigation', () => ({
 }));
 
 const TEST_PARAGRAPHS = [
-  'Первый абзац тестовой главы — начало истории.',
-  'Второй абзац, продолжение событий.',
-  'Третий абзац, разговор персонажей.',
+  { id: 'p-1', text: 'Первый абзац тестовой главы — начало истории.' },
+  { id: 'p-2', text: 'Второй абзац, продолжение событий.' },
+  { id: 'p-3', text: 'Третий абзац, разговор персонажей.' },
 ];
 
 describe('ReaderPageView — live path', () => {
@@ -45,6 +45,7 @@ describe('ReaderPageView — live path', () => {
           chapterId: 'ch-uuid-1234',
           title: 'Первая встреча',
           ordinal: 1,
+          authorId: '00000000-0000-0000-0000-000000000001',
           initialParagraphs: TEST_PARAGRAPHS,
         }}
       />,
@@ -78,7 +79,8 @@ describe('ReaderPageView — live path', () => {
           chapterId: 'ch-uuid-5678',
           title: 'Второе возвращение',
           ordinal: 3,
-          initialParagraphs: ['Один параграф.'],
+          authorId: '00000000-0000-0000-0000-000000000001',
+          initialParagraphs: [{ id: 'p-4', text: 'Один параграф.' }],
         }}
       />,
     );
