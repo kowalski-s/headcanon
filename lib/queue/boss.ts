@@ -1,17 +1,20 @@
 import { PgBoss } from 'pg-boss';
 
-let instance: PgBoss | null = null;
+let bossPromise: Promise<PgBoss> | null = null;
 
-export async function getBoss(): Promise<PgBoss> {
-  if (instance) return instance;
+export function getBoss(): Promise<PgBoss> {
+  if (bossPromise) return bossPromise;
   const conn = process.env.DATABASE_URL;
   if (!conn) throw new Error('DATABASE_URL required for pg-boss');
-  instance = new PgBoss({
-    connectionString: conn,
-    schema: 'pgboss',
-  });
-  await instance.start();
-  return instance;
+  bossPromise = (async () => {
+    const boss = new PgBoss({
+      connectionString: conn,
+      schema: 'pgboss',
+    });
+    await boss.start();
+    return boss;
+  })();
+  return bossPromise;
 }
 
 export async function enqueue(
