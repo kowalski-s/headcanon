@@ -23,6 +23,7 @@
     "qa:responsive": "tsx --env-file=.env scripts/responsive-smoke.ts",
     "qa:m2a": "tsx --env-file=.env scripts/m2a-e2e.ts",
     "qa:m2b": "tsx --env-file=.env scripts/m2b-e2e.ts",
+    "qa:m2c": "tsx --env-file=.env scripts/m2c-e2e.ts",
     "worker": "tsx --env-file=.env scripts/worker.ts"
   },
   "prisma": {

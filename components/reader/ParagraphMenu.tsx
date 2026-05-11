@@ -52,6 +52,7 @@ export function ParagraphMenu({ open, onClose, onAction }: Props) {
           <button
             key={it.mode}
             type="button"
+            data-testid={`paragraph-menu-${it.mode}`}
             onClick={() => handle(it.mode)}
             className="block w-full py-3 text-left font-mono text-mono-s uppercase tracking-caps text-ink"
           >
@@ -67,6 +68,7 @@ export function ParagraphMenu({ open, onClose, onAction }: Props) {
           <button
             key={it.mode}
             type="button"
+            data-testid={`paragraph-menu-${it.mode}`}
             onClick={() => handle(it.mode)}
             className="block w-full rounded px-3 py-2 text-left font-mono text-mono-s uppercase tracking-caps text-ink hover:bg-bg-deep"
           >
