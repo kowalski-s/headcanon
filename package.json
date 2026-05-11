@@ -21,7 +21,8 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx --env-file=.env prisma/seed.ts",
     "qa:responsive": "tsx --env-file=.env scripts/responsive-smoke.ts",
-    "qa:m2a": "tsx --env-file=.env scripts/m2a-e2e.ts"
+    "qa:m2a": "tsx --env-file=.env scripts/m2a-e2e.ts",
+    "worker": "tsx --env-file=.env scripts/worker.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed.ts"
