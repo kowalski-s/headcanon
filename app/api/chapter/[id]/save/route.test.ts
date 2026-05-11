@@ -1,10 +1,20 @@
-import { describe, it, expect, afterAll } from 'vitest';
+import { describe, it, expect, afterAll, beforeEach, vi } from 'vitest';
+
+vi.mock('@/lib/queue/boss', () => ({
+  enqueue: vi.fn(async () => 'job-id'),
+}));
+
 import { POST } from './route';
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { createTestStoryWithChapter } from '@/lib/test-fixtures';
+import { enqueue } from '@/lib/queue/boss';
 
 const USER_ID = '00000000-0000-0000-0000-000000000001';
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 afterAll(async () => {
   await prisma.story.deleteMany({ where: { authorId: USER_ID } });
@@ -64,5 +74,16 @@ describe('POST /api/chapter/[id]/save', () => {
     const rows = await prisma.paragraph.findMany({ where: { chapterId: chapter.id }, orderBy: { ordinal: 'asc' } });
     expect(rows).toHaveLength(1);
     expect(rows[0].text).toBe('Only this now.');
+  });
+
+  it('enqueues extract-bible and auto-tag after save', async () => {
+    const { user, chapter } = await createTestStoryWithChapter();
+    const res = await POST(
+      new NextRequest('http://x', { method: 'POST', body: JSON.stringify({ fullText: 'Hello world.' }), headers: { 'x-test-user-id': user.id } }),
+      { params: Promise.resolve({ id: chapter.id }) },
+    );
+    expect(res.status).toBe(200);
+    expect(vi.mocked(enqueue)).toHaveBeenCalledWith('extract-bible', { chapterId: chapter.id }, { singletonKey: chapter.id });
+    expect(vi.mocked(enqueue)).toHaveBeenCalledWith('auto-tag', { storyId: chapter.storyId }, { singletonKey: chapter.storyId });
   });
 });

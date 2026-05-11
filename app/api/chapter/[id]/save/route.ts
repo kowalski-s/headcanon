@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { getUserIdOrThrow } from '@/lib/auth/server';
+import { enqueue } from '@/lib/queue/boss';
 
 const Body = z.object({ fullText: z.string().min(1) });
 
@@ -38,6 +39,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     }),
   ]);
 
-  // Plan B: enqueue extract-bible + auto-tag here. Plan A — no-op stub.
+  await enqueue('extract-bible', { chapterId: id }, { singletonKey: id });
+  await enqueue('auto-tag', { storyId: chapter.story.id }, { singletonKey: chapter.story.id });
+
   return NextResponse.json({ ok: true, paragraphCount: paragraphs.length });
 }
