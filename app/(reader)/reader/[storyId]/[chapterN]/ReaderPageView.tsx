@@ -101,7 +101,8 @@ function FixtureReader({
   const content = getChapterContent(storyId, n);
   const { percent, containerRef } = useReadingProgress(content?.paragraphs.length ?? 0);
   const dimmed = useLateNightDim();
-  const pagesTotal = Math.max(1, Math.ceil((content?.paragraphs.length ?? 0) / 2));
+  const words = (content?.paragraphs ?? []).reduce((s, p) => s + p.split(/\s+/).filter(Boolean).length, 0);
+  const pagesTotal = Math.max(1, Math.ceil(words / 250));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
 
   useEffect(() => {
@@ -220,7 +221,8 @@ function LiveReader({
     : streamParagraphs;
 
   const { percent, containerRef } = useReadingProgress(desktopParagraphs.length);
-  const pagesTotal = Math.max(1, Math.ceil(desktopParagraphs.length / 2));
+  const words = desktopParagraphs.reduce((s, p) => s + p.split(/\s+/).filter(Boolean).length, 0);
+  const pagesTotal = Math.max(1, Math.ceil(words / 250));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
 
   // Build a ChapterContent shape compatible with ReaderSpreadDesktop.
