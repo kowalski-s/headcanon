@@ -28,11 +28,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 
   const fandomTag = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag;
+  const shipTag = chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag;
+  const tropeTags = chapter.story.tags
+    .filter((st) => st.tag.type === 'FREEFORM' && !st.prefilled)
+    .map((st) => st.tag.name);
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
   const { system, user } = chapterPrompt.build({
     fandomName: fandomTag?.name ?? 'unknown',
-    ship: '(see story)',                            // ship is shipId on draft; здесь читаем со story-meta — упрощённо для MVP
-    tropes: [],
+    ship: shipTag?.name ?? '(any)',
+    tropes: tropeTags,
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
     priorState: priorState ?? undefined,
