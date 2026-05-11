@@ -71,15 +71,25 @@ export function useChapterStream({ chapterId, chapterLength, onFinish, testUserI
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let fullText = '';
+      let rafPending = false;
+      const flush = () => {
+        rafPending = false;
+        setCompletion(fullText);
+      };
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         fullText += chunk;
-        setCompletion(fullText);
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(flush);
+        }
       }
 
+      // Final flush to make sure the last chunk reaches React state.
+      setCompletion(fullText);
       setStatus('done');
       onFinish?.(fullText);
     } catch (err) {
