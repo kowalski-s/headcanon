@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     'trope_suggestions',
     cacheKey,
     result,
-    process.env.LLM_MODEL_DEFAULT ?? 'gpt-5o-mini',
+    process.env.LLM_MODEL_DEFAULT ?? 'gpt-4o-mini',
     TTL_7D,
   );
   return NextResponse.json({ tropes: result.tropes, sensei_tip: result.sensei_tip, cached: false });

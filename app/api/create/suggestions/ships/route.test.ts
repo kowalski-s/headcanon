@@ -86,7 +86,7 @@ describe('GET /api/create/suggestions/ships', () => {
   it('returns cached: true on second call, LLM not called again', async () => {
     await seedFandom();
     const cacheKey = { scope: 'ship_suggestions', fandomId: FANDOM_ID };
-    await setSuggestion('ship_suggestions', cacheKey, { ships: MOCK_SHIPS }, 'gpt-5o-mini', 3600);
+    await setSuggestion('ship_suggestions', cacheKey, { ships: MOCK_SHIPS }, 'gpt-4o-mini', 3600);
 
     const res = await GET(makeReq({ fandomId: FANDOM_ID }));
     expect(res.status).toBe(200);

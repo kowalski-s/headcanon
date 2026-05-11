@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     'ship_suggestions',
     cacheKey,
     result,
-    process.env.LLM_MODEL_DEFAULT ?? 'gpt-5o-mini',
+    process.env.LLM_MODEL_DEFAULT ?? 'gpt-4o-mini',
     TTL_30D,
   );
   return NextResponse.json({ ships: result.ships, cached: false });

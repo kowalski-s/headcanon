@@ -22,7 +22,7 @@ describe('openaiLlm.stream', () => {
     const chunks: string[] = [];
     for await (const c of openaiLlm.stream({
       callType: 'test', templateId: 't', templateVersion: 1,
-      system: 'sys', user: 'usr', model: 'gpt-5o-mini',
+      system: 'sys', user: 'usr', model: 'gpt-4o-mini',
     })) chunks.push(c);
     expect(chunks.join('')).toBe('Hello, world.');
     await new Promise((r) => setTimeout(r, 0));

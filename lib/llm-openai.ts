@@ -3,7 +3,7 @@ import { openai } from '@ai-sdk/openai';
 import { logLlmCall } from '@/lib/cost/log';
 import type { LlmAdapter, LlmStreamOpts, LlmStructuredOpts } from './llm';
 
-const DEFAULT_MODEL = process.env.LLM_MODEL_DEFAULT ?? 'gpt-5o-mini';
+const DEFAULT_MODEL = process.env.LLM_MODEL_DEFAULT ?? 'gpt-4o-mini';
 
 function modelFor(callType: string, override?: string): string {
   if (override) return override;

@@ -108,7 +108,7 @@ describe('GET /api/create/suggestions/tropes', () => {
       'trope_suggestions',
       cacheKey,
       { tropes: MOCK_TROPES, sensei_tip: MOCK_SENSEI_TIP },
-      'gpt-5o-mini',
+      'gpt-4o-mini',
       3600,
     );
 

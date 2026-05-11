@@ -11,7 +11,7 @@ describe('logLlmCall', () => {
       callType: 'chapter_stream',
       templateId: 'chapter',
       templateVersion: 1,
-      model: 'gpt-5o-mini',
+      model: 'gpt-4o-mini',
       inputTokens: 1000,
       outputTokens: 500,
       latencyMs: 1234,
