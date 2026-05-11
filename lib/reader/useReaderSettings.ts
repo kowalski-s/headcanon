@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 export type ReaderFont = 'bodoni' | 'garamond' | 'cormorant';
 export type ReaderTheme = 'late-night' | 'sepia' | 'true-dark';
+export type ChapterLength = 'short' | 'medium' | 'long';
 
 export type ReaderSettings = {
   font: ReaderFont;
@@ -12,6 +13,7 @@ export type ReaderSettings = {
   theme: ReaderTheme;
   justify: boolean;
   hyphens: boolean;
+  chapterLength: ChapterLength;
 };
 
 export const DEFAULT_SETTINGS: ReaderSettings = {
@@ -20,6 +22,7 @@ export const DEFAULT_SETTINGS: ReaderSettings = {
   theme: 'late-night',
   justify: true,
   hyphens: true,
+  chapterLength: 'short',
 };
 
 const STORAGE_KEY = 'headcanon:reader-settings';

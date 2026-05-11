@@ -39,4 +39,15 @@ describe('useReaderSettings', () => {
     const { result } = renderHook(() => useReaderSettings());
     expect(result.current.settings).toEqual(DEFAULT_SETTINGS);
   });
+
+  it('persists chapterLength', () => {
+    const { result } = renderHook(() => useReaderSettings());
+    expect(result.current.settings.chapterLength).toBe('short');
+    act(() => {
+      result.current.setSetting('chapterLength', 'long');
+    });
+    expect(result.current.settings.chapterLength).toBe('long');
+    const stored = JSON.parse(localStorage.getItem('headcanon:reader-settings')!);
+    expect(stored.chapterLength).toBe('long');
+  });
 });
