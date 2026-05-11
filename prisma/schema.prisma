@@ -29,6 +29,8 @@ model User {
   follows           Follow[]    @relation("Follower")
   followedBy        Follow[]    @relation("Followee")
   generatedInvites  Invite[]    @relation("InviteGenerator")
+  createDrafts      CreateDraft[]
+  dailyUsage        DailyUsage[]
 }
 
 // =============================================================================
@@ -78,7 +80,7 @@ model Chapter {
   story         Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
   ordinal       Int
   title         String?
-  text          String         // полный текст главы
+  text          String         @default("") // полный текст главы
   status        ChapterStatus  @default(DRAFT)
   userEdited    Boolean        @default(false)
   regensCount   Int            @default(0)
@@ -87,8 +89,12 @@ model Chapter {
   updatedAt     DateTime       @updatedAt
   publishedAt   DateTime?
 
-  summary       ChapterSummary?
-  scenes        Scene[]
+  summary         ChapterSummary?
+  scenes          Scene[]
+  paragraphs      Paragraph[]
+  usage           ChapterUsage?
+  templateId      String?
+  templateVersion Int?
 
   @@unique([storyId, ordinal])
   @@index([storyId, status])
@@ -352,4 +358,87 @@ model Job {
 
   @@index([status, type])
   @@index([createdAt])
+}
+
+// =============================================================================
+// M2 — GENERATE (Plan A)
+// =============================================================================
+
+enum Tone {
+  SLOW_BURN
+  SPICY
+  FLUFF
+  ANGST
+}
+
+model CreateDraft {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fandomId  String?  @db.Uuid
+  shipId    String?
+  tropes    String[] @default([])
+  setting   String?
+  tone      Tone?
+  step      Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId, updatedAt])
+}
+
+model Paragraph {
+  id          String   @id @default(uuid()) @db.Uuid
+  chapterId   String   @db.Uuid
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  ordinal     Decimal  @db.Decimal(20, 10)
+  text        String
+  regensCount Int      @default(0)
+  updatedAt   DateTime @updatedAt
+  @@unique([chapterId, ordinal])
+  @@index([chapterId])
+}
+
+model DailyUsage {
+  userId  String   @db.Uuid
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day     DateTime @db.Date
+  stories Int      @default(0)
+  @@id([userId, day])
+}
+
+model ChapterUsage {
+  chapterId    String  @id @db.Uuid
+  chapter      Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  regens       Int     @default(0)
+  continues    Int     @default(0)
+  promptTweaks Int     @default(0)
+}
+
+model LlmCallLog {
+  id              String   @id @default(uuid()) @db.Uuid
+  callType        String
+  templateId      String
+  templateVersion Int
+  model           String
+  inputTokens     Int
+  outputTokens    Int
+  costUsd         Decimal  @db.Decimal(10, 6)
+  latencyMs       Int
+  storyId         String?  @db.Uuid
+  chapterId       String?  @db.Uuid
+  userId          String?  @db.Uuid
+  createdAt       DateTime @default(now())
+  @@index([callType, createdAt])
+  @@index([userId, createdAt])
+}
+
+model AiSuggestion {
+  scope     String
+  keyHash   String
+  valueJson Json
+  model     String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  @@id([scope, keyHash])
+  @@index([expiresAt])
 }
