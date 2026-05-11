@@ -6,13 +6,9 @@ export async function loadPriorState(storyId: string, chapterOrdinal: number): P
 
   const [worldState, characterStates, summaries, recentChapters] = await Promise.all([
     prisma.worldState.findUnique({ where: { storyId } }),
-    prisma.characterState.findMany({
-      where: { storyId },
-      include: { character: true },
-    }),
+    prisma.characterState.findMany({ where: { storyId } }),
     prisma.chapterSummary.findMany({
       where: { chapter: { storyId, ordinal: { lt: chapterOrdinal - 1 } } },
-      include: { chapter: true },
       orderBy: { chapter: { ordinal: 'asc' } },
     }),
     prisma.chapter.findMany({
