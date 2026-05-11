@@ -26,13 +26,17 @@
     "seed": "tsx --env-file=.env prisma/seed.ts"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.63",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@supabase/supabase-js": "^2.105.4",
+    "ai": "^6.0.177",
     "next": "^15.5.18",
+    "openai": "^6.37.0",
     "pg": "^8.20.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "zod": "^4.4.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
