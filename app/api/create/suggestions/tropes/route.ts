@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { openaiLlm } from '@/lib/llm-openai';
 import { getSuggestion, setSuggestion } from '@/lib/cache/ai-suggestion';
 import * as tropeSuggest from '@/lib/prompts/trope-suggest';
+import { canonicalFandom } from '@/lib/fandom/canonical';
 
 // sensei_tip TTL drives the whole row (7d < 30d trope TTL — conservative choice)
 const TTL_7D = 7 * 24 * 3600;
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ tropes: cached.tropes, sensei_tip: cached.sensei_tip, cached: true });
   }
 
-  const prompt = tropeSuggest.build(fandom.name, shipId);
+  const prompt = tropeSuggest.build(canonicalFandom(fandom.slug, fandom.name), shipId);
   const result = await openaiLlm.completeStructured({
     callType: 'trope_suggest',
     templateId: tropeSuggest.TEMPLATE_ID,

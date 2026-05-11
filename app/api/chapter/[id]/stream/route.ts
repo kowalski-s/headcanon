@@ -4,6 +4,7 @@ import { getUserIdOrThrow } from '@/lib/auth/server';
 import { openaiLlm } from '@/lib/llm-openai';
 import * as chapterPrompt from '@/lib/prompts/chapter';
 import { loadPriorState } from '@/lib/chapter/load-prior-state';
+import { canonicalFandom } from '@/lib/fandom/canonical';
 import { z } from 'zod';
 
 const LengthSchema = z.enum(['short', 'medium', 'long']).default('short');
@@ -34,7 +35,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     .map((st) => st.tag.name);
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
   const { system, user } = chapterPrompt.build({
-    fandomName: fandomTag?.name ?? 'unknown',
+    fandomName: fandomTag ? canonicalFandom(fandomTag.slug, fandomTag.name) : 'unknown',
     ship: shipTag?.name ?? '(any)',
     tropes: tropeTags,
     tone: chapter.story.tone ?? undefined,

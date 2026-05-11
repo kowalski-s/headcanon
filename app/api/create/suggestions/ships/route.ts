@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { openaiLlm } from '@/lib/llm-openai';
 import { getSuggestion, setSuggestion } from '@/lib/cache/ai-suggestion';
 import * as shipSuggest from '@/lib/prompts/ship-suggest';
+import { canonicalFandom } from '@/lib/fandom/canonical';
 
 const TTL_30D = 30 * 24 * 3600;
 
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
   const cached = await getSuggestion<shipSuggest.ShipSuggestOutput>('ship_suggestions', cacheKey);
   if (cached) return NextResponse.json({ ships: cached.ships, cached: true });
 
-  const prompt = shipSuggest.build(fandom.name);
+  const prompt = shipSuggest.build(canonicalFandom(fandom.slug, fandom.name));
   const result = await openaiLlm.completeStructured({
     callType: 'ship_suggest',
     templateId: shipSuggest.TEMPLATE_ID,
