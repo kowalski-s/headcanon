@@ -25,7 +25,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const { storyId, chapterId } = await prisma.$transaction(async (tx) => {
     const story = await tx.story.create({
-      data: { authorId: userId, title: '(черновик)', visibility: 'PRIVATE' },
+      data: {
+        authorId: userId,
+        title: '(черновик)',
+        visibility: 'PRIVATE',
+        tone: draft.tone ?? null,
+      },
     });
     const chapter = await tx.chapter.create({
       data: {
@@ -67,7 +72,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         update: {},
       });
     }
-    // TODO: persist draft.tone — needs Story.tone migration; for now LLM gets only ship + tropes + fandom
     return { storyId: story.id, chapterId: chapter.id };
   });
 

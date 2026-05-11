@@ -37,6 +37,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     fandomName: fandomTag?.name ?? 'unknown',
     ship: shipTag?.name ?? '(any)',
     tropes: tropeTags,
+    tone: chapter.story.tone ?? undefined,
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
     priorState: priorState ?? undefined,

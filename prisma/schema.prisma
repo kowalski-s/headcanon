@@ -60,6 +60,7 @@ model Story {
   updatedAt       DateTime    @updatedAt
   publishedAt     DateTime?
   aiTagSuggestion Json?
+  tone            Tone?
 
   chapters      Chapter[]
   characters    Character[]
