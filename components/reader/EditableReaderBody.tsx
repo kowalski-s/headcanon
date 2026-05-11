@@ -73,32 +73,34 @@ export function EditableReaderBody({ paragraphs, settings, canEdit, bodyRef }: P
                 }}
               />
             ) : (
-              <p
-                className={`relative ${i === 0 ? 'reader-first-paragraph' : ''}`}
-                style={{ marginBottom: '1em' }}
-                onClick={() => canEdit && setOpenMenuId(p.id)}
-              >
-                {i === 0 ? (
-                  <>
-                    <span
-                      style={{
-                        float: 'left',
-                        fontFamily: 'var(--font-display)',
-                        fontStyle: 'italic',
-                        fontSize: '4em',
-                        lineHeight: 0.85,
-                        color: 'var(--color-amber-default, #d97706)',
-                        paddingRight: '0.1em',
-                        marginTop: '0.05em',
-                      }}
-                    >
-                      {p.text.charAt(0)}
-                    </span>
-                    {p.text.slice(1)}
-                  </>
-                ) : (
-                  p.text
-                )}
+              <div className="relative">
+                <p
+                  className={i === 0 ? 'reader-first-paragraph' : ''}
+                  style={{ marginBottom: '1em' }}
+                  onClick={() => canEdit && setOpenMenuId(p.id)}
+                >
+                  {i === 0 ? (
+                    <>
+                      <span
+                        style={{
+                          float: 'left',
+                          fontFamily: 'var(--font-display)',
+                          fontStyle: 'italic',
+                          fontSize: '4em',
+                          lineHeight: 0.85,
+                          color: 'var(--color-amber-default, #d97706)',
+                          paddingRight: '0.1em',
+                          marginTop: '0.05em',
+                        }}
+                      >
+                        {p.text.charAt(0)}
+                      </span>
+                      {p.text.slice(1)}
+                    </>
+                  ) : (
+                    p.text
+                  )}
+                </p>
                 {canEdit && openMenuId === p.id ? (
                   <ParagraphMenu
                     open
@@ -106,7 +108,7 @@ export function EditableReaderBody({ paragraphs, settings, canEdit, bodyRef }: P
                     onAction={(m) => onAction(p.id, m)}
                   />
                 ) : null}
-              </p>
+              </div>
             )}
             {showOrnament ? (
               <div className="my-6">
