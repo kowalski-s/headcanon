@@ -22,8 +22,10 @@ async function withBatchIsolation<T>(
 
 export async function startAllWorkers(): Promise<void> {
   const boss = await getBoss();
-  await boss.createQueue('extract-bible', { retryLimit: 3, retryBackoff: true });
-  await boss.createQueue('auto-tag', { retryLimit: 3, retryBackoff: true });
+  // policy 'stately' + singletonKey on send → at most one queued + one active job
+  // per chapterId/storyId. Rapid double-save won't enqueue a duplicate.
+  await boss.createQueue('extract-bible', { policy: 'stately', retryLimit: 3, retryBackoff: true });
+  await boss.createQueue('auto-tag', { policy: 'stately', retryLimit: 3, retryBackoff: true });
   await boss.createQueue('ai-suggestion-sweeper');
   await boss.work<ExtractBibleJob>('extract-bible', { localConcurrency: 2 }, (jobs) =>
     withBatchIsolation('extract-bible', jobs, handleExtractBible));
