@@ -8,7 +8,7 @@ export const ShipSuggestSchema = z.object({
   ships: z
     .array(
       z.object({
-        names: z.tuple([z.string(), z.string()]).rest(z.string()),
+        names: z.array(z.string()).min(2).max(3),
         popularity: z.number().min(0).max(1),
         avatar_prompt: z.string(),
         rarity: z.enum(['top', 'rare']),
