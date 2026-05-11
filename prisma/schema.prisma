@@ -49,16 +49,17 @@ enum ChapterStatus {
 }
 
 model Story {
-  id            String      @id @default(uuid()) @db.Uuid
-  authorId      String      @db.Uuid
-  author        User        @relation("StoryAuthor", fields: [authorId], references: [id])
-  title         String
-  premise       String?
-  visibility    Visibility  @default(PRIVATE)
-  curated       Boolean     @default(false)  // флаг "Curated tab"
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  publishedAt   DateTime?
+  id              String      @id @default(uuid()) @db.Uuid
+  authorId        String      @db.Uuid
+  author          User        @relation("StoryAuthor", fields: [authorId], references: [id])
+  title           String
+  premise         String?
+  visibility      Visibility  @default(PRIVATE)
+  curated         Boolean     @default(false)  // флаг "Curated tab"
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  publishedAt     DateTime?
+  aiTagSuggestion Json?
 
   chapters      Chapter[]
   characters    Character[]
@@ -238,6 +239,7 @@ model Tag {
 model StoryTag {
   storyId   String   @db.Uuid
   tagId     String   @db.Uuid
+  prefilled Boolean  @default(false)
   story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
   tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
