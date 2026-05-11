@@ -381,6 +381,7 @@ function StepFandom({ onPick }: { onPick: (f: FandomOption) => void }) {
           <button
             type="button"
             key={f.id}
+            data-testid={`step-fandom-${f.slug}`}
             onClick={() => onPick(f)}
             className="group relative flex flex-col items-center justify-center rounded-md border border-ink-faint/25 bg-surface-raised p-5 transition-colors hover:border-amber/50 hover:bg-amber-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
           >
@@ -445,6 +446,7 @@ function StepShip({
               <button
                 type="button"
                 key={shipId}
+                data-testid="step-ship-card"
                 onClick={() => onPick(ship)}
                 className="group rounded-md border border-ink-faint/25 bg-surface-raised p-4 text-left transition-colors hover:border-amber/50 hover:bg-amber-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
               >
@@ -516,6 +518,7 @@ function StepTropes({
                 <button
                   type="button"
                   key={t.slug}
+                  data-testid="step-trope-chip"
                   onClick={() => onToggle(t.slug)}
                   title={t.description}
                   className={`rounded-full border px-3 py-1.5 font-mono text-mono-s tracking-caps uppercase transition-colors ${
@@ -540,6 +543,7 @@ function StepTropes({
           <div className="pt-2">
             <button
               type="button"
+              data-testid="step-next"
               onClick={onNext}
               disabled={selected.size === 0}
               className="rounded-full bg-amber px-7 py-3 font-mono text-mono-m tracking-caps uppercase text-bg-deep shadow-amber-glow disabled:opacity-40 disabled:cursor-not-allowed"
@@ -586,6 +590,7 @@ function StepTone({
             <button
               type="button"
               key={tone}
+              data-testid="step-tone-chip"
               onClick={() => onPickTone(tone)}
               className={`rounded-full border px-5 py-2.5 font-mono text-mono-s tracking-caps uppercase transition-colors ${
                 active
@@ -616,6 +621,7 @@ function StepTone({
       <div>
         <button
           type="button"
+          data-testid="step-next"
           onClick={onNext}
           disabled={!selectedTone}
           className="rounded-full bg-amber px-7 py-3 font-mono text-mono-m tracking-caps uppercase text-bg-deep shadow-amber-glow disabled:opacity-40 disabled:cursor-not-allowed"
@@ -737,6 +743,7 @@ function StepPreview({
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-faint/20 bg-bg/95 p-3 backdrop-blur lg:static lg:border-none lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
         <button
           type="button"
+          data-testid="step-start"
           onClick={onStart}
           disabled={isStarting}
           className="block w-full lg:w-auto rounded-full bg-amber py-3.5 lg:py-3 lg:px-10 text-center font-mono text-mono-s tracking-caps uppercase text-bg-deep shadow-amber-glow disabled:opacity-60 disabled:cursor-not-allowed"
