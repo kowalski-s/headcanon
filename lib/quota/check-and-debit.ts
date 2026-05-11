@@ -49,7 +49,7 @@ export async function debitDaily(
   return { allowed: true, remaining: limit - rows[0].stories };
 }
 
-export async function creditDaily(userId: string, resource: DailyResource): Promise<void> {
+export async function creditDaily(userId: string, _resource: DailyResource): Promise<void> {
   const day = new Date();
   day.setUTCHours(0, 0, 0, 0);
   await prisma.$executeRaw`

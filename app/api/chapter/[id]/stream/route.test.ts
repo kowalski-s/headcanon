@@ -5,7 +5,7 @@ vi.mock('@/lib/llm-openai', () => ({
 import { GET } from './route';
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createTestStoryWithChapter, createTestUser } from '@/lib/test-fixtures';
+import { createTestStoryWithChapter } from '@/lib/test-fixtures';
 
 const USER_ID = '00000000-0000-0000-0000-000000000001';
 

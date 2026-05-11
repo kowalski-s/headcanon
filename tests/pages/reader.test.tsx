@@ -1,7 +1,13 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ReaderPageView } from '@/app/(reader)/reader/[storyId]/[chapterN]/ReaderPageView';
+
+// Mock next/navigation — ReaderPageView calls useRouter() at the top level.
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ refresh: vi.fn() }),
+  notFound: () => { throw new Error('NOT_FOUND'); },
+}));
 
 describe('Reader page', () => {
   it('renders chapter title and first paragraph for hero ch.7', () => {

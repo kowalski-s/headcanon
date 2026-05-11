@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { logLlmCall } from './log';
 
 const create = vi.fn();
-vi.mock('@/lib/prisma', () => ({ prisma: { llmCallLog: { create: (a: any) => create(a) } } }));
+vi.mock('@/lib/prisma', () => ({ prisma: { llmCallLog: { create: (a: Parameters<typeof create>[0]) => create(a) } } }));
 
 describe('logLlmCall', () => {
   beforeEach(() => create.mockReset());
