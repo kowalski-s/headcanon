@@ -29,6 +29,8 @@ export default defineConfig({
           },
           globals: true,
           setupFiles: ['./tests/setup.ts'],
+          // DB-touching tests share a single dev Postgres → serialize file execution
+          fileParallelism: false,
         },
       },
       {
