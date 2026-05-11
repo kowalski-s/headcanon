@@ -99,6 +99,7 @@
 - **M5-02 [S]** Pricing screen.
 - **M5-03 [M]** Paywall на главе 4+, blocking modal с ясным CTA.
 - **M5-04 [S]** Subscription management (отмена, изменение, история).
+- **M5-05 [XS]** Re-enable quotas before public launch — убрать `DISABLE_QUOTAS=1` из dev .env, проверить free-tier `debitDaily(stories, 3)` и chapter `regens=5 / continues=1 / promptTweaks=2`, поднять лимиты для премиум-tier через YooKassa subscription check.
 
 ---
 
