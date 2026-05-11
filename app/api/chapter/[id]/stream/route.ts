@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getUserIdOrThrow } from '@/lib/auth/server';
 import { openaiLlm } from '@/lib/llm-openai';
 import * as chapterPrompt from '@/lib/prompts/chapter';
+import { loadPriorState } from '@/lib/chapter/load-prior-state';
 import { z } from 'zod';
 
 const LengthSchema = z.enum(['short', 'medium', 'long']).default('short');
@@ -27,12 +28,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 
   const fandomTag = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag;
+  const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
   const { system, user } = chapterPrompt.build({
     fandomName: fandomTag?.name ?? 'unknown',
     ship: '(see story)',                            // ship is shipId on draft; здесь читаем со story-meta — упрощённо для MVP
     tropes: [],
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
+    priorState: priorState ?? undefined,
   });
 
   const stream = openaiLlm.stream({
