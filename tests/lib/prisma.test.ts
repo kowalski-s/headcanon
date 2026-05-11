@@ -31,7 +31,6 @@ describe('prisma client', () => {
         'StoryTag',
         'FandomCanonSeed',
         'Invite',
-        'Job',
       ]),
     );
   });
