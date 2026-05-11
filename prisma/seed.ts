@@ -31,6 +31,17 @@ const aftgCanon: AftgCanon = JSON.parse(
 );
 
 async function main() {
+  console.log('Seeding dev user...');
+  await prisma.user.upsert({
+    where: { id: '00000000-0000-0000-0000-000000000001' },
+    update: {},
+    create: {
+      id: '00000000-0000-0000-0000-000000000001',
+      email: '00000000-0000-0000-0000-000000000001@hc.test',
+      handle: '00000000',
+    },
+  });
+
   console.log('Seeding fandom tags...');
   for (const t of fandomTags) {
     await prisma.tag.upsert({
@@ -66,7 +77,7 @@ async function main() {
   }
 
   console.log(
-    `Seed complete: ${fandomTags.length} fandom tags + ${aftgCanon.characters.length} AftG character bibles`,
+    `Seed complete: dev user + ${fandomTags.length} fandom tags + ${aftgCanon.characters.length} AftG character bibles`,
   );
 }
 
