@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { GrainCover } from '@/components/ui/GrainCover';
-import { BurstSticker } from '@/components/ui/BurstSticker';
 import { ScotchTag } from '@/components/ui/ScotchTag';
 import { track } from '@/lib/track';
 import type { Story } from '@/lib/types/story';
@@ -92,8 +91,6 @@ export function FeedHeroDesktop({ story }: { story: Story }) {
           <ScotchTag className="absolute right-10 -top-2 z-10 origin-bottom-right" rotate={3}>
             {story.pair}
           </ScotchTag>
-          <BurstSticker label="★ хит" rotate={-8} className="absolute -right-4 -top-4 z-10" />
-
           <div className="absolute left-6 top-10 font-mono text-mono-s tracking-caps text-amber/85 uppercase">
             vol.1 / ch.{String(continueChapter).padStart(2, '0')}
           </div>

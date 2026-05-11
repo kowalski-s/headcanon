@@ -6,9 +6,17 @@ import type { Route } from 'next';
 export function FeedHeader({ authed = false }: { authed?: boolean }) {
   return (
     <header className="hidden lg:flex sticky top-0 z-30 items-center gap-8 border-b border-ink-faint/15 bg-bg/95 px-10 py-5 backdrop-blur">
-      <Link href="/" className="font-display text-[26px] leading-none">
-        head
-        <span className="italic text-amber">canon</span>
+      <Link href="/" className="flex items-baseline font-display text-[26px] leading-none">
+        <span className="italic text-ink">head</span>
+        <span
+          className="bg-clip-text text-transparent"
+          style={{ backgroundImage: 'var(--hc-chrome-gradient)' }}
+        >
+          canon
+        </span>
+        <span aria-hidden className="ml-1.5 text-[13px] font-normal text-amber">
+          ✦
+        </span>
       </Link>
 
       <nav className="flex gap-5 font-mono text-mono-s tracking-caps uppercase">

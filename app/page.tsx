@@ -35,11 +35,6 @@ export default function FeedPage() {
       <FeedHeader />
       <FeedHeaderMobile />
 
-      {/* Tagline italic centered — mobile sits above chips, desktop above marquee. */}
-      <p className="px-4 pb-3 text-center font-body text-body-s italic text-ink-dim lg:px-8 lg:pb-2">
-        полночное чтиво для тех, кто не спит
-      </p>
-
       <div className="lg:hidden">
         <FandomChips chips={fandomChips} onSelect={() => {}} />
       </div>

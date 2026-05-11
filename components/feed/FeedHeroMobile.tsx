@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { GrainCover } from '@/components/ui/GrainCover';
-import { BurstSticker } from '@/components/ui/BurstSticker';
 import { track } from '@/lib/track';
 import type { Story } from '@/lib/types/story';
 
@@ -31,12 +30,6 @@ export function FeedHeroMobile({ story }: { story: Story }) {
             to={story.fandom.color2}
             className="absolute inset-0"
           >
-            <BurstSticker
-              label="★ хит"
-              rotate={-8}
-              className="absolute -right-2 -top-2 z-20 size-16 [&_span]:text-mono-s"
-            />
-
             <div className="absolute left-4 top-4 z-10 font-mono text-mono-s tracking-caps text-amber/80 uppercase">
               vol.1 / ch.{String(continueChapter).padStart(2, '0')}
             </div>

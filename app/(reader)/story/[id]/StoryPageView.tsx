@@ -8,6 +8,7 @@ import { StoryHero } from '@/components/story/StoryHero';
 import { StoryMetaPanel } from '@/components/story/StoryMetaPanel';
 import { ChapterListItem } from '@/components/story/ChapterListItem';
 import { FeedHeader } from '@/components/feed/FeedHeader';
+import { GrainCover } from '@/components/ui/GrainCover';
 import { Ornament } from '@/components/ui/Ornament';
 import { MonoBadge } from '@/components/ui/MonoBadge';
 import { getStoryDetail } from '@/lib/fixtures/chapters';
@@ -74,29 +75,54 @@ export function StoryPageView({ id }: { id: string }) {
         <span className="text-ink">эта история</span>
       </nav>
 
-      {/* Mobile: cover + meta block stacked */}
-      <div className="lg:hidden">
-        <StoryHero story={story} continueChapter={continueChapter} variant="mobile" />
-
-        <div className="px-4 pt-5">
-          <MonoBadge tone="amber">{story.fandom.name.toLowerCase()} · 1997 · must read</MonoBadge>
+      {/* Mobile: stamped hero card with content INSIDE the cover (Editorial Y2K style) */}
+      <div className="lg:hidden px-4 pt-2">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-[2px]">
+          <GrainCover
+            from={story.fandom.color1}
+            to={story.fandom.color2}
+            className="absolute inset-0"
+          >
+            <div className="absolute left-4 top-4 z-10 font-mono text-mono-s tracking-caps text-amber/85 uppercase">
+              vol.1 / ch.{String(continueChapter).padStart(2, '0')}
+            </div>
+            <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-5 pb-5 pt-16">
+              <span className="font-mono text-mono-s tracking-caps text-amber uppercase">
+                {HERO_GENRES.join(' · ')}
+              </span>
+              <h1 className="font-display text-[28px] leading-[1.05] text-ink text-balance">
+                {headlineMain}
+                {headlineHasDot ? <span className="text-amber">.</span> : null}
+              </h1>
+              <p className="font-body text-body-s italic text-ink/85 line-clamp-3">
+                {story.tagline}
+              </p>
+              <div className="mt-1 flex items-center justify-between font-mono text-mono-s tracking-caps uppercase">
+                <span className="text-ink-dim">
+                  @{story.author.handle} · {(story.likes / 1000).toFixed(1)}k
+                </span>
+                <Link
+                  href={`/reader/${story.id}/${continueChapter}` as Route}
+                  onClick={() => track('story_continue_tap', { last_n: continueChapter })}
+                  className="rounded-full bg-amber/95 px-3 py-1 text-bg-deep"
+                >
+                  ★ глава {continueChapter}
+                </Link>
+              </div>
+            </div>
+          </GrainCover>
         </div>
 
-        <div className="flex flex-col gap-4 px-4 pt-3">
-          <h1 className="font-display text-[34px] leading-[1.05] text-balance">
-            {headlineMain}
-            {headlineHasDot ? <span className="text-amber">.</span> : null}
-          </h1>
-
-          <p className="font-body text-body-l italic text-ink-dim">{story.tagline}</p>
-
+        {/* Meta strip + watch link below cover */}
+        <div className="flex flex-col gap-3 pt-4">
+          <MonoBadge tone="amber">{story.fandom.name.toLowerCase()} · 1997 · must read</MonoBadge>
           <StoryMetaPanel story={story} />
 
           {watchAvailable ? (
             <Link
               href={`/watch/${story.id}/${continueChapter}` as Route}
               onClick={() => track('story_watch_tap')}
-              className="mt-1 flex items-center justify-between rounded-full border border-chrome-1/30 bg-surface-raised px-4 py-2.5 font-mono text-mono-s tracking-caps uppercase"
+              className="flex items-center justify-between rounded-full border border-chrome-1/30 bg-surface-raised px-4 py-2.5 font-mono text-mono-s tracking-caps uppercase"
             >
               <span className="flex items-center gap-2 text-chrome-1">
                 <span aria-hidden>▸</span>

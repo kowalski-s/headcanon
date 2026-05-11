@@ -234,7 +234,7 @@ export function CreatePageView() {
               </span>
             </section>
 
-            <div className="mt-auto flex items-center gap-4">
+            <div className="flex items-center gap-4">
               <button
                 type="button"
                 className="rounded-full border border-ink-faint/30 px-5 py-2.5 font-mono text-mono-s tracking-caps text-ink-dim uppercase"
