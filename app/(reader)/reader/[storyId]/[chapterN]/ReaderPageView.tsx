@@ -225,16 +225,7 @@ function LiveReader({
   const pagesTotal = Math.max(1, Math.ceil(words / 250));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
 
-  // Build a ChapterContent shape compatible with ReaderSpreadDesktop.
-  // TODO(M2-C+): desktop inline edit — ReaderSpreadDesktop renders string[]; integration deferred
-  const content: ChapterContent = {
-    storyId,
-    n,
-    title: live.title,
-    section: `глава ${live.ordinal}`,
-    paragraphs: desktopParagraphs,
-  };
-
+  // TODO(M2-C+): re-wire ReaderSpreadDesktop magazine layout on live path with edit hooks; for now single-column on all sizes.
   return (
     <div
       className={`min-h-screen text-ink transition-colors duration-[2000ms] ${dimmed ? 'bg-black' : 'bg-bg'}`}
@@ -252,54 +243,35 @@ function LiveReader({
         </div>
       ) : null}
 
-      {/* Mobile reader */}
-      <div className="lg:hidden">
-        <ReaderTopBar
-          storyId={storyId}
-          chapterN={n}
-          chapterTitle={live.title}
-          onOpenSettings={() => setSettingsOpen(true)}
-        />
-        <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
-        <div className="mx-auto max-w-[660px] px-4 pt-6">
-          <span className="font-display text-sm italic text-amber">глава {live.ordinal}</span>
-          <h1 className="mt-2 font-display text-3xl text-balance">{live.title}</h1>
-          <div className="my-4">
-            <Ornament size="sm" />
-          </div>
+      {/* Reader — mobile + desktop share EditableReaderBody on live path (magazine spread used only on fixture preview path). */}
+      <ReaderTopBar
+        storyId={storyId}
+        chapterN={n}
+        chapterTitle={live.title}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
+      <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
+      <div className="mx-auto max-w-[860px] px-4 pt-6">
+        <span className="font-display text-sm italic text-amber">глава {live.ordinal}</span>
+        <h1 className="mt-2 font-display text-3xl text-balance">{live.title}</h1>
+        <div className="my-4">
+          <Ornament size="sm" />
         </div>
-        {status === 'streaming' && desktopParagraphs.length === 0 ? (
-          <div className="mx-auto max-w-[660px] px-4 py-6 font-mono text-sm text-ink-dim animate-pulse">
-            генерируем главу…
-          </div>
-        ) : hasDbParagraphs ? (
-          <EditableReaderBody
-            paragraphs={live.initialParagraphs}
-            settings={settings}
-            canEdit={canEdit}
-            bodyRef={containerRef}
-          />
-        ) : (
-          <ReaderBody paragraphs={streamParagraphs} settings={settings} bodyRef={containerRef} />
-        )}
-        {/* No NextChapterCard in live path (no chapter list from server) */}
       </div>
-
-      {/* Desktop reader */}
-      {desktopParagraphs.length > 0 ? (
-        <ReaderSpreadDesktop
-          storyId={storyId}
-          chapter={n}
-          pagesTotal={pagesTotal}
-          currentPage={currentPage}
-          content={content}
-          prevChapter={null}
-          nextChapter={null}
-          hasWatch={false}
+      {status === 'streaming' && desktopParagraphs.length === 0 ? (
+        <div className="mx-auto max-w-[860px] px-4 py-6 font-mono text-sm text-ink-dim animate-pulse">
+          генерируем главу…
+        </div>
+      ) : hasDbParagraphs ? (
+        <EditableReaderBody
+          paragraphs={live.initialParagraphs}
           settings={settings}
-          onOpenSettings={() => setSettingsOpen(true)}
+          canEdit={canEdit}
+          bodyRef={containerRef}
         />
-      ) : null}
+      ) : (
+        <ReaderBody paragraphs={streamParagraphs} settings={settings} bodyRef={containerRef} />
+      )}
 
       <ReaderSettingsSheet
         open={settingsOpen}
