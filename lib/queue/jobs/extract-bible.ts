@@ -75,4 +75,5 @@ export async function handleExtractBible(job: { data: ExtractBibleJob }) {
       update: { summary: result.chapter_summary },
     });
   });
+  console.log('[extract-bible] done', { chapterId, ordinal: chapter.ordinal });
 }
