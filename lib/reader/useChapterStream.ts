@@ -39,11 +39,20 @@ export function useChapterStream({ chapterId, chapterLength, onFinish, testUserI
   const [status, setStatus] = useState<StreamStatus>('idle');
   const [error, setError] = useState<Error | undefined>(undefined);
   const abortRef = useRef<AbortController | null>(null);
+  // Guards against double-start: React 18 StrictMode runs effects twice on initial
+  // mount with the same closure values (status='idle'), so the consumer's
+  // `useEffect(() => { if (status === 'idle') start() })` fires twice. Without this
+  // ref, two concurrent fetches both write to setCompletion and their tokens race —
+  // visually the text appears to "flicker" between two distinct LLM generations.
+  const inFlightRef = useRef(false);
 
   /** Split accumulated text into paragraphs for incremental render. */
   const paragraphs = completion.split(/\n{2,}/).filter(Boolean);
 
   const start = useCallback(async () => {
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
+
     const ctrl = new AbortController();
     abortRef.current = ctrl;
     setCompletion('');
@@ -100,6 +109,8 @@ export function useChapterStream({ chapterId, chapterLength, onFinish, testUserI
       const e = err instanceof Error ? err : new Error(String(err));
       setError(e);
       setStatus('error');
+    } finally {
+      inFlightRef.current = false;
     }
   }, [chapterId, chapterLength, onFinish, testUserId]);
 
