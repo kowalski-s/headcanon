@@ -54,7 +54,7 @@ export function ReaderBody({ paragraphs, settings, bodyRef, streaming = false }:
   return (
     <article
       ref={bodyRef as RefObject<HTMLElement>}
-      className={`mx-auto max-w-[660px] px-4 py-6 ${fontFamilyClass}`}
+      className={`mx-auto max-w-[660px] px-4 py-6 ${fontFamilyClass}${streaming ? ' reader-streaming' : ''}`}
       style={{
         fontSize: `${settings.fontSize}px`,
         lineHeight: 1.6,

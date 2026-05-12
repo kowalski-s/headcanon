@@ -29,6 +29,14 @@ p {
   line-height: 1.6;
 }
 
+/* Streaming override: text-wrap: pretty re-balances previously-broken lines when
+   new tokens arrive, shifting earlier characters horizontally. `stable` keeps
+   already-wrapped lines fixed as content grows. Class is set by ReaderBody while
+   useChapterStream status === 'streaming'. */
+.reader-streaming p {
+  text-wrap: stable;
+}
+
 code,
 kbd {
   font-family: var(--font-mono);
