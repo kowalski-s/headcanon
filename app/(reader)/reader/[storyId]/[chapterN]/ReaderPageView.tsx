@@ -270,7 +270,12 @@ function LiveReader({
           bodyRef={containerRef}
         />
       ) : (
-        <ReaderBody paragraphs={streamParagraphs} settings={settings} bodyRef={containerRef} />
+        <ReaderBody
+          paragraphs={streamParagraphs}
+          settings={settings}
+          bodyRef={containerRef}
+          streaming={status === 'streaming'}
+        />
       )}
 
       <ReaderSettingsSheet

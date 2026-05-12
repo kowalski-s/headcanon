@@ -7,6 +7,12 @@ type Props = {
   paragraphs: string[];
   settings: ReaderSettings;
   bodyRef?: RefObject<HTMLElement | null>;
+  /**
+   * True while the chapter is actively streaming. Forces left-align + manual hyphens
+   * so the growing last paragraph doesn't recompute word-spacing and shift earlier
+   * characters horizontally on every token.
+   */
+  streaming?: boolean;
 };
 
 const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: string; isFirst: boolean }) {
@@ -37,7 +43,7 @@ const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: str
   );
 });
 
-export function ReaderBody({ paragraphs, settings, bodyRef }: Props) {
+export function ReaderBody({ paragraphs, settings, bodyRef, streaming = false }: Props) {
   const fontFamilyClass =
     settings.font === 'bodoni'
       ? 'font-display'
@@ -52,8 +58,8 @@ export function ReaderBody({ paragraphs, settings, bodyRef }: Props) {
       style={{
         fontSize: `${settings.fontSize}px`,
         lineHeight: 1.6,
-        textAlign: settings.justify ? 'justify' : 'left',
-        hyphens: settings.hyphens ? 'auto' : 'manual',
+        textAlign: streaming ? 'left' : settings.justify ? 'justify' : 'left',
+        hyphens: streaming || !settings.hyphens ? 'manual' : 'auto',
       }}
     >
       {paragraphs.map((p, i) => {
