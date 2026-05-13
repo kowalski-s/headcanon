@@ -33,12 +33,24 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
 
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
   const fandomName = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
-  const ship = chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag.name ?? '';
+  const characters = chapter.story.tags
+    .filter((st) => st.tag.type === 'CHARACTER_TAG')
+    .map((st) => st.tag.name);
 
   const { system, user } = chapterPrompt.build({
     fandomName,
-    ship,
+    focusType: chapter.story.focusType ?? 'ROMANCE',
+    characters,
     tropes: [],
+    rating: chapter.story.rating ?? undefined,
+    category: chapter.story.category ?? undefined,
+    warnings: chapter.story.warnings,
+    pov: chapter.story.pov ?? undefined,
+    tense: chapter.story.tense ?? undefined,
+    tones: chapter.story.tones,
+    genres: chapter.story.genres,
+    timeline: chapter.story.timeline ?? undefined,
+    timelineNote: chapter.story.timelineNote ?? undefined,
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
     priorState: priorState ?? undefined,
