@@ -61,6 +61,16 @@ model Story {
   publishedAt     DateTime?
   aiTagSuggestion Json?
   tone            Tone?
+  tones           Tone[]      @default([])
+  focusType       FocusType?
+  rating          Rating?
+  category        Category?
+  warnings        String[]    @default([])
+  pov             Pov?
+  tense           Tense?
+  timeline        String?
+  timelineNote    String?
+  genres          String[]    @default([])
 
   chapters      Chapter[]
   characters    Character[]
@@ -337,20 +347,74 @@ enum Tone {
   SPICY
   FLUFF
   ANGST
+  HURT_COMFORT
+  CRACK
+  DARK
+}
+
+enum FocusType {
+  ROMANCE
+  GEN
+  CHARACTER_STUDY
+  FRIENDSHIP
+}
+
+enum Rating {
+  GENERAL
+  TEEN
+  MATURE
+  EXPLICIT
+}
+
+enum Category {
+  SLASH
+  FEMSLASH
+  HET
+  GEN
+  MULTI
+  OTHER
+}
+
+enum Pov {
+  FIRST
+  CLOSE_THIRD
+  OMNISCIENT
+}
+
+enum Tense {
+  PAST
+  PRESENT
 }
 
 model CreateDraft {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @db.Uuid
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  fandomId  String?  @db.Uuid
-  shipId    String?
-  tropes    String[] @default([])
-  setting   String?
-  tone      Tone?
-  step      Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String     @id @default(uuid()) @db.Uuid
+  userId       String     @db.Uuid
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fandomId     String?    @db.Uuid
+
+  focusType    FocusType?
+  characters   String[]   @default([])
+
+  tropes       String[]   @default([])
+
+  rating       Rating?
+  category     Category?
+  warnings     String[]   @default([])
+
+  pov          Pov?
+  tense        Tense?
+  tones        Tone[]     @default([])
+
+  timeline     String?
+  timelineNote String?
+  genres       String[]   @default([])
+  setting      String?
+
+  premise      String?
+
+  step         Int        @default(1)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   @@index([userId, updatedAt])
 }
 
