@@ -4,74 +4,72 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { Route } from 'next';
+import type { FocusType } from '@prisma/client';
 import { FeedHeader } from '@/components/feed/FeedHeader';
-import { GrainCover } from '@/components/ui/GrainCover';
-import { ScotchTag } from '@/components/ui/ScotchTag';
-import { BurstSticker } from '@/components/ui/BurstSticker';
+import { MultiChipGroup } from '@/components/ui/MultiChipGroup';
+import { TagInput } from '@/components/ui/TagInput';
 import { SenseiTip } from '@/components/create/SenseiTip';
+import {
+  StepFocusCharacters,
+  type CharacterSuggestion,
+} from '@/components/create/StepFocusCharacters';
+import { StepDetails, type StepDetailsValue, type GenreSuggestion } from '@/components/create/StepDetails';
 import { QuotaModal } from '@/components/quota/QuotaModal';
 import { FANDOMS, type FandomOption } from '@/lib/create/fandoms';
 import { apiFetch } from '@/lib/api/client';
-
-// ── Types from API shapes ─────────────────────────────────────────────────────
-
-interface ShipSuggestion {
-  names: string[];
-  popularity: number;
-  avatar_prompt?: string;
-  rarity: 'top' | 'rare';
-}
+import { TONE_LABELS, RATING_LABELS, CATEGORY_LABELS, POV_LABELS, TIMELINE_LABELS } from '@/lib/create/locale';
 
 interface TropeSuggestion {
   slug: string;
-  label: string;
-  description: string;
+  label_ru: string;
+  description_ru: string;
   popularity: number;
 }
 
-type ToneOption = 'SLOW_BURN' | 'SPICY' | 'FLUFF' | 'ANGST';
-
-const TONE_LABELS: Record<ToneOption, string> = {
-  SLOW_BURN: 'slow burn',
-  SPICY: 'spicy',
-  FLUFF: 'fluff',
-  ANGST: 'angst',
-};
-
-const STEPS = ['fandom', 'ship', 'tropes', 'tone', 'preview'] as const;
+const STEPS = ['fandom', 'focus', 'tropes', 'details', 'preview'] as const;
 type Step = 1 | 2 | 3 | 4 | 5;
-
-// ── Component ─────────────────────────────────────────────────────────────────
 
 export function CreatePageView() {
   const router = useRouter();
 
-  // Draft state
+  // Draft
   const [draftId, setDraftId] = useState<string | null>(null);
   const [step, setStep] = useState<Step>(1);
   const [isInitializing, setIsInitializing] = useState(true);
 
-  // Step data
+  // Step 1
   const [selectedFandom, setSelectedFandom] = useState<FandomOption | null>(null);
-  const [ships, setShips] = useState<ShipSuggestion[]>([]);
-  const [shipsLoading, setShipsLoading] = useState(false);
-  const [selectedShip, setSelectedShip] = useState<ShipSuggestion | null>(null);
-  const [tropes, setTropes] = useState<TropeSuggestion[]>([]);
-  const [tropesLoading, setTropesLoading] = useState(false);
-  const [senseiTip, setSenseiTip] = useState('');
-  const [selectedTropeslugs, setSelectedTropeSlugs] = useState<Set<string>>(new Set());
-  const [selectedTone, setSelectedTone] = useState<ToneOption | null>(null);
-  const [setting, setSetting] = useState('');
 
-  // UI state
+  // Step 2
+  const [focus, setFocus] = useState<FocusType | null>(null);
+  const [characters, setCharacters] = useState<string[]>([]);
+  const [characterSuggestions, setCharacterSuggestions] = useState<CharacterSuggestion[]>([]);
+  const [characterSuggestionsLoading, setCharacterSuggestionsLoading] = useState(false);
+
+  // Step 3
+  const [tropes, setTropes] = useState<string[]>([]);
+  const [tropeSuggestions, setTropeSuggestions] = useState<TropeSuggestion[]>([]);
+  const [tropeSuggestionsLoading, setTropeSuggestionsLoading] = useState(false);
+  const [senseiTip, setSenseiTip] = useState('');
+
+  // Step 4
+  const [details, setDetails] = useState<StepDetailsValue>({
+    rating: null, category: null, warnings: [],
+    pov: null, tense: null, tones: [],
+    timeline: null, timelineNote: null, genres: [], setting: null,
+    premise: null,
+  });
+  const [genreSuggestions, setGenreSuggestions] = useState<GenreSuggestion[]>([]);
+  const [genreSuggestionsLoading, setGenreSuggestionsLoading] = useState(false);
+
+  // UI
   const [isStarting, setIsStarting] = useState(false);
   const [showQuota, setShowQuota] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Debounce timer ref for trope PATCH
-  const tropeDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Debounce ref for PATCHes
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── On mount: create draft ──────────────────────────────────────────────────
   useEffect(() => {
     async function createDraft() {
       try {
@@ -88,8 +86,6 @@ export function CreatePageView() {
     void createDraft();
   }, []);
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
-
   const patchDraft = useCallback(
     async (body: Record<string, unknown>) => {
       if (!draftId) return;
@@ -99,98 +95,126 @@ export function CreatePageView() {
           body: JSON.stringify(body),
         });
       } catch {
-        // silent autosave failure — don't block UX
+        // silent autosave failure
       }
     },
     [draftId],
   );
 
-  // ── Step 1 → 2: pick fandom ─────────────────────────────────────────────────
-  const pickFandom = useCallback(
-    async (fandom: FandomOption) => {
-      setSelectedFandom(fandom);
-      setShipsLoading(true);
-      setStep(2);
-      await patchDraft({ fandomId: fandom.id, step: 2 });
-
-      try {
-        const res = await apiFetch(
-          `/api/create/suggestions/ships?fandomId=${encodeURIComponent(fandom.id)}`,
-        );
-        if (!res.ok) throw new Error('ships fetch failed');
-        const data = await res.json();
-        setShips(data.ships ?? []);
-      } catch {
-        setErrorMsg('не удалось загрузить пейринги');
-      } finally {
-        setShipsLoading(false);
-      }
+  const debouncedPatch = useCallback(
+    (body: Record<string, unknown>) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => void patchDraft(body), 500);
     },
     [patchDraft],
   );
 
-  // ── Step 2 → 3: pick ship ───────────────────────────────────────────────────
-  const pickShip = useCallback(
-    async (ship: ShipSuggestion) => {
-      setSelectedShip(ship);
-      setTropesLoading(true);
-      setStep(3);
-      const shipId = ship.names.join(' × ');
-      await patchDraft({ shipId, step: 3 });
+  // Step 1 → 2: pick fandom
+  const pickFandom = useCallback(
+    async (fandom: FandomOption) => {
+      setSelectedFandom(fandom);
+      setStep(2);
+      await patchDraft({ fandomId: fandom.id, step: 2 });
+    },
+    [patchDraft],
+  );
 
+  // Step 2: pick focus → fetch character suggestions
+  const handleFocusChange = useCallback(
+    async (next: FocusType) => {
+      setFocus(next);
+      setCharacters([]);
+      setCharacterSuggestionsLoading(true);
+      await patchDraft({ focusType: next, characters: [] });
       if (!selectedFandom) return;
       try {
         const res = await apiFetch(
-          `/api/create/suggestions/tropes?fandomId=${encodeURIComponent(selectedFandom.id)}&shipId=${encodeURIComponent(shipId)}`,
+          `/api/create/suggestions/characters?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${next}`,
         );
-        if (!res.ok) throw new Error('tropes fetch failed');
+        if (!res.ok) throw new Error('characters fetch failed');
         const data = await res.json();
-        setTropes(data.tropes ?? []);
-        setSenseiTip(data.sensei_tip ?? '');
+        setCharacterSuggestions(data.suggestions ?? []);
       } catch {
-        setErrorMsg('не удалось загрузить тропы');
+        setErrorMsg('не удалось загрузить подсказки');
       } finally {
-        setTropesLoading(false);
+        setCharacterSuggestionsLoading(false);
       }
     },
     [patchDraft, selectedFandom],
   );
 
-  // ── Step 3: toggle trope (debounced PATCH) ──────────────────────────────────
-  const toggleTrope = useCallback(
-    (slug: string) => {
-      setSelectedTropeSlugs((prev) => {
-        const next = new Set(prev);
-        if (next.has(slug)) next.delete(slug);
-        else next.add(slug);
-
-        // Debounce PATCH
-        if (tropeDebounceRef.current) clearTimeout(tropeDebounceRef.current);
-        tropeDebounceRef.current = setTimeout(() => {
-          void patchDraft({ tropes: Array.from(next) });
-        }, 500);
-
-        return next;
-      });
+  const handleCharactersChange = useCallback(
+    (next: string[]) => {
+      setCharacters(next);
+      debouncedPatch({ characters: next });
     },
-    [patchDraft],
+    [debouncedPatch],
   );
 
-  // ── Step 3 → 4: confirm tropes ──────────────────────────────────────────────
+  const confirmFocusCharacters = useCallback(async () => {
+    setStep(3);
+    setTropeSuggestionsLoading(true);
+    await patchDraft({ step: 3 });
+    if (!selectedFandom || !focus) return;
+    try {
+      const res = await apiFetch(
+        `/api/create/suggestions/tropes?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}&characters=${encodeURIComponent(characters.join(','))}`,
+      );
+      if (!res.ok) throw new Error('tropes fetch failed');
+      const data = await res.json();
+      setTropeSuggestions(data.tropes ?? []);
+      setSenseiTip(data.sensei_tip ?? '');
+    } catch {
+      setErrorMsg('не удалось загрузить тропы');
+    } finally {
+      setTropeSuggestionsLoading(false);
+    }
+  }, [patchDraft, selectedFandom, focus, characters]);
+
+  // Step 3
+  const handleTropesChange = useCallback(
+    (next: string[]) => {
+      setTropes(next);
+      debouncedPatch({ tropes: next });
+    },
+    [debouncedPatch],
+  );
+
   const confirmTropes = useCallback(async () => {
-    if (selectedTropeslugs.size === 0) return;
-    await patchDraft({ tropes: Array.from(selectedTropeslugs), step: 4 });
+    if (tropes.length === 0) return;
     setStep(4);
-  }, [patchDraft, selectedTropeslugs]);
+    setGenreSuggestionsLoading(true);
+    await patchDraft({ tropes, step: 4 });
+    if (!selectedFandom || !focus) return;
+    try {
+      const res = await apiFetch(
+        `/api/create/suggestions/genres?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}`,
+      );
+      if (!res.ok) throw new Error('genres fetch failed');
+      const data = await res.json();
+      setGenreSuggestions(data.genres ?? []);
+    } catch {
+      // non-blocking
+    } finally {
+      setGenreSuggestionsLoading(false);
+    }
+  }, [patchDraft, tropes, selectedFandom, focus]);
 
-  // ── Step 4 → 5: confirm tone ────────────────────────────────────────────────
-  const confirmTone = useCallback(async () => {
-    if (!selectedTone) return;
-    await patchDraft({ tone: selectedTone, setting: setting || null, step: 5 });
+  // Step 4
+  const handleDetailsChange = useCallback(
+    (patch: Partial<StepDetailsValue>) => {
+      setDetails((prev) => ({ ...prev, ...patch }));
+      debouncedPatch(patch);
+    },
+    [debouncedPatch],
+  );
+
+  const confirmDetails = useCallback(async () => {
     setStep(5);
-  }, [patchDraft, selectedTone, setting]);
+    await patchDraft({ step: 5 });
+  }, [patchDraft]);
 
-  // ── Step 5: start ───────────────────────────────────────────────────────────
+  // Step 5
   const startStory = useCallback(async () => {
     if (!draftId) return;
     setIsStarting(true);
@@ -241,42 +265,45 @@ export function CreatePageView() {
         return <StepFandom onPick={pickFandom} />;
       case 2:
         return (
-          <StepShip
-            fandom={selectedFandom}
-            ships={ships}
-            loading={shipsLoading}
-            onPick={pickShip}
+          <StepFocusCharacters
+            focus={focus}
+            characters={characters}
+            suggestions={characterSuggestions}
+            suggestionsLoading={characterSuggestionsLoading}
+            onFocusChange={handleFocusChange}
+            onCharactersChange={handleCharactersChange}
+            onNext={confirmFocusCharacters}
           />
         );
       case 3:
         return (
           <StepTropes
-            tropes={tropes}
-            loading={tropesLoading}
-            selected={selectedTropeslugs}
+            suggestions={tropeSuggestions}
+            loading={tropeSuggestionsLoading}
+            selected={tropes}
             senseiTip={senseiTip}
-            onToggle={toggleTrope}
+            onChange={handleTropesChange}
             onNext={confirmTropes}
           />
         );
       case 4:
         return (
-          <StepTone
-            selectedTone={selectedTone}
-            setting={setting}
-            onPickTone={setSelectedTone}
-            onChangeSetting={setSetting}
-            onNext={confirmTone}
+          <StepDetails
+            value={details}
+            onChange={handleDetailsChange}
+            genreSuggestions={genreSuggestions}
+            genreSuggestionsLoading={genreSuggestionsLoading}
+            onNext={confirmDetails}
           />
         );
       case 5:
         return (
           <StepPreview
             fandom={selectedFandom}
-            ship={selectedShip}
-            tropes={Array.from(selectedTropeslugs)}
-            tone={selectedTone}
-            setting={setting}
+            focus={focus}
+            characters={characters}
+            tropes={tropes}
+            details={details}
             isStarting={isStarting}
             onStart={startStory}
           />
@@ -398,104 +425,25 @@ function StepFandom({ onPick }: { onPick: (f: FandomOption) => void }) {
   );
 }
 
-function StepShip({
-  fandom,
-  ships,
-  loading,
-  onPick,
-}: {
-  fandom: FandomOption | null;
-  ships: ShipSuggestion[];
-  loading: boolean;
-  onPick: (s: ShipSuggestion) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          Подбираем <span className="italic text-amber">пейринг</span>
-          <span className="text-amber">.</span>
-        </h1>
-        <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
-          Ship — главный хук. Выбери пару персонажей для твоей истории.
-          {fandom && (
-            <span className="ml-2 font-mono text-mono-s tracking-caps text-amber uppercase">
-              {fandom.label}
-            </span>
-          )}
-        </p>
-      </div>
-
-      {loading && (
-        <div className="font-mono text-mono-s tracking-caps uppercase text-ink-dim animate-pulse">
-          загружаем пейринги...
-        </div>
-      )}
-
-      {!loading && ships.length === 0 && (
-        <div className="font-body text-body-s italic text-ink-dim">
-          нет предложений — попробуй позже
-        </div>
-      )}
-
-      {!loading && ships.length > 0 && (
-        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
-          {ships.map((ship) => {
-            const shipId = ship.names.join(' × ');
-            return (
-              <button
-                type="button"
-                key={shipId}
-                data-testid="step-ship-card"
-                onClick={() => onPick(ship)}
-                className="group rounded-md border border-ink-faint/25 bg-surface-raised p-4 text-left transition-colors hover:border-amber/50 hover:bg-amber-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
-              >
-                <div className="flex items-center gap-3">
-                  {ship.rarity === 'top' && (
-                    <span className="font-mono text-mono-s tracking-caps text-amber uppercase">
-                      ★
-                    </span>
-                  )}
-                  <span className="font-display italic text-ink text-xl group-hover:text-amber transition-colors">
-                    {ship.names.join(' × ')}
-                  </span>
-                  <span className="ml-auto font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-                    {ship.rarity}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
 function StepTropes({
-  tropes,
-  loading,
-  selected,
-  senseiTip,
-  onToggle,
-  onNext,
+  suggestions, loading, selected, senseiTip, onChange, onNext,
 }: {
-  tropes: TropeSuggestion[];
+  suggestions: TropeSuggestion[];
   loading: boolean;
-  selected: Set<string>;
+  selected: string[];
   senseiTip: string;
-  onToggle: (slug: string) => void;
+  onChange: (next: string[]) => void;
   onNext: () => void;
 }) {
+  const suggestionOptions = suggestions.map((t) => ({ value: t.label_ru, label: t.label_ru, description: t.description_ru }));
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          Выбираем <span className="italic text-amber">тропы</span>
-          <span className="text-amber">.</span>
+          выбираем <span className="italic text-amber">тропы</span><span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
-          Тропы — сердце сюжета. Выбери хотя бы один.
+          тропы — сердце сюжета. минимум один.
         </p>
       </div>
 
@@ -507,35 +455,31 @@ function StepTropes({
 
       {!loading && (
         <>
-          <div className="flex items-center justify-between font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-            <span>✦ тропы</span>
-            <span>{selected.size} выбрано</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {tropes.map((t) => {
-              const active = selected.has(t.slug);
-              return (
-                <button
-                  type="button"
-                  key={t.slug}
-                  data-testid="step-trope-chip"
-                  onClick={() => onToggle(t.slug)}
-                  title={t.description}
-                  className={`rounded-full border px-3 py-1.5 font-mono text-mono-s tracking-caps uppercase transition-colors ${
-                    active
-                      ? 'border-amber/60 bg-amber-soft text-amber'
-                      : 'border-ink-faint/30 text-ink-dim hover:text-ink'
-                  }`}
-                >
-                  {active ? '★ ' : ''}
-                  {t.label}
-                </button>
-              );
-            })}
+          <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">
+            ✦ {selected.length} выбрано
           </div>
 
+          <MultiChipGroup
+            options={suggestionOptions}
+            values={selected}
+            onChange={onChange}
+            max={5}
+            testIdPrefix="trope"
+          />
+
+          <TagInput
+            values={selected.filter((s) => !suggestions.some((sug) => sug.label_ru === s))}
+            onChange={(custom) => {
+              const fromSuggestions = selected.filter((s) => suggestions.some((sug) => sug.label_ru === s));
+              onChange([...fromSuggestions, ...custom]);
+            }}
+            placeholder="+ свой троп"
+            max={5}
+            testIdPrefix="custom-trope"
+          />
+
           {senseiTip && (
-            <div className="pt-6">
+            <div className="pt-4">
               <SenseiTip>{senseiTip}</SenseiTip>
             </div>
           )}
@@ -545,10 +489,10 @@ function StepTropes({
               type="button"
               data-testid="step-next"
               onClick={onNext}
-              disabled={selected.size === 0}
+              disabled={selected.length === 0}
               className="rounded-full bg-amber px-7 py-3 font-mono text-mono-m tracking-caps uppercase text-bg-deep shadow-amber-glow disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              дальше · тон ›
+              дальше · детали ›
             </button>
           </div>
         </>
@@ -557,189 +501,59 @@ function StepTropes({
   );
 }
 
-function StepTone({
-  selectedTone,
-  setting,
-  onPickTone,
-  onChangeSetting,
-  onNext,
-}: {
-  selectedTone: ToneOption | null;
-  setting: string;
-  onPickTone: (t: ToneOption) => void;
-  onChangeSetting: (s: string) => void;
-  onNext: () => void;
-}) {
-  const tones = Object.entries(TONE_LABELS) as [ToneOption, string][];
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          Задаём <span className="italic text-amber">тон</span>
-          <span className="text-amber">.</span>
-        </h1>
-        <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
-          Какое настроение у истории?
-        </p>
-      </div>
-
-      <div className="flex flex-wrap gap-3">
-        {tones.map(([tone, label]) => {
-          const active = selectedTone === tone;
-          return (
-            <button
-              type="button"
-              key={tone}
-              data-testid="step-tone-chip"
-              onClick={() => onPickTone(tone)}
-              className={`rounded-full border px-5 py-2.5 font-mono text-mono-s tracking-caps uppercase transition-colors ${
-                active
-                  ? 'border-amber/60 bg-amber-soft text-amber'
-                  : 'border-ink-faint/30 text-ink-dim hover:text-ink'
-              }`}
-            >
-              {active ? '★ ' : ''}
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div>
-        <label className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-          место действия <span className="text-ink-faint">(опционально)</span>
-        </label>
-        <textarea
-          value={setting}
-          onChange={(e) => onChangeSetting(e.target.value)}
-          rows={3}
-          placeholder="напр. «кофейня», «Хогвартс, зима», «современный Токио»"
-          className="mt-2 w-full resize-none rounded-md border border-ink-faint/25 bg-surface-raised px-3 py-3 font-body text-body-s italic text-ink placeholder:text-ink-faint focus:border-amber/40 focus:outline-none"
-        />
-      </div>
-
-      <div>
-        <button
-          type="button"
-          data-testid="step-next"
-          onClick={onNext}
-          disabled={!selectedTone}
-          className="rounded-full bg-amber px-7 py-3 font-mono text-mono-m tracking-caps uppercase text-bg-deep shadow-amber-glow disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          дальше · превью ›
-        </button>
-      </div>
-    </div>
-  );
-}
-
 function StepPreview({
-  fandom,
-  ship,
-  tropes,
-  tone,
-  setting,
-  isStarting,
-  onStart,
+  fandom, focus, characters, tropes, details, isStarting, onStart,
 }: {
   fandom: FandomOption | null;
-  ship: ShipSuggestion | null;
+  focus: FocusType | null;
+  characters: string[];
   tropes: string[];
-  tone: ToneOption | null;
-  setting: string;
+  details: StepDetailsValue;
   isStarting: boolean;
   onStart: () => void;
 }) {
+  const placeholder = <span className="font-body text-body-s italic text-ink-faint">AI решит</span>;
   return (
     <div className="flex flex-col gap-6 max-w-lg">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          Всё <span className="italic text-amber">готово</span>
-          <span className="text-amber">.</span>
+          всё <span className="italic text-amber">готово</span><span className="text-amber">.</span>
         </h1>
         <p className="mt-3 font-body text-body-s lg:text-body-l italic text-ink-dim">
-          Проверь — и нажмём старт.
+          проверь — и нажмём старт.
         </p>
       </div>
 
-      {/* Summary card */}
       <div className="rounded-md border border-ink-faint/20 bg-surface-raised p-5 flex flex-col gap-4">
-        {fandom && (
-          <div>
-            <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">фандом</div>
-            <div className="mt-1 font-display italic text-xl text-ink">{fandom.name}</div>
-          </div>
-        )}
-        {ship && (
-          <div>
-            <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">пейринг</div>
-            <div className="mt-1 font-display italic text-xl text-amber">
-              {ship.names.join(' × ')}
-            </div>
-          </div>
-        )}
+        {fandom && <SummaryRow label="фандом" value={fandom.name} />}
+        {focus && <SummaryRow label="фокус" value={focus.toLowerCase().replace('_', ' ')} />}
+        {characters.length > 0 && <SummaryRow label="герои" value={characters.join(' × ')} />}
         {tropes.length > 0 && (
           <div>
             <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">тропы</div>
             <div className="mt-1 flex flex-wrap gap-1.5">
-              {tropes.map((slug) => (
-                <span
-                  key={slug}
-                  className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase"
-                >
-                  {slug}
+              {tropes.map((t) => (
+                <span key={t} className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase">
+                  {t}
                 </span>
               ))}
             </div>
           </div>
         )}
-        {tone && (
-          <div>
-            <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">тон</div>
-            <div className="mt-1 font-mono text-mono-s tracking-caps text-ink uppercase">
-              {TONE_LABELS[tone]}
-            </div>
-          </div>
+        <SummaryRow label="рейтинг" value={details.rating ? RATING_LABELS[details.rating] : null} fallback={placeholder} />
+        <SummaryRow label="категория" value={details.category ? CATEGORY_LABELS[details.category] : null} fallback={placeholder} />
+        <SummaryRow label="POV" value={details.pov ? POV_LABELS[details.pov] : null} fallback={placeholder} />
+        {details.tones.length > 0 && (
+          <SummaryRow label="тон" value={details.tones.map((t) => TONE_LABELS[t]).join(', ')} />
         )}
-        {setting && (
-          <div>
-            <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">сеттинг</div>
-            <div className="mt-1 font-body text-body-s italic text-ink">{setting}</div>
-          </div>
+        {details.timeline && (
+          <SummaryRow label="когда" value={TIMELINE_LABELS[details.timeline] + (details.timelineNote ? ` — ${details.timelineNote}` : '')} />
         )}
+        {details.genres.length > 0 && <SummaryRow label="жанр / AU" value={details.genres.join(', ')} />}
+        {details.setting && <SummaryRow label="место" value={details.setting} />}
+        {details.premise && <SummaryRow label="завязка" value={details.premise} />}
       </div>
 
-      {/* Cover preview placeholder */}
-      <div className="rounded-md border border-ink-faint/15 bg-surface-raised p-4">
-        <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-          предпросмотр обложки
-        </div>
-        <div className="relative mt-3 aspect-[3/4] max-w-[180px] overflow-hidden rounded-sm">
-          <GrainCover from="#2d1432" to="#4a1d35" className="absolute inset-0">
-            <BurstSticker label="ai-draft" rotate={-6} className="absolute right-2 top-2" />
-            <div className="absolute left-3 bottom-3 font-mono text-mono-s tracking-caps text-amber/80 uppercase">
-              глава 1
-            </div>
-            {ship && (
-              <div className="absolute inset-x-3 bottom-10 font-display italic text-sm text-ink/80 text-center">
-                {ship.names.join(' × ')}
-              </div>
-            )}
-          </GrainCover>
-          {ship && (
-            <>
-              <ScotchTag className="absolute -top-1 left-3 origin-bottom-left z-10" rotate={-3}>
-                {ship.names[0] ?? '?'}
-              </ScotchTag>
-              <ScotchTag className="absolute -top-1 right-3 origin-bottom-right z-10" rotate={3}>
-                {ship.names[1] ?? '?'}
-              </ScotchTag>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Start CTA */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-faint/20 bg-bg/95 p-3 backdrop-blur lg:static lg:border-none lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
         <button
           type="button"
@@ -751,6 +565,15 @@ function StepPreview({
           {isStarting ? 'создаём историю...' : 'начать историю ›'}
         </button>
       </div>
+    </div>
+  );
+}
+
+function SummaryRow({ label, value, fallback }: { label: string; value: string | null; fallback?: React.ReactNode }) {
+  return (
+    <div>
+      <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">{label}</div>
+      <div className="mt-1 font-display italic text-xl text-ink">{value ?? fallback ?? null}</div>
     </div>
   );
 }
