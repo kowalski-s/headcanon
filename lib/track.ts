@@ -1,3 +1,5 @@
+import type { FocusType } from '@prisma/client';
+
 export type TrackEventName =
   | 'feed_viewed'
   | 'feed_hero_tap'
@@ -19,7 +21,22 @@ export type TrackEventName =
   | 'reader_watch_chip_tap'
   | 'reader_next_tap'
   | 'reader_chapter_completed'
-  | 'reader_stream_error';
+  | 'reader_stream_error'
+  | 'create_focus_selected'
+  | 'create_character_added'
+  | 'create_trope_added'
+  | 'create_section_expanded'
+  | 'create_advanced_skipped'
+  | 'create_finished';
+
+export interface CreateEventProps {
+  create_focus_selected: { focus_type: FocusType };
+  create_character_added: { source: 'suggestion' | 'custom' };
+  create_trope_added: { source: 'suggestion' | 'custom' };
+  create_section_expanded: { section: 'marking' | 'voice' | 'universe' | 'opening' };
+  create_advanced_skipped: { fields_filled: number };
+  create_finished: { took_total_ms: number; focus_type: FocusType; advanced_fields_filled: number };
+}
 
 export function track(name: TrackEventName, props?: Record<string, unknown>): void {
   // M2: подключим PostHog. Пока no-op + dev-debug.

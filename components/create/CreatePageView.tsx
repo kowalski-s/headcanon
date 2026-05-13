@@ -18,6 +18,7 @@ import { QuotaModal } from '@/components/quota/QuotaModal';
 import { FANDOMS, type FandomOption } from '@/lib/create/fandoms';
 import { apiFetch } from '@/lib/api/client';
 import { TONE_LABELS, RATING_LABELS, CATEGORY_LABELS, POV_LABELS, TIMELINE_LABELS } from '@/lib/create/locale';
+import { track } from '@/lib/track';
 
 interface TropeSuggestion {
   slug: string;
@@ -69,6 +70,7 @@ export function CreatePageView() {
 
   // Debounce ref for PATCHes
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startedAtRef = useRef<number>(Date.now());
 
   useEffect(() => {
     async function createDraft() {
@@ -125,6 +127,7 @@ export function CreatePageView() {
       setFocus(next);
       setCharacters([]);
       setCharacterSuggestionsLoading(true);
+      track('create_focus_selected', { focus_type: next });
       await patchDraft({ focusType: next, characters: [] });
       if (!selectedFandom) return;
       try {
@@ -174,10 +177,15 @@ export function CreatePageView() {
   // Step 3
   const handleTropesChange = useCallback(
     (next: string[]) => {
+      if (next.length > tropes.length) {
+        const added = next.find((t) => !tropes.includes(t));
+        const source = tropeSuggestions.some((s) => s.label_ru === added) ? 'suggestion' : 'custom';
+        track('create_trope_added', { source });
+      }
       setTropes(next);
       debouncedPatch({ tropes: next });
     },
-    [debouncedPatch],
+    [debouncedPatch, tropes, tropeSuggestions],
   );
 
   const confirmTropes = useCallback(async () => {
@@ -219,6 +227,7 @@ export function CreatePageView() {
     if (!draftId) return;
     setIsStarting(true);
     setErrorMsg('');
+    const advancedFieldsFilled = countDetailsFilled(details);
     try {
       const res = await apiFetch(`/api/create/draft/${draftId}/start`, { method: 'POST' });
       if (res.status === 429) {
@@ -231,13 +240,21 @@ export function CreatePageView() {
         return;
       }
       const { storyId } = await res.json();
+      if (focus) {
+        track('create_advanced_skipped', { fields_filled: advancedFieldsFilled });
+        track('create_finished', {
+          took_total_ms: Date.now() - startedAtRef.current,
+          focus_type: focus,
+          advanced_fields_filled: advancedFieldsFilled,
+        });
+      }
       router.push(`/reader/${storyId}/1` as Route);
     } catch {
       setErrorMsg('не удалось начать историю. попробуй ещё раз.');
     } finally {
       setIsStarting(false);
     }
-  }, [draftId, router]);
+  }, [draftId, router, details, focus]);
 
   // ── Derived ─────────────────────────────────────────────────────────────────
   const stepLabel = STEPS[step - 1];
@@ -576,4 +593,20 @@ function SummaryRow({ label, value, fallback }: { label: string; value: string |
       <div className="mt-1 font-display italic text-xl text-ink">{value ?? fallback ?? null}</div>
     </div>
   );
+}
+
+function countDetailsFilled(d: StepDetailsValue): number {
+  let n = 0;
+  if (d.rating) n++;
+  if (d.category) n++;
+  if (d.warnings.length) n++;
+  if (d.pov) n++;
+  if (d.tense) n++;
+  if (d.tones.length) n++;
+  if (d.timeline) n++;
+  if (d.timelineNote) n++;
+  if (d.genres.length) n++;
+  if (d.setting) n++;
+  if (d.premise) n++;
+  return n;
 }

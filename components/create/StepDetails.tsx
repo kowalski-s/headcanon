@@ -5,6 +5,7 @@ import { ChipGroup } from '@/components/ui/ChipGroup';
 import { MultiChipGroup } from '@/components/ui/MultiChipGroup';
 import { TagInput } from '@/components/ui/TagInput';
 import { AccordionSection } from '@/components/ui/AccordionSection';
+import { track } from '@/lib/track';
 import {
   RATING_LABELS,
   CATEGORY_LABELS,
@@ -80,7 +81,11 @@ export function StepDetails({
       </div>
 
       <div className="flex flex-col">
-        <AccordionSection title="маркировка" subtitle="рейтинг · категория · предупреждения">
+        <AccordionSection
+          title="маркировка"
+          subtitle="рейтинг · категория · предупреждения"
+          onToggle={(open) => open && track('create_section_expanded', { section: 'marking' })}
+        >
           <div className="flex flex-col gap-4">
             <Field label="рейтинг">
               <ChipGroup
@@ -109,7 +114,11 @@ export function StepDetails({
           </div>
         </AccordionSection>
 
-        <AccordionSection title="голос истории" subtitle="POV · время · тон">
+        <AccordionSection
+          title="голос истории"
+          subtitle="POV · время · тон"
+          onToggle={(open) => open && track('create_section_expanded', { section: 'voice' })}
+        >
           <div className="flex flex-col gap-4">
             <Field label="POV">
               <ChipGroup
@@ -138,7 +147,11 @@ export function StepDetails({
           </div>
         </AccordionSection>
 
-        <AccordionSection title="вселенная" subtitle="канон или AU · жанр · место">
+        <AccordionSection
+          title="вселенная"
+          subtitle="канон или AU · жанр · место"
+          onToggle={(open) => open && track('create_section_expanded', { section: 'universe' })}
+        >
           <div className="flex flex-col gap-4">
             <Field label="когда происходит">
               <ChipGroup
@@ -199,7 +212,11 @@ export function StepDetails({
           </div>
         </AccordionSection>
 
-        <AccordionSection title="завязка" subtitle="с чего начнётся первая глава">
+        <AccordionSection
+          title="завязка"
+          subtitle="с чего начнётся первая глава"
+          onToggle={(open) => open && track('create_section_expanded', { section: 'opening' })}
+        >
           <textarea
             value={value.premise ?? ''}
             onChange={(e) => onChange({ premise: e.target.value || null })}
