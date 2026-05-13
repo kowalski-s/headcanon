@@ -106,6 +106,34 @@ describe('GET /api/chapter/[id]/stream — coherence (priorState for N>1)', () =
       },
     });
 
+    // Set Story-level fields and seed CHARACTER_TAG so they get forwarded
+    await prisma.story.update({
+      where: { id: story.id },
+      data: {
+        focusType: 'ROMANCE',
+        rating: 'MATURE',
+        category: 'SLASH',
+        warnings: ['cntw'],
+        pov: 'CLOSE_THIRD',
+        tense: 'PAST',
+        tones: ['SLOW_BURN', 'ANGST'],
+        genres: ['современная AU'],
+        timeline: 'post',
+        timelineNote: 'через 5 лет',
+        premise: 'случайная встреча',
+      },
+    });
+    const charTag = await prisma.tag.upsert({
+      where: { type_slug: { type: 'CHARACTER_TAG', slug: 'garry-stream-t12' } },
+      create: { type: 'CHARACTER_TAG', name: 'Гарри', slug: 'garry-stream-t12' },
+      update: {},
+    });
+    await prisma.storyTag.upsert({
+      where: { storyId_tagId: { storyId: story.id, tagId: charTag.id } },
+      create: { storyId: story.id, tagId: charTag.id },
+      update: {},
+    });
+
     const res = await GET(
       new NextRequest('http://x?length=short', { headers: { 'x-test-user-id': user.id } }),
       { params: Promise.resolve({ id: chapter2.id }) },
@@ -115,6 +143,18 @@ describe('GET /api/chapter/[id]/stream — coherence (priorState for N>1)', () =
     expect(buildSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         chapterOrdinal: 2,
+        focusType: 'ROMANCE',
+        characters: ['Гарри'],
+        rating: 'MATURE',
+        category: 'SLASH',
+        warnings: ['cntw'],
+        pov: 'CLOSE_THIRD',
+        tense: 'PAST',
+        tones: ['SLOW_BURN', 'ANGST'],
+        genres: ['современная AU'],
+        timeline: 'post',
+        timelineNote: 'через 5 лет',
+        premise: 'случайная встреча',
         priorState: expect.objectContaining({
           worldState: expect.objectContaining({ current_location: 'forest' }),
         }),

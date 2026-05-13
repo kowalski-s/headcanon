@@ -29,16 +29,29 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 
   const fandomTag = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag;
-  const shipTag = chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag;
+  const characterTags = chapter.story.tags
+    .filter((st) => st.tag.type === 'CHARACTER_TAG')
+    .map((st) => st.tag.name);
   const tropeTags = chapter.story.tags
     .filter((st) => st.tag.type === 'FREEFORM' && !st.prefilled)
     .map((st) => st.tag.name);
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
+
   const { system, user } = chapterPrompt.build({
     fandomName: fandomTag ? canonicalFandom(fandomTag.slug, fandomTag.name) : 'unknown',
-    ship: shipTag?.name ?? '(any)',
+    focusType: chapter.story.focusType ?? 'ROMANCE',
+    characters: characterTags,
     tropes: tropeTags,
-    tone: chapter.story.tone ?? undefined,
+    rating: chapter.story.rating ?? undefined,
+    category: chapter.story.category ?? undefined,
+    warnings: chapter.story.warnings,
+    pov: chapter.story.pov ?? undefined,
+    tense: chapter.story.tense ?? undefined,
+    tones: chapter.story.tones,
+    genres: chapter.story.genres,
+    timeline: chapter.story.timeline ?? undefined,
+    timelineNote: chapter.story.timelineNote ?? undefined,
+    premise: chapter.story.premise ?? undefined,
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
     priorState: priorState ?? undefined,
