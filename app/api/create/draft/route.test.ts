@@ -31,13 +31,13 @@ describe('CreateDraft', () => {
     const c = await createDraft(new NextRequest('http://x', { method: 'POST', headers: auth }));
     const { id } = await c.json();
     const res = await updateDraft(
-      new NextRequest('http://x', { method: 'PATCH', headers: auth, body: JSON.stringify({ shipId: 'drarry', step: 3 }) }),
+      new NextRequest('http://x', { method: 'PATCH', headers: auth, body: JSON.stringify({ characters: ['Гарри', 'Драко'], step: 3 }) }),
       { params: Promise.resolve({ id }) },
     );
     expect(res.status).toBe(200);
     const after = await prisma.createDraft.findUniqueOrThrow({ where: { id } });
     expect(after.step).toBe(3);
-    expect(after.shipId).toBe('drarry');
+    expect(after.characters).toEqual(['Гарри', 'Драко']);
   });
 
   it('PATCH returns 404 for draft belonging to a different user', async () => {
