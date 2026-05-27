@@ -31,6 +31,7 @@ model User {
   generatedInvites  Invite[]    @relation("InviteGenerator")
   createDrafts      CreateDraft[]
   dailyUsage        DailyUsage[]
+  notes             Note[]
 }
 
 // =============================================================================
@@ -87,6 +88,7 @@ model Story {
   likes         Like[]
   saves         Save[]
   comments      Comment[]
+  notes         Note[]
 
   @@index([authorId])
   @@index([visibility, publishedAt])
@@ -480,4 +482,23 @@ model AiSuggestion {
   expiresAt DateTime
   @@id([scope, keyHash])
   @@index([expiresAt])
+}
+
+// =============================================================================
+// NOTES (W0 writer-MVP — global idea inbox + per-story)
+// =============================================================================
+
+model Note {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storyId   String?  @db.Uuid
+  story     Story?   @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  title     String?
+  body      String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, updatedAt])
+  @@index([storyId])
 }
