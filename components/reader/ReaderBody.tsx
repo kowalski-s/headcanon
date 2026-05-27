@@ -2,6 +2,7 @@ import { Fragment, memo } from 'react';
 import type { RefObject } from 'react';
 import { Ornament } from '@/components/ui/Ornament';
 import type { ReaderSettings } from '@/lib/reader/useReaderSettings';
+import { renderInline } from '@/lib/markdown-inline';
 
 type Props = {
   paragraphs: string[];
@@ -34,10 +35,10 @@ const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: str
           >
             {text.charAt(0)}
           </span>
-          {text.slice(1)}
+          {renderInline(text.slice(1))}
         </>
       ) : (
-        text
+        renderInline(text)
       )}
     </p>
   );
