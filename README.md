@@ -1,8 +1,10 @@
 # Headcanon
 
-AI-платформа для генерации фанфиков по любым фандомам с возможностью смотреть свои истории как мини-сериалы.
+Инструмент для авторов фанфиков с AI-помощником + two-sided market: автор пишет сам (AI ассистирует — редактор, идеи, world-building, character bible), читатели читают и слушают, генерация по промпту — вторичный виральный канал. Видео — отложено, только для оригинальных миров автора.
 
-**Формула:** Wattpad × DramaWave × AI Dungeon, заточенный под фандомное комьюнити.
+**Формула:** NovelAI × Sudowrite × AO3, заточенные под фандомное комьюнити.
+
+> **Пивот v2** ([Notion](https://www.notion.so/36b2a47b0ca181669ea3ce37d9893091)): writer-first вместо generator-first. Обоснование — [docs/vision.md](docs/vision.md).
 
 ## Документы
 
@@ -18,7 +20,7 @@ AI-платформа для генерации фанфиков по любым
 
 - [handoff/README.md](handoff/README.md) — порядок чтения
 - [handoff/DESIGN.md](handoff/DESIGN.md) — дизайн-система (направление: **Editorial Y2K**)
-- [handoff/TASKS.md](handoff/TASKS.md) — implementation roadmap M0–M5 с тикетами
+- [handoff/TASKS.md](handoff/TASKS.md) — implementation backlog v2 (legacy v1 + Phase 1 Writer MVP W-тикеты)
 - [handoff/screens/](handoff/screens/) — спеки 6 экранов
 - [handoff/prototypes/headcanon.html](handoff/prototypes/headcanon.html) — рабочий прототип в браузере
 
