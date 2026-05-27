@@ -89,6 +89,7 @@ model Story {
   saves         Save[]
   comments      Comment[]
   notes         Note[]
+  aiThread      AiThread?
 
   @@index([authorId])
   @@index([visibility, publishedAt])
@@ -501,4 +502,30 @@ model Note {
 
   @@index([userId, updatedAt])
   @@index([storyId])
+}
+
+// =============================================================================
+// AI THREAD (W0 writer-MVP — persisted assistant conversation per story)
+// =============================================================================
+
+model AiThread {
+  id        String      @id @default(uuid()) @db.Uuid
+  storyId   String      @unique @db.Uuid
+  story     Story       @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  messages  AiMessage[]
+}
+
+model AiMessage {
+  id          String   @id @default(uuid()) @db.Uuid
+  threadId    String   @db.Uuid
+  thread      AiThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  role        String   // "user" | "assistant"
+  action      String?  // "next_scene" | "idea" | "edit" | "socratic" | "chat"
+  content     String
+  payloadJson Json?
+  createdAt   DateTime @default(now())
+
+  @@index([threadId, createdAt])
 }
