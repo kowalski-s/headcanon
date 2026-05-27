@@ -12,6 +12,11 @@ interface FandomTag {
   slug: string;
 }
 
+const CANONICAL_FANDOM_SLUGS = [
+  'harry-potter', 'genshin-impact', 'marvel', 'naruto',
+  'jujutsu-kaisen', 'honkai-star-rail',
+];
+
 interface AftgCharacter {
   name: string;
   bible: Prisma.InputJsonValue;
@@ -44,10 +49,11 @@ async function main() {
 
   console.log('Seeding fandom tags...');
   for (const t of fandomTags) {
+    const isCanonicalIp = CANONICAL_FANDOM_SLUGS.includes(t.slug);
     await prisma.tag.upsert({
       where: { type_slug: { type: 'FANDOM', slug: t.slug } },
-      update: { name: t.name },
-      create: { type: 'FANDOM', name: t.name, slug: t.slug },
+      update: { name: t.name, isCanonicalIp },
+      create: { type: 'FANDOM', name: t.name, slug: t.slug, isCanonicalIp },
     });
   }
 

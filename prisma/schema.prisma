@@ -241,6 +241,7 @@ model Tag {
   name          String
   slug          String
   count         Int         @default(0)
+  isCanonicalIp Boolean     @default(false)
   canonicalId   String?     @db.Uuid
   canonical     Tag?        @relation("TagCanonicalization", fields: [canonicalId], references: [id])
   variants      Tag[]       @relation("TagCanonicalization")
