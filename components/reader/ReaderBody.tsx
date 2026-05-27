@@ -17,6 +17,12 @@ type Props = {
 };
 
 const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: string; isFirst: boolean }) {
+  // Drop-cap: skip any leading markdown markers (* or **) so the cap is the first
+  // VISIBLE letter and the opening word's mark survives. For marker-free text
+  // (all generator output) lead is '' → identical to text.charAt(0)/text.slice(1).
+  const lead = isFirst ? (text.match(/^\*{1,2}/)?.[0] ?? '') : '';
+  const dropCap = text.slice(lead.length, lead.length + 1);
+  const dropRest = lead + text.slice(lead.length + 1);
   return (
     <p className={isFirst ? 'reader-first-paragraph' : ''} style={{ marginBottom: '1em' }}>
       {isFirst ? (
@@ -33,9 +39,9 @@ const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: str
               marginTop: '0.05em',
             }}
           >
-            {text.charAt(0)}
+            {dropCap}
           </span>
-          {renderInline(text.slice(1))}
+          {renderInline(dropRest)}
         </>
       ) : (
         renderInline(text)

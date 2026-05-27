@@ -37,6 +37,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       data: {
         authorId: userId,
         title: '(черновик)',
+        source: 'GENERATED',
         visibility: 'PRIVATE',
         focusType,
         rating: draft.rating,

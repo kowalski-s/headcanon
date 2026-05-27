@@ -55,6 +55,7 @@ export default async function WriteStoryPage({ params, searchParams }: Props) {
           {active ? (
             <>
               <ChapterEditor
+                key={active.id}
                 chapterId={active.id}
                 initialMarkdown={active.text}
               />
