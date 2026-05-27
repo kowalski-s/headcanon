@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { chapterToParagraphs } from '@/lib/reader/written-paragraphs';
 import { ReaderPageView } from './ReaderPageView';
 
 type Params = { storyId: string; chapterN: string };
@@ -45,7 +46,10 @@ export default async function ReaderPage({
         title: chapter.story.title,
         ordinal: chapter.ordinal,
         authorId: chapter.story.authorId,
-        initialParagraphs: chapter.paragraphs.map((p) => ({ id: p.id, text: p.text })),
+        initialParagraphs:
+          chapter.paragraphs.length > 0
+            ? chapter.paragraphs.map((p) => ({ id: p.id, text: p.text }))           // generator path — unchanged
+            : chapterToParagraphs(chapter).map((text, i) => ({ id: `${chapter.id}-${i}`, text })), // writer path
       }}
     />
   );
