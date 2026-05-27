@@ -48,12 +48,18 @@ enum ChapterStatus {
   PUBLISHED
 }
 
+enum StorySource {
+  WRITTEN
+  GENERATED
+}
+
 model Story {
   id              String      @id @default(uuid()) @db.Uuid
   authorId        String      @db.Uuid
   author          User        @relation("StoryAuthor", fields: [authorId], references: [id])
   title           String
   premise         String?
+  source          StorySource @default(WRITTEN)
   visibility      Visibility  @default(PRIVATE)
   curated         Boolean     @default(false)  // флаг "Curated tab"
   createdAt       DateTime    @default(now())
