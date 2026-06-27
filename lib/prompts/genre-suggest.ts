@@ -19,7 +19,10 @@ export const GenreSuggestSchema = z.object({
 });
 export type GenreSuggestOutput = z.infer<typeof GenreSuggestSchema>;
 
-export function build(args: { fandomName: string; focus: FocusType }): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest AU/genre tags for fanfic in a given fandom and focus mode.',

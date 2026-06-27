@@ -65,10 +65,11 @@ export function useChapterStream({ chapterId, chapterLength, onFinish, testUserI
         (headers as Record<string, string>)['x-test-user-id'] = testUserId;
       }
 
-      const res = await fetch(
-        `/api/chapter/${chapterId}/stream?length=${chapterLength}`,
-        { headers, signal: ctrl.signal, credentials: 'same-origin' },
-      );
+      const res = await fetch(`/api/chapter/${chapterId}/stream?length=${chapterLength}`, {
+        headers,
+        signal: ctrl.signal,
+        credentials: 'same-origin',
+      });
 
       if (!res.ok) {
         const msg = await res.text().catch(() => res.statusText);

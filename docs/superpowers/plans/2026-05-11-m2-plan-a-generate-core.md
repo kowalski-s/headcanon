@@ -51,6 +51,7 @@
 ## Task 1: Prisma migration — M2 Plan A tables
 
 **Files:**
+
 - Modify: `prisma/schema.prisma`
 - Create: `prisma/migrations/<auto>/migration.sql`
 
@@ -170,6 +171,7 @@ model Chapter {
 ```bash
 pnpm db:migrate -- --name m2_plan_a
 ```
+
 Expected: миграция применена, Prisma client сгенерён.
 
 - [ ] **Step 3: Verify schema**
@@ -177,6 +179,7 @@ Expected: миграция применена, Prisma client сгенерён.
 ```bash
 pnpm typecheck
 ```
+
 Expected: PASS.
 
 - [ ] **Step 4: Commit**
@@ -191,6 +194,7 @@ git commit -m "feat(M2-A): prisma migration — CreateDraft, Paragraph, usage, L
 ## Task 2: Install M2 deps
 
 **Files:**
+
 - Modify: `package.json`
 
 - [ ] **Step 1: Install runtime deps**
@@ -204,6 +208,7 @@ pnpm add ai @ai-sdk/openai openai zod
 ```bash
 cat package.json | grep -E '"(ai|@ai-sdk/openai|openai|zod)"'
 ```
+
 Expected: все четыре в `dependencies`.
 
 - [ ] **Step 3: Commit**
@@ -218,6 +223,7 @@ git commit -m "chore(M2-A): add ai-sdk, openai, zod"
 ## Task 3: Cost pricing table
 
 **Files:**
+
 - Create: `lib/cost/pricing.ts`
 - Test: `lib/cost/pricing.test.ts`
 
@@ -247,6 +253,7 @@ describe('estimateCost', () => {
 ```bash
 pnpm test lib/cost/pricing.test.ts
 ```
+
 Expected: FAIL «module not found».
 
 - [ ] **Step 3: Implement pricing.ts**
@@ -262,17 +269,10 @@ export const MODEL_PRICES: Record<string, ModelPrice> = {
   'deepseek-v3': { inUsdPer1k: 0.0003, outUsdPer1k: 0.0011 },
 };
 
-export function estimateCost(
-  model: string,
-  inputTokens: number,
-  outputTokens: number,
-): number {
+export function estimateCost(model: string, inputTokens: number, outputTokens: number): number {
   const p = MODEL_PRICES[model];
   if (!p) return 0;
-  return (
-    (p.inUsdPer1k * inputTokens) / 1000 +
-    (p.outUsdPer1k * outputTokens) / 1000
-  );
+  return (p.inUsdPer1k * inputTokens) / 1000 + (p.outUsdPer1k * outputTokens) / 1000;
 }
 ```
 
@@ -281,6 +281,7 @@ export function estimateCost(
 ```bash
 pnpm test lib/cost/pricing.test.ts
 ```
+
 Expected: PASS.
 
 - [ ] **Step 5: Commit**
@@ -295,6 +296,7 @@ git commit -m "feat(M2-A): cost pricing table + estimator"
 ## Task 4: LlmCallLog writer
 
 **Files:**
+
 - Create: `lib/cost/log.ts`
 - Test: `lib/cost/log.test.ts`
 
@@ -320,7 +322,9 @@ describe('logLlmCall', () => {
       inputTokens: 1000,
       outputTokens: 500,
       latencyMs: 1234,
-      storyId: 's1', chapterId: 'c1', userId: 'u1',
+      storyId: 's1',
+      chapterId: 'c1',
+      userId: 'u1',
     });
     expect(create).toHaveBeenCalledOnce();
     const arg = create.mock.calls[0][0].data;
@@ -388,6 +392,7 @@ git commit -m "feat(M2-A): LlmCallLog writer"
 ## Task 5: LLM adapter interface + OpenAI concrete (stream)
 
 **Files:**
+
 - Create: `lib/llm.ts`
 - Create: `lib/llm-openai.ts`
 - Test: `lib/llm-openai.test.ts`
@@ -453,9 +458,14 @@ describe('openaiLlm.stream', () => {
   it('yields tokens and logs cost', async () => {
     const chunks: string[] = [];
     for await (const c of openaiLlm.stream({
-      callType: 'test', templateId: 't', templateVersion: 1,
-      system: 'sys', user: 'usr', model: 'gpt-5o-mini',
-    })) chunks.push(c);
+      callType: 'test',
+      templateId: 't',
+      templateVersion: 1,
+      system: 'sys',
+      user: 'usr',
+      model: 'gpt-5o-mini',
+    }))
+      chunks.push(c);
     expect(chunks.join('')).toBe('Hello, world.');
     await new Promise((r) => setTimeout(r, 0));
     expect(logLlmCall).toHaveBeenCalledOnce();
@@ -557,6 +567,7 @@ git commit -m "feat(M2-A): LLM adapter — OpenAI via Vercel AI SDK (stream + co
 ## Task 6: Quota check-and-debit (daily)
 
 **Files:**
+
 - Create: `lib/quota/check-and-debit.ts`
 - Test: `lib/quota/check-and-debit.test.ts`
 
@@ -646,6 +657,7 @@ export async function creditDaily(userId: string, resource: DailyResource): Prom
 ```bash
 pnpm test lib/quota
 ```
+
 Expected: PASS. Если падает «relation does not exist» — `pnpm db:migrate` не применили; перезапустить миграцию.
 
 - [ ] **Step 4: Commit**
@@ -660,6 +672,7 @@ git commit -m "feat(M2-A): daily quota check-and-debit (race-safe)"
 ## Task 7: Quota check-and-debit (per-chapter)
 
 **Files:**
+
 - Modify: `lib/quota/check-and-debit.ts`
 - Modify: `lib/quota/check-and-debit.test.ts`
 
@@ -692,7 +705,8 @@ import { prisma } from '@/lib/prisma';
 
 export async function createTestUser(id = '00000000-0000-0000-0000-000000000001') {
   return prisma.user.upsert({
-    where: { id }, update: {},
+    where: { id },
+    update: {},
     create: { id, email: `${id}@hc.test`, handle: id.slice(0, 8) },
   });
 }
@@ -727,7 +741,8 @@ export async function debitChapter(
        SET ${col} = ${col} + 1
        WHERE "chapterId" = $1::uuid AND ${col} < $2
        RETURNING ${col} AS count`,
-    chapterId, limit,
+    chapterId,
+    limit,
   );
   if (rows.length === 0) {
     return { allowed: false, remaining: 0 };
@@ -754,6 +769,7 @@ git commit -m "feat(M2-A): per-chapter quota debit + test fixtures"
 ## Task 8: AiSuggestion cache wrapper
 
 **Files:**
+
 - Create: `lib/cache/ai-suggestion.ts`
 - Test: `lib/cache/ai-suggestion.test.ts`
 
@@ -773,7 +789,13 @@ describe('AiSuggestion cache', () => {
   });
 
   it('set then get returns value', async () => {
-    await setSuggestion('ship_suggestions', { fandomId: 'x' }, { ships: ['a', 'b'] }, 'gpt-5o-mini', 30 * 24 * 3600);
+    await setSuggestion(
+      'ship_suggestions',
+      { fandomId: 'x' },
+      { ships: ['a', 'b'] },
+      'gpt-5o-mini',
+      30 * 24 * 3600,
+    );
     const v = await getSuggestion('ship_suggestions', { fandomId: 'x' });
     expect(v).toEqual({ ships: ['a', 'b'] });
   });
@@ -796,10 +818,7 @@ function hashKey(input: unknown): string {
   return createHash('sha256').update(JSON.stringify(input)).digest('hex');
 }
 
-export async function getSuggestion<T>(
-  scope: string,
-  keyInput: unknown,
-): Promise<T | null> {
+export async function getSuggestion<T>(scope: string, keyInput: unknown): Promise<T | null> {
   const keyHash = hashKey(keyInput);
   const row = await prisma.aiSuggestion.findUnique({
     where: { scope_keyHash: { scope, keyHash } },
@@ -839,6 +858,7 @@ git commit -m "feat(M2-A): AiSuggestion cache wrapper"
 ## Task 9: Prompt-injection guard
 
 **Files:**
+
 - Create: `lib/safety/injection-guard.ts`
 - Test: `lib/safety/injection-guard.test.ts`
 
@@ -853,9 +873,7 @@ describe('wrapUserInput', () => {
     expect(wrapUserInput('hello')).toBe('<user_input>hello</user_input>');
   });
   it('escapes nested closing tag', () => {
-    expect(wrapUserInput('a</user_input>b')).toBe(
-      '<user_input>a</user_input&gt;b</user_input>',
-    );
+    expect(wrapUserInput('a</user_input>b')).toBe('<user_input>a</user_input&gt;b</user_input>');
   });
 });
 
@@ -864,7 +882,10 @@ describe('checkBanlist', () => {
     expect(checkBanlist('Гарри и Драко в библиотеке')).toEqual({ ok: true });
   });
   it('blocks underage explicit', () => {
-    expect(checkBanlist('underage explicit scene')).toMatchObject({ ok: false, reason: expect.stringMatching(/underage/i) });
+    expect(checkBanlist('underage explicit scene')).toMatchObject({
+      ok: false,
+      reason: expect.stringMatching(/underage/i),
+    });
   });
 });
 ```
@@ -908,6 +929,7 @@ git commit -m "feat(M2-A): prompt-injection guard — delimiter wrap + banlist"
 ## Task 10: Ship-suggest prompt + endpoint
 
 **Files:**
+
 - Create: `lib/prompts/ship-suggest.ts`
 - Create: `app/api/create/suggestions/ships/route.ts`
 - Test: `lib/prompts/ship-suggest.test.ts`
@@ -924,12 +946,17 @@ export const TEMPLATE_ID = 'ship_suggest';
 export const TEMPLATE_VERSION = 1;
 
 export const ShipSuggestSchema = z.object({
-  ships: z.array(z.object({
-    names: z.tuple([z.string(), z.string()]).rest(z.string()),
-    popularity: z.number().min(0).max(1),
-    avatar_prompt: z.string(),
-    rarity: z.enum(['top', 'rare']),
-  })).min(5).max(12),
+  ships: z
+    .array(
+      z.object({
+        names: z.tuple([z.string(), z.string()]).rest(z.string()),
+        popularity: z.number().min(0).max(1),
+        avatar_prompt: z.string(),
+        rarity: z.enum(['top', 'rare']),
+      }),
+    )
+    .min(5)
+    .max(12),
 });
 export type ShipSuggestOutput = z.infer<typeof ShipSuggestSchema>;
 
@@ -979,7 +1006,13 @@ export async function GET(req: NextRequest) {
     schema: shipSuggest.ShipSuggestSchema,
     ...prompt,
   });
-  await setSuggestion('ship_suggestions', cacheKey, result, process.env.LLM_MODEL_DEFAULT ?? 'gpt-5o-mini', TTL_30D);
+  await setSuggestion(
+    'ship_suggestions',
+    cacheKey,
+    result,
+    process.env.LLM_MODEL_DEFAULT ?? 'gpt-5o-mini',
+    TTL_30D,
+  );
   return NextResponse.json({ ships: result.ships, cached: false });
 }
 ```
@@ -990,12 +1023,19 @@ export async function GET(req: NextRequest) {
 // app/api/create/suggestions/ships/route.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { completeStructured: vi.fn(async () => ({
-    ships: [
-      { names: ['Harry', 'Draco'], popularity: 0.95, avatar_prompt: 'Two boys.', rarity: 'top' },
-      { names: ['Hermione', 'Pansy'], popularity: 0.15, avatar_prompt: 'Two girls.', rarity: 'rare' },
-    ],
-  })) },
+  openaiLlm: {
+    completeStructured: vi.fn(async () => ({
+      ships: [
+        { names: ['Harry', 'Draco'], popularity: 0.95, avatar_prompt: 'Two boys.', rarity: 'top' },
+        {
+          names: ['Hermione', 'Pansy'],
+          popularity: 0.15,
+          avatar_prompt: 'Two girls.',
+          rarity: 'rare',
+        },
+      ],
+    })),
+  },
 }));
 import { GET } from './route';
 import { NextRequest } from 'next/server';
@@ -1025,6 +1065,7 @@ git commit -m "feat(M2-A): ship suggestions endpoint + prompt + cache"
 ## Task 11: Trope-suggest prompt + endpoint
 
 **Files:**
+
 - Create: `lib/prompts/trope-suggest.ts`
 - Create: `app/api/create/suggestions/tropes/route.ts`
 
@@ -1032,13 +1073,18 @@ git commit -m "feat(M2-A): ship suggestions endpoint + prompt + cache"
 
 ```ts
 export const TropeSuggestSchema = z.object({
-  tropes: z.array(z.object({
-    slug: z.string(),
-    label: z.string(),
-    description: z.string().max(120),
-    popularity: z.number().min(0).max(1),
-  })).min(8).max(15),
-  sensei_tip: z.string().max(220),  // спич-балл «AI Sensei»
+  tropes: z
+    .array(
+      z.object({
+        slug: z.string(),
+        label: z.string(),
+        description: z.string().max(120),
+        popularity: z.number().min(0).max(1),
+      }),
+    )
+    .min(8)
+    .max(15),
+  sensei_tip: z.string().max(220), // спич-балл «AI Sensei»
 });
 ```
 
@@ -1056,6 +1102,7 @@ git commit -m "feat(M2-A): trope suggestions endpoint + sensei tip"
 ## Task 12: CreateDraft autosave endpoint
 
 **Files:**
+
 - Create: `app/api/create/draft/route.ts`
 - Create: `app/api/create/draft/[id]/route.ts`
 - Test: `app/api/create/draft/route.test.ts`
@@ -1089,7 +1136,11 @@ describe('CreateDraft', () => {
     const c = await createDraft(new NextRequest('http://x', { method: 'POST', headers: auth }));
     const { id } = await c.json();
     const res = await updateDraft(
-      new NextRequest('http://x', { method: 'PATCH', headers: auth, body: JSON.stringify({ shipId: 'drarry', step: 3 }) }),
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ shipId: 'drarry', step: 3 }),
+      }),
       { params: Promise.resolve({ id }) },
     );
     expect(res.status).toBe(200);
@@ -1173,6 +1224,7 @@ git commit -m "feat(M2-A): CreateDraft autosave POST/PATCH"
 ## Task 13: Chapter prompt template
 
 **Files:**
+
 - Create: `lib/prompts/chapter.ts`
 - Test: `lib/prompts/chapter.test.ts`
 
@@ -1202,11 +1254,28 @@ describe('build chapter prompt', () => {
 
   it('includes prior state for N>1', () => {
     const out = build({
-      fandomName: 'HP', ship: 'Drarry', tropes: [], chapterLength: 'medium',
+      fandomName: 'HP',
+      ship: 'Drarry',
+      tropes: [],
+      chapterLength: 'medium',
       chapterOrdinal: 3,
       priorState: {
-        worldState: { current_location: 'library', story_time: 'Sept', active_plot_threads: ['letters'], foreshadowing: [] },
-        characterStates: [{ character_name: 'Draco', emotional_state: 'guarded', recent_events: ['confronted X'], relationships: {}, arc_progress: 0.3, voice_traits_drift: [] }],
+        worldState: {
+          current_location: 'library',
+          story_time: 'Sept',
+          active_plot_threads: ['letters'],
+          foreshadowing: [],
+        },
+        characterStates: [
+          {
+            character_name: 'Draco',
+            emotional_state: 'guarded',
+            recent_events: ['confronted X'],
+            relationships: {},
+            arc_progress: 0.3,
+            voice_traits_drift: [],
+          },
+        ],
         summaries: ['Ch 1 summary.'],
         recentChapters: ['Full text ch 2 here.'],
       },
@@ -1245,8 +1314,8 @@ export interface PriorState {
     arc_progress: number;
     voice_traits_drift: string[];
   }>;
-  summaries: string[];        // chapters 1..N-3
-  recentChapters: string[];   // full text of N-2 and N-1
+  summaries: string[]; // chapters 1..N-3
+  recentChapters: string[]; // full text of N-2 and N-1
 }
 
 export interface ChapterInput {
@@ -1281,11 +1350,12 @@ export function build(input: ChapterInput): { system: string; user: string } {
     systemLines.push(`Recent full chapters: ${input.priorState.recentChapters.join('\n---\n')}`);
   }
 
-  const userPrompt = input.chapterOrdinal === 1
-    ? input.premise
-      ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
-      : 'Write chapter 1 from scratch, drawing on the configured fandom/ship/tropes.'
-    : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
+  const userPrompt =
+    input.chapterOrdinal === 1
+      ? input.premise
+        ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
+        : 'Write chapter 1 from scratch, drawing on the configured fandom/ship/tropes.'
+      : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
 
   return { system: systemLines.join('\n\n'), user: userPrompt };
 }
@@ -1304,6 +1374,7 @@ git commit -m "feat(M2-A): chapter prompt template v1"
 ## Task 14: Start endpoint (creates Story + Chapter 1)
 
 **Files:**
+
 - Create: `app/api/create/draft/[id]/start/route.ts`
 - Test: `app/api/create/draft/[id]/start/route.test.ts`
 
@@ -1329,7 +1400,13 @@ describe('POST /api/create/draft/[id]/start', () => {
   it('creates Story + Chapter(1) + ChapterUsage; returns ids', async () => {
     const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HP', slug: 'hp' } });
     const draft = await prisma.createDraft.create({
-      data: { userId: USER_ID, fandomId: fandom.id, shipId: 'drarry', step: 5, tropes: ['enemies'] },
+      data: {
+        userId: USER_ID,
+        fandomId: fandom.id,
+        shipId: 'drarry',
+        step: 5,
+        tropes: ['enemies'],
+      },
     });
     const res = await POST(
       new NextRequest('http://x', { method: 'POST', headers: { 'x-test-user-id': USER_ID } }),
@@ -1339,7 +1416,10 @@ describe('POST /api/create/draft/[id]/start', () => {
     const json = await res.json();
     expect(json.storyId).toBeTruthy();
     expect(json.chapterId).toBeTruthy();
-    const ch = await prisma.chapter.findUniqueOrThrow({ where: { id: json.chapterId }, include: { usage: true } });
+    const ch = await prisma.chapter.findUniqueOrThrow({
+      where: { id: json.chapterId },
+      include: { usage: true },
+    });
     expect(ch.ordinal).toBe(1);
     expect(ch.status).toBe('DRAFT');
     expect(ch.usage).toBeTruthy();
@@ -1423,6 +1503,7 @@ git commit -m "feat(M2-A): start endpoint — Story+Chapter creation with quota"
 ## Task 15: Stream endpoint (LLM → SSE)
 
 **Files:**
+
 - Create: `app/api/chapter/[id]/stream/route.ts`
 
 - [ ] **Step 1: Implement**
@@ -1461,7 +1542,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   const fandomTag = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag;
   const { system, user } = chapterPrompt.build({
     fandomName: fandomTag?.name ?? 'unknown',
-    ship: '(see story)',                            // ship is shipId on draft; здесь читаем со story-meta — упрощённо для MVP
+    ship: '(see story)', // ship is shipId on draft; здесь читаем со story-meta — упрощённо для MVP
     tropes: [],
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
@@ -1471,7 +1552,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     callType: 'chapter_stream',
     templateId: chapterPrompt.TEMPLATE_ID,
     templateVersion: chapterPrompt.TEMPLATE_VERSION,
-    system, user,
+    system,
+    user,
     contextIds: { storyId: chapter.storyId, chapterId: chapter.id, userId },
     abortSignal: req.signal,
   });
@@ -1504,7 +1586,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 // app/api/chapter/[id]/stream/route.test.ts
 import { describe, it, expect, vi } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { stream: async function* () { yield 'Hello '; yield 'world.'; } },
+  openaiLlm: {
+    stream: async function* () {
+      yield 'Hello ';
+      yield 'world.';
+    },
+  },
 }));
 import { GET } from './route';
 import { NextRequest } from 'next/server';
@@ -1537,6 +1624,7 @@ git commit -m "feat(M2-A): chapter stream endpoint (one-shot, LLM → text/plain
 ## Task 16: Save endpoint (split → Paragraph rows)
 
 **Files:**
+
 - Create: `app/api/chapter/[id]/save/route.ts`
 
 - [ ] **Step 1: Test**
@@ -1553,11 +1641,18 @@ describe('POST /api/chapter/[id]/save', () => {
     const { user, chapter } = await createTestStoryWithChapter();
     const text = 'Para one.\n\nPara two.\n\n\nPara three.';
     const res = await POST(
-      new NextRequest('http://x', { method: 'POST', body: JSON.stringify({ fullText: text }), headers: { 'x-test-user-id': user.id } }),
+      new NextRequest('http://x', {
+        method: 'POST',
+        body: JSON.stringify({ fullText: text }),
+        headers: { 'x-test-user-id': user.id },
+      }),
       { params: Promise.resolve({ id: chapter.id }) },
     );
     expect(res.status).toBe(200);
-    const rows = await prisma.paragraph.findMany({ where: { chapterId: chapter.id }, orderBy: { ordinal: 'asc' } });
+    const rows = await prisma.paragraph.findMany({
+      where: { chapterId: chapter.id },
+      orderBy: { ordinal: 'asc' },
+    });
     expect(rows.map((r) => r.text)).toEqual(['Para one.', 'Para two.', 'Para three.']);
     expect(Number(rows[0].ordinal)).toBe(1);
     expect(Number(rows[1].ordinal)).toBe(2);
@@ -1577,7 +1672,10 @@ import { getUserIdOrThrow } from '@/lib/auth/server';
 const Body = z.object({ fullText: z.string().min(1) });
 
 function splitParagraphs(text: string): string[] {
-  return text.split(/\n{2,}/g).map((p) => p.trim()).filter(Boolean);
+  return text
+    .split(/\n{2,}/g)
+    .map((p) => p.trim())
+    .filter(Boolean);
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -1586,7 +1684,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const { fullText } = Body.parse(await req.json());
 
   const chapter = await prisma.chapter.findUnique({
-    where: { id }, include: { story: true },
+    where: { id },
+    include: { story: true },
   });
   if (!chapter || chapter.story.authorId !== userId) {
     return NextResponse.json({ error: 'not found' }, { status: 404 });
@@ -1622,6 +1721,7 @@ git commit -m "feat(M2-A): chapter save — split paragraphs into rows"
 ## Task 17: Render endpoint (Paragraph[] from DB)
 
 **Files:**
+
 - Create: `app/api/chapter/[id]/route.ts`
 
 - [ ] **Step 1: Implement**
@@ -1647,7 +1747,11 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     id: chapter.id,
     ordinal: chapter.ordinal,
     status: chapter.status,
-    paragraphs: chapter.paragraphs.map((p) => ({ id: p.id, ordinal: Number(p.ordinal), text: p.text })),
+    paragraphs: chapter.paragraphs.map((p) => ({
+      id: p.id,
+      ordinal: Number(p.ordinal),
+      text: p.text,
+    })),
   });
 }
 ```
@@ -1665,10 +1769,9 @@ describe('GET /api/chapter/[id]', () => {
   it('returns paragraphs from DB', async () => {
     const { user, chapter } = await createTestStoryWithChapter();
     await prisma.paragraph.create({ data: { chapterId: chapter.id, ordinal: 1, text: 'P1' } });
-    const res = await GET(
-      new NextRequest('http://x', { headers: { 'x-test-user-id': user.id } }),
-      { params: Promise.resolve({ id: chapter.id }) },
-    );
+    const res = await GET(new NextRequest('http://x', { headers: { 'x-test-user-id': user.id } }), {
+      params: Promise.resolve({ id: chapter.id }),
+    });
     const json = await res.json();
     expect(json.paragraphs).toEqual([{ id: expect.any(String), ordinal: 1, text: 'P1' }]);
   });
@@ -1686,6 +1789,7 @@ git commit -m "feat(M2-A): chapter render endpoint (Paragraph[] from DB)"
 ## Task 18: Next-chapter endpoint
 
 **Files:**
+
 - Create: `app/api/chapter/[id]/next/route.ts`
 
 - [ ] **Step 1: Implement (analog Task 14 but для глав 2+)**
@@ -1711,14 +1815,18 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
   if (!quota.allowed) return NextResponse.json({ error: 'quota_exceeded' }, { status: 429 });
 
   const last = await prisma.chapter.findFirst({
-    where: { storyId: current.storyId }, orderBy: { ordinal: 'desc' },
+    where: { storyId: current.storyId },
+    orderBy: { ordinal: 'desc' },
   });
   const newOrdinal = (last?.ordinal ?? 0) + 1;
   const created = await prisma.$transaction(async (tx) => {
     const ch = await tx.chapter.create({
       data: {
-        storyId: current.storyId, ordinal: newOrdinal, status: 'DRAFT',
-        templateId: TEMPLATE_ID, templateVersion: TEMPLATE_VERSION,
+        storyId: current.storyId,
+        ordinal: newOrdinal,
+        status: 'DRAFT',
+        templateId: TEMPLATE_ID,
+        templateVersion: TEMPLATE_VERSION,
       },
     });
     await tx.chapterUsage.create({ data: { chapterId: ch.id } });
@@ -1740,6 +1848,7 @@ git commit -m "feat(M2-A): next-chapter endpoint"
 ## Task 19: Quota check endpoint (read-only)
 
 **Files:**
+
 - Create: `app/api/quota/check/route.ts`
 
 - [ ] **Step 1: Implement**
@@ -1754,7 +1863,8 @@ const FREE_DAILY_STORIES = 3;
 
 export async function GET() {
   const userId = await getUserIdOrThrow();
-  const day = new Date(); day.setUTCHours(0, 0, 0, 0);
+  const day = new Date();
+  day.setUTCHours(0, 0, 0, 0);
   const usage = await prisma.dailyUsage.findUnique({
     where: { userId_day: { userId, day } },
   });
@@ -1777,6 +1887,7 @@ git commit -m "feat(M2-A): quota read endpoint"
 ## Task 20: Reader settings extension (`chapterLength`)
 
 **Files:**
+
 - Modify: `lib/reader/useReaderSettings.ts` (или эквивалент из M1-04)
 
 - [ ] **Step 1: Read existing hook**
@@ -1814,6 +1925,7 @@ git commit -m "feat(M2-A): useReaderSettings — chapterLength (short/medium/lon
 ## Task 21: Reader UI — wire useCompletion + render-from-DB
 
 **Files:**
+
 - Modify: компонент Reader (точное имя — `app/(reader)/reader/[storyId]/[chapterN]/ReaderPageView.tsx` из M1-04)
 
 - [ ] **Step 1: Add useCompletion от Vercel AI SDK**
@@ -1865,6 +1977,7 @@ git commit -m "feat(M2-A): Reader streams first chapter; renders Paragraph[] fro
 ## Task 22: CreatePageView — wire to API
 
 **Files:**
+
 - Modify: `components/create/CreatePageView.tsx`
 
 - [ ] **Step 1: Hook state to API**
@@ -1929,6 +2042,7 @@ git commit -m "feat(M2-A): Create wired to draft/suggestions/start API + sensei 
 ## Task 23: End-to-end smoke
 
 **Files:**
+
 - Create: `scripts/m2a-e2e.ts` (Playwright)
 
 - [ ] **Step 1: Write playwright script**

@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, afterAll, beforeEach } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { stream: async function* () { yield 'Hello '; yield 'world.'; } },
+  openaiLlm: {
+    stream: async function* () {
+      yield 'Hello ';
+      yield 'world.';
+    },
+  },
 }));
 import { GET } from './route';
 import { NextRequest } from 'next/server';

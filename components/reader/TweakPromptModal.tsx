@@ -10,8 +10,14 @@ export function TweakPromptModal({ onSubmit, onClose }: Props) {
   const [hint, setHint] = useState('');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="max-w-md rounded-2xl bg-surface-raised p-6">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="max-w-md rounded-2xl bg-surface-raised p-6"
+      >
         <h2 className="font-display text-2xl text-ink">подкрутить главу</h2>
         <p className="mt-2 font-body italic text-body text-ink-dim">
           один абзац или общая правка — модель пере-сгенерит главу с учётом подсказки.

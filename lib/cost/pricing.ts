@@ -8,15 +8,8 @@ export const MODEL_PRICES: Record<string, ModelPrice> = {
   'deepseek-v3': { inUsdPer1k: 0.0003, outUsdPer1k: 0.0011 },
 };
 
-export function estimateCost(
-  model: string,
-  inputTokens: number,
-  outputTokens: number,
-): number {
+export function estimateCost(model: string, inputTokens: number, outputTokens: number): number {
   const p = MODEL_PRICES[model];
   if (!p) return 0;
-  return (
-    (p.inUsdPer1k * inputTokens) / 1000 +
-    (p.outUsdPer1k * outputTokens) / 1000
-  );
+  return (p.inUsdPer1k * inputTokens) / 1000 + (p.outUsdPer1k * outputTokens) / 1000;
 }

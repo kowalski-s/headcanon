@@ -65,7 +65,8 @@ export function StepFocusCharacters({
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          <span className="italic text-amber">фокус</span> истории<span className="text-amber">.</span>
+          <span className="italic text-amber">фокус</span> истории
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           С чего строим сюжет — пейринг, приключение, один герой или дружба.
@@ -82,7 +83,12 @@ export function StepFocusCharacters({
       {focus && (
         <div className="flex flex-col gap-4">
           <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-            ✦ {focus === 'ROMANCE' ? 'пейринг' : focus === 'CHARACTER_STUDY' ? 'главный герой' : 'главные герои'}
+            ✦{' '}
+            {focus === 'ROMANCE'
+              ? 'пейринг'
+              : focus === 'CHARACTER_STUDY'
+                ? 'главный герой'
+                : 'главные герои'}
           </div>
 
           {suggestionsLoading && (

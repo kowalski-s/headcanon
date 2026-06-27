@@ -12,14 +12,23 @@ const DRAFT_ID = 'draft-1';
 const STORY_ID = 'story-abc-123';
 
 const MOCK_CHARACTERS = [
-  { names: ['Гарри', 'Драко'], label_ru: 'Гарри × Драко', popularity: 0.9, rarity: 'top', focus_compatible: ['romance'] },
+  {
+    names: ['Гарри', 'Драко'],
+    label_ru: 'Гарри × Драко',
+    popularity: 0.9,
+    rarity: 'top',
+    focus_compatible: ['romance'],
+  },
 ];
 const MOCK_TROPES = [
-  { slug: 'enemies-to-lovers', label_ru: 'от врагов к возлюбленным', description_ru: 'враждуют, потом любят', popularity: 0.9 },
+  {
+    slug: 'enemies-to-lovers',
+    label_ru: 'от врагов к возлюбленным',
+    description_ru: 'враждуют, потом любят',
+    popularity: 0.9,
+  },
 ];
-const MOCK_GENRES = [
-  { slug: 'modern-au', label_ru: 'современная AU', popularity: 0.8 },
-];
+const MOCK_GENRES = [{ slug: 'modern-au', label_ru: 'современная AU', popularity: 0.8 }];
 
 function buildFetchMock({ startStatus = 200 } = {}) {
   return vi.fn(async (url: string | Request | URL, init?: RequestInit) => {
@@ -35,14 +44,19 @@ function buildFetchMock({ startStatus = 200 } = {}) {
       return new Response(JSON.stringify({ suggestions: MOCK_CHARACTERS }), { status: 200 });
     }
     if (m === 'GET' && u.includes('/api/create/suggestions/tropes')) {
-      return new Response(JSON.stringify({ tropes: MOCK_TROPES, sensei_tip: 'удачи' }), { status: 200 });
+      return new Response(JSON.stringify({ tropes: MOCK_TROPES, sensei_tip: 'удачи' }), {
+        status: 200,
+      });
     }
     if (m === 'GET' && u.includes('/api/create/suggestions/genres')) {
       return new Response(JSON.stringify({ genres: MOCK_GENRES }), { status: 200 });
     }
     if (m === 'POST' && u.includes('/start')) {
-      if (startStatus === 429) return new Response(JSON.stringify({ error: 'quota_exceeded' }), { status: 429 });
-      return new Response(JSON.stringify({ storyId: STORY_ID, chapterId: 'ch-1' }), { status: 200 });
+      if (startStatus === 429)
+        return new Response(JSON.stringify({ error: 'quota_exceeded' }), { status: 429 });
+      return new Response(JSON.stringify({ storyId: STORY_ID, chapterId: 'ch-1' }), {
+        status: 200,
+      });
     }
     return new Response(JSON.stringify({ error: 'not mocked' }), { status: 404 });
   });
@@ -56,13 +70,17 @@ describe('CreatePageView — wizard flow', () => {
     global.fetch = buildFetchMock();
     render(<CreatePageView />);
 
-    await waitFor(() => expect(screen.getAllByText(/AftG|HP|Naruto|JJK/i).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByText(/AftG|HP|Naruto|JJK/i).length).toBeGreaterThan(0),
+    );
 
     // Step 1: pick HP
     fireEvent.click(screen.getAllByText('HP')[0]);
 
     // Step 2: pick Romance focus
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /романтика/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /романтика/i }).length).toBeGreaterThan(0),
+    );
     fireEvent.click(screen.getAllByRole('button', { name: /романтика/i })[0]);
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Гарри × Драко/i }).length).toBeGreaterThan(0),
@@ -72,13 +90,17 @@ describe('CreatePageView — wizard flow', () => {
 
     // Step 3: pick a trope
     await waitFor(() =>
-      expect(screen.getAllByRole('button', { name: /от врагов к возлюбленным/i }).length).toBeGreaterThan(0),
+      expect(
+        screen.getAllByRole('button', { name: /от врагов к возлюбленным/i }).length,
+      ).toBeGreaterThan(0),
     );
     fireEvent.click(screen.getAllByRole('button', { name: /от врагов к возлюбленным/i })[0]);
     fireEvent.click(screen.getAllByTestId('step-next')[0]);
 
     // Step 4: skip details
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /маркировка/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /маркировка/i }).length).toBeGreaterThan(0),
+    );
     fireEvent.click(screen.getAllByTestId('step-next')[0]);
 
     // Step 5: start

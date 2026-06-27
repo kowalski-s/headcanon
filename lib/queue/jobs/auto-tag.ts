@@ -2,7 +2,9 @@ import { prisma } from '@/lib/prisma';
 import { openaiLlm } from '@/lib/llm-openai';
 import * as autoTag from '@/lib/prompts/auto-tag';
 
-export interface AutoTagJob { storyId: string; }
+export interface AutoTagJob {
+  storyId: string;
+}
 
 /** Canonical slug: lowercase, trimmed, spaces → hyphens (AO3 convention). */
 function toSlug(raw: string): string {
@@ -14,15 +16,16 @@ export async function handleAutoTag(job: { data: AutoTagJob }) {
   const story = await prisma.story.findUnique({
     where: { id: storyId },
     include: {
-      chapters: { where: { status: 'PUBLISHED' }, include: { paragraphs: { orderBy: { ordinal: 'asc' } } } },
+      chapters: {
+        where: { status: 'PUBLISHED' },
+        include: { paragraphs: { orderBy: { ordinal: 'asc' } } },
+      },
       // Only fetch user-confirmed tags so the worker doesn't read its own previous output as approved.
       tags: { include: { tag: true }, where: { prefilled: false } },
     },
   });
   if (!story) return;
-  const storyText = story.chapters
-    .flatMap((ch) => ch.paragraphs.map((p) => p.text))
-    .join('\n\n');
+  const storyText = story.chapters.flatMap((ch) => ch.paragraphs.map((p) => p.text)).join('\n\n');
   const existingTags = story.tags.map((st) => st.tag.name);
 
   const prompt = autoTag.build({ storyText, existingTags });

@@ -1,14 +1,54 @@
 import { describe, it, expect, vi, beforeEach, afterAll } from 'vitest';
 
 const MOCK_TROPES = [
-  { slug: 'enemies-to-lovers', label_ru: 'от врагов к возлюбленным', description_ru: 'враждуют, потом любят', popularity: 0.95 },
-  { slug: 'slow-burn', label_ru: 'слоуберн', description_ru: 'медленное развитие', popularity: 0.9 },
-  { slug: 'fake-dating', label_ru: 'фэйк-релейшеншип', description_ru: 'притворная пара', popularity: 0.8 },
-  { slug: 'hurt-comfort', label_ru: 'хёрт/комфорт', description_ru: 'один ранен, второй утешает', popularity: 0.85 },
-  { slug: 'mutual-pining', label_ru: 'взаимная тоска', description_ru: 'оба скучают', popularity: 0.88 },
-  { slug: 'coffee-shop-au', label_ru: 'coffee shop AU', description_ru: 'современная AU в кафе', popularity: 0.7 },
-  { slug: 'forced-proximity', label_ru: 'вынужденная близость', description_ru: 'обстоятельства запирают вместе', popularity: 0.82 },
-  { slug: 'canon-divergence', label_ru: 'отклонение от канона', description_ru: 'ветвление от ключевой сцены', popularity: 0.75 },
+  {
+    slug: 'enemies-to-lovers',
+    label_ru: 'от врагов к возлюбленным',
+    description_ru: 'враждуют, потом любят',
+    popularity: 0.95,
+  },
+  {
+    slug: 'slow-burn',
+    label_ru: 'слоуберн',
+    description_ru: 'медленное развитие',
+    popularity: 0.9,
+  },
+  {
+    slug: 'fake-dating',
+    label_ru: 'фэйк-релейшеншип',
+    description_ru: 'притворная пара',
+    popularity: 0.8,
+  },
+  {
+    slug: 'hurt-comfort',
+    label_ru: 'хёрт/комфорт',
+    description_ru: 'один ранен, второй утешает',
+    popularity: 0.85,
+  },
+  {
+    slug: 'mutual-pining',
+    label_ru: 'взаимная тоска',
+    description_ru: 'оба скучают',
+    popularity: 0.88,
+  },
+  {
+    slug: 'coffee-shop-au',
+    label_ru: 'coffee shop AU',
+    description_ru: 'современная AU в кафе',
+    popularity: 0.7,
+  },
+  {
+    slug: 'forced-proximity',
+    label_ru: 'вынужденная близость',
+    description_ru: 'обстоятельства запирают вместе',
+    popularity: 0.82,
+  },
+  {
+    slug: 'canon-divergence',
+    label_ru: 'отклонение от канона',
+    description_ru: 'ветвление от ключевой сцены',
+    popularity: 0.75,
+  },
 ];
 const MOCK_SENSEI_TIP = 'враги-в-любовники с этой парой пишутся сами.';
 
@@ -79,7 +119,9 @@ describe('GET /api/create/suggestions/tropes', () => {
   });
 
   it('returns 404 for unknown fandomId', async () => {
-    const res = await GET(makeReq({ fandomId: NONEXISTENT_ID, focus: FOCUS, characters: CHARACTERS }));
+    const res = await GET(
+      makeReq({ fandomId: NONEXISTENT_ID, focus: FOCUS, characters: CHARACTERS }),
+    );
     expect(res.status).toBe(404);
     const body = await res.json();
     expect(body.error).toBe('fandom not found');
@@ -107,7 +149,12 @@ describe('GET /api/create/suggestions/tropes', () => {
 
   it('returns cached: true on second call, LLM not called again', async () => {
     await seedFandom();
-    const cacheKey = { scope: 'trope_suggestions', fandomId: FANDOM_ID, focus: FOCUS, characters: ['Гарри', 'Драко'] };
+    const cacheKey = {
+      scope: 'trope_suggestions',
+      fandomId: FANDOM_ID,
+      focus: FOCUS,
+      characters: ['Гарри', 'Драко'],
+    };
     await setSuggestion(
       'trope_suggestions',
       cacheKey,

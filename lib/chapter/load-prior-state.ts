@@ -1,7 +1,10 @@
 import { prisma } from '@/lib/prisma';
 import type { PriorState } from '@/lib/prompts/chapter';
 
-export async function loadPriorState(storyId: string, chapterOrdinal: number): Promise<PriorState | null> {
+export async function loadPriorState(
+  storyId: string,
+  chapterOrdinal: number,
+): Promise<PriorState | null> {
   if (chapterOrdinal <= 1) return null;
 
   const [worldState, characterStates, summaries, recentChapters] = await Promise.all([
@@ -12,7 +15,10 @@ export async function loadPriorState(storyId: string, chapterOrdinal: number): P
       orderBy: { chapter: { ordinal: 'asc' } },
     }),
     prisma.chapter.findMany({
-      where: { storyId, ordinal: { in: [chapterOrdinal - 2, chapterOrdinal - 1].filter((n) => n > 0) } },
+      where: {
+        storyId,
+        ordinal: { in: [chapterOrdinal - 2, chapterOrdinal - 1].filter((n) => n > 0) },
+      },
       include: { paragraphs: { orderBy: { ordinal: 'asc' } } },
       orderBy: { ordinal: 'asc' },
     }),
@@ -22,7 +28,9 @@ export async function loadPriorState(storyId: string, chapterOrdinal: number): P
 
   return {
     worldState: worldState.stateJson as PriorState['worldState'],
-    characterStates: characterStates.map((cs) => cs.stateJson as PriorState['characterStates'][number]),
+    characterStates: characterStates.map(
+      (cs) => cs.stateJson as PriorState['characterStates'][number],
+    ),
     summaries: summaries.map((s) => s.summary),
     recentChapters: recentChapters.map((ch) => ch.paragraphs.map((p) => p.text).join('\n\n')),
   };

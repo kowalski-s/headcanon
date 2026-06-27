@@ -9,8 +9,7 @@ const CHAPTER_RESOURCE_ALLOWLIST: ChapterResource[] = ['regens', 'continues', 'p
 // Dev-only bypass — set DISABLE_QUOTAS=1 in .env when iterating locally.
 // MUST be removed/disabled before public launch (see handoff/TASKS.md).
 // Ignored under vitest (VITEST=true is auto-set) so quota tests still hit the real path.
-const QUOTAS_DISABLED =
-  process.env.DISABLE_QUOTAS === '1' && process.env.VITEST !== 'true';
+const QUOTAS_DISABLED = process.env.DISABLE_QUOTAS === '1' && process.env.VITEST !== 'true';
 
 export async function debitChapter(
   chapterId: string,
@@ -27,7 +26,8 @@ export async function debitChapter(
        SET ${col} = ${col} + 1
        WHERE "chapterId" = $1::uuid AND ${col} < $2
        RETURNING ${col} AS count`,
-    chapterId, limit,
+    chapterId,
+    limit,
   );
   if (rows.length === 0) {
     return { allowed: false, remaining: 0 };

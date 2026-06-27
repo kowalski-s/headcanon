@@ -16,7 +16,13 @@ type Props = {
   streaming?: boolean;
 };
 
-const ParagraphLine = memo(function ParagraphLine({ text, isFirst }: { text: string; isFirst: boolean }) {
+const ParagraphLine = memo(function ParagraphLine({
+  text,
+  isFirst,
+}: {
+  text: string;
+  isFirst: boolean;
+}) {
   // Drop-cap: skip any leading markdown markers (* or **) so the cap is the first
   // VISIBLE letter and the opening word's mark survives. For marker-free text
   // (all generator output) lead is '' → identical to text.charAt(0)/text.slice(1).

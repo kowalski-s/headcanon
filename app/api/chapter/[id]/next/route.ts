@@ -17,14 +17,18 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!quota.allowed) return NextResponse.json({ error: 'quota_exceeded' }, { status: 429 });
 
   const last = await prisma.chapter.findFirst({
-    where: { storyId: current.storyId }, orderBy: { ordinal: 'desc' },
+    where: { storyId: current.storyId },
+    orderBy: { ordinal: 'desc' },
   });
   const newOrdinal = (last?.ordinal ?? 0) + 1;
   const created = await prisma.$transaction(async (tx) => {
     const ch = await tx.chapter.create({
       data: {
-        storyId: current.storyId, ordinal: newOrdinal, status: 'DRAFT',
-        templateId: TEMPLATE_ID, templateVersion: TEMPLATE_VERSION,
+        storyId: current.storyId,
+        ordinal: newOrdinal,
+        status: 'DRAFT',
+        templateId: TEMPLATE_ID,
+        templateVersion: TEMPLATE_VERSION,
       },
     });
     await tx.chapterUsage.create({ data: { chapterId: ch.id } });

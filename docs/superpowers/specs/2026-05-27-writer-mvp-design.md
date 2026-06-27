@@ -34,6 +34,7 @@ Writer path становится primary: человек пишет фанфик
 - `GENERATED` — текущий v1 flow. Без изменений.
 
 Читалка, лента, `Like`/`Save`/`Comment`/`Follow`, профили — общие, работают по `source`-agnostic запросам. Различие проявляется только в:
+
 - редакторе (только для `WRITTEN`, владелец),
 - бейдже источника в ленте,
 - доступности AI-ассистента writer-mode (только `WRITTEN`),
@@ -84,14 +85,14 @@ lib/
 
 ### Граница ИИ vs код (per architecture.md)
 
-| Задача | ИИ / код |
-| --- | --- |
-| Редактирование, автосейв, структура глав, заметки, publish | Код (CRUD) |
-| Сборка контекста для ассистента | Код (структурно из БД) |
-| Предложение сцены/идеи, правки, сократические вопросы | ИИ (structured output) |
-| Извлечение персонажей из текста | ИИ → код пишет в `Character` |
-| Консистентность мира | ИИ сверяет с `WorldState`, флагит |
-| Video gating | Код (`storyHasCanonicalIp`) |
+| Задача                                                     | ИИ / код                          |
+| ---------------------------------------------------------- | --------------------------------- |
+| Редактирование, автосейв, структура глав, заметки, publish | Код (CRUD)                        |
+| Сборка контекста для ассистента                            | Код (структурно из БД)            |
+| Предложение сцены/идеи, правки, сократические вопросы      | ИИ (structured output)            |
+| Извлечение персонажей из текста                            | ИИ → код пишет в `Character`      |
+| Консистентность мира                                       | ИИ сверяет с `WorldState`, флагит |
+| Video gating                                               | Код (`storyHasCanonicalIp`)       |
 
 ---
 
@@ -201,13 +202,13 @@ model AiMessage {
 
 ### Действия (`lib/assistant/prompts.ts`, versioned)
 
-| action | вход | structured output |
-| --- | --- | --- |
-| `next_scene` | контекст | `{ options: [{summary, text}] }` (2-3 варианта) |
-| `idea` | контекст | `{ ideas: string[] }` |
-| `edit` | контекст + selection | `{ edits: [{original, suggested, reason}] }` (diff-вид) |
-| `socratic` | контекст | `{ questions: string[] }` |
-| `chat` | контекст + свободный вопрос | `{ reply }` |
+| action       | вход                        | structured output                                       |
+| ------------ | --------------------------- | ------------------------------------------------------- |
+| `next_scene` | контекст                    | `{ options: [{summary, text}] }` (2-3 варианта)         |
+| `idea`       | контекст                    | `{ ideas: string[] }`                                   |
+| `edit`       | контекст + selection        | `{ edits: [{original, suggested, reason}] }` (diff-вид) |
+| `socratic`   | контекст                    | `{ questions: string[] }`                               |
+| `chat`       | контекст + свободный вопрос | `{ reply }`                                             |
 
 - Structured outputs через существующий `lib/llm.ts`. Учесть [[project_openai_structured_outputs]] (никаких `z.tuple`/union в `items`; `z.array(...).min/max`).
 - Модель: prose-действия (`next_scene`, `edit`) → `PROSE_MODEL`; lookups (`socratic`, `idea`, extract) → mini. Per [[project_llm_model_split]].

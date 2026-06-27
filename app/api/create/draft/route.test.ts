@@ -31,7 +31,11 @@ describe('CreateDraft', () => {
     const c = await createDraft(new NextRequest('http://x', { method: 'POST', headers: auth }));
     const { id } = await c.json();
     const res = await updateDraft(
-      new NextRequest('http://x', { method: 'PATCH', headers: auth, body: JSON.stringify({ characters: ['Гарри', 'Драко'], step: 3 }) }),
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ characters: ['Гарри', 'Драко'], step: 3 }),
+      }),
       { params: Promise.resolve({ id }) },
     );
     expect(res.status).toBe(200);
@@ -50,7 +54,11 @@ describe('CreateDraft', () => {
       create: { id: OTHER_USER, email: `${OTHER_USER}@hc.test`, handle: 'testuser2' },
     });
     const res = await updateDraft(
-      new NextRequest('http://x', { method: 'PATCH', headers: { 'x-test-user-id': OTHER_USER }, body: JSON.stringify({ step: 2 }) }),
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: { 'x-test-user-id': OTHER_USER },
+        body: JSON.stringify({ step: 2 }),
+      }),
       { params: Promise.resolve({ id }) },
     );
     expect(res.status).toBe(404);
@@ -60,7 +68,11 @@ describe('CreateDraft', () => {
 
   it('PATCH returns 404 for nonexistent draft', async () => {
     const res = await updateDraft(
-      new NextRequest('http://x', { method: 'PATCH', headers: auth, body: JSON.stringify({ step: 2 }) }),
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ step: 2 }),
+      }),
       { params: Promise.resolve({ id: '00000000-0000-0000-0000-000000009999' }) },
     );
     expect(res.status).toBe(404);

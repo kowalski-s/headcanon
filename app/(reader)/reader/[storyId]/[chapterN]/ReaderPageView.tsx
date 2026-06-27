@@ -101,7 +101,10 @@ function FixtureReader({
   const content = getChapterContent(storyId, n);
   const { percent, containerRef } = useReadingProgress(content?.paragraphs.length ?? 0);
   const dimmed = useLateNightDim();
-  const words = (content?.paragraphs ?? []).reduce((s, p) => s + p.split(/\s+/).filter(Boolean).length, 0);
+  const words = (content?.paragraphs ?? []).reduce(
+    (s, p) => s + p.split(/\s+/).filter(Boolean).length,
+    0,
+  );
   const pagesTotal = Math.max(1, Math.ceil(words / 250));
   const currentPage = Math.max(1, Math.ceil((percent / 100) * pagesTotal) || 1);
 
@@ -192,7 +195,12 @@ function LiveReader({
     [live.chapterId, router],
   );
 
-  const { paragraphs: streamParagraphs, status, error, start } = useChapterStream({
+  const {
+    paragraphs: streamParagraphs,
+    status,
+    error,
+    start,
+  } = useChapterStream({
     chapterId: live.chapterId,
     chapterLength: settings.chapterLength,
     onFinish: handleStreamFinish,
@@ -353,11 +361,7 @@ function ReaderShell({
           </div>
         </div>
         <ReaderBody paragraphs={content.paragraphs} settings={settings} bodyRef={containerRef} />
-        <NextChapterCard
-          storyId={storyId}
-          nextChapter={nextChapter}
-          hasWatch={hasWatch}
-        />
+        <NextChapterCard storyId={storyId} nextChapter={nextChapter} hasWatch={hasWatch} />
       </div>
 
       {/* Desktop reader — magazine spread, side arrows, inline next card */}

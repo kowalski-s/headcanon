@@ -34,7 +34,8 @@ describe('GET /api/quota/check', () => {
   });
 
   it('stories:2 → used:2, remaining:1', async () => {
-    const day = new Date(); day.setUTCHours(0, 0, 0, 0);
+    const day = new Date();
+    day.setUTCHours(0, 0, 0, 0);
     await prisma.dailyUsage.create({ data: { userId: USER_ID, day, stories: 2 } });
     const res = await GET(makeReq());
     expect(res.status).toBe(200);
@@ -43,7 +44,8 @@ describe('GET /api/quota/check', () => {
   });
 
   it('stories:3 → used:3, remaining:0', async () => {
-    const day = new Date(); day.setUTCHours(0, 0, 0, 0);
+    const day = new Date();
+    day.setUTCHours(0, 0, 0, 0);
     await prisma.dailyUsage.create({ data: { userId: USER_ID, day, stories: 3 } });
     const res = await GET(makeReq());
     expect(res.status).toBe(200);

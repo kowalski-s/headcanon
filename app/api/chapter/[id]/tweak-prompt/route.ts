@@ -32,7 +32,8 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
   if (!quota.allowed) return NextResponse.json({ error: 'quota_exceeded' }, { status: 429 });
 
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
-  const fandomName = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
+  const fandomName =
+    chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
   const characters = chapter.story.tags
     .filter((st) => st.tag.type === 'CHARACTER_TAG')
     .map((st) => st.tag.name);
@@ -57,9 +58,8 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
     premise: chapter.ordinal === 1 ? hint : undefined,
   });
   // chapterPrompt.build only injects premise for ordinal=1; for N>1 append hint to user prompt explicitly
-  const userWithHint = chapter.ordinal === 1
-    ? user
-    : `${user}\n\nAuthor rewrite note: ${wrapUserInput(hint)}`;
+  const userWithHint =
+    chapter.ordinal === 1 ? user : `${user}\n\nAuthor rewrite note: ${wrapUserInput(hint)}`;
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream({

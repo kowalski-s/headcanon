@@ -2,7 +2,8 @@ import { prisma } from '@/lib/prisma';
 
 export async function createTestUser(id = '00000000-0000-0000-0000-000000000001') {
   return prisma.user.upsert({
-    where: { id }, update: {},
+    where: { id },
+    update: {},
     create: { id, email: `${id}@hc.test`, handle: id.slice(0, 8) },
   });
 }

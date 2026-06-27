@@ -49,31 +49,43 @@ interface StepDetailsProps {
 }
 
 const RATING_OPTS = (['GENERAL', 'TEEN', 'MATURE', 'EXPLICIT'] as Rating[]).map((r) => ({
-  value: r, label: RATING_LABELS[r],
+  value: r,
+  label: RATING_LABELS[r],
 }));
 const CATEGORY_OPTS = (['SLASH', 'FEMSLASH', 'HET', 'GEN', 'MULTI'] as Category[]).map((c) => ({
-  value: c, label: CATEGORY_LABELS[c],
+  value: c,
+  label: CATEGORY_LABELS[c],
 }));
 const POV_OPTS = (['FIRST', 'CLOSE_THIRD', 'OMNISCIENT'] as Pov[]).map((p) => ({
-  value: p, label: POV_LABELS[p],
+  value: p,
+  label: POV_LABELS[p],
 }));
 const TENSE_OPTS = (['PAST', 'PRESENT'] as Tense[]).map((t) => ({
-  value: t, label: TENSE_LABELS[t],
+  value: t,
+  label: TENSE_LABELS[t],
 }));
-const TONE_OPTS = (['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'] as Tone[]).map((t) => ({
-  value: t, label: TONE_LABELS[t],
+const TONE_OPTS = (
+  ['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'] as Tone[]
+).map((t) => ({
+  value: t,
+  label: TONE_LABELS[t],
 }));
 const WARNING_OPTS = WARNING_KEYS.map((k) => ({ value: k, label: WARNING_LABELS[k] }));
 const TIMELINE_OPTS = TIMELINE_KEYS.map((k) => ({ value: k, label: TIMELINE_LABELS[k] }));
 
 export function StepDetails({
-  value, onChange, genreSuggestions, genreSuggestionsLoading, onNext,
+  value,
+  onChange,
+  genreSuggestions,
+  genreSuggestionsLoading,
+  onNext,
 }: StepDetailsProps) {
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          <span className="italic text-amber">детали</span><span className="text-amber">.</span>
+          <span className="italic text-amber">детали</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           всё опционально — пропусти, и AI заполнит сам.

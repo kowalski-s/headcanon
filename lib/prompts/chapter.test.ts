@@ -60,8 +60,22 @@ describe('build chapter prompt', () => {
       chapterLength: 'medium',
       chapterOrdinal: 3,
       priorState: {
-        worldState: { current_location: 'library', story_time: 'Sept', active_plot_threads: ['letters'], foreshadowing: [] },
-        characterStates: [{ character_name: 'Draco', emotional_state: 'guarded', recent_events: [], relationships: {}, arc_progress: 0.3, voice_traits_drift: [] }],
+        worldState: {
+          current_location: 'library',
+          story_time: 'Sept',
+          active_plot_threads: ['letters'],
+          foreshadowing: [],
+        },
+        characterStates: [
+          {
+            character_name: 'Draco',
+            emotional_state: 'guarded',
+            recent_events: [],
+            relationships: {},
+            arc_progress: 0.3,
+            voice_traits_drift: [],
+          },
+        ],
         summaries: ['Ch 1 summary.'],
         recentChapters: ['Full ch 2.'],
       },

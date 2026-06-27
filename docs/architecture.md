@@ -28,14 +28,14 @@
 
 Чат-панель рядом с редактором. На каждый запрос **код** собирает структурированный контекст из БД (premise + текущая глава + summary прошлых глав + character bible + world state) — свободный текст не парсится. Возможности:
 
-| Возможность | ИИ или код | Заметки |
-| --- | --- | --- |
-| «Помоги со следующей сценой» / «Дай идею» | ИИ | Варианты развития, structured output |
-| «Отредактируй» | ИИ | Проход по выделенному, предложение правок (diff) |
-| Сократический режим | ИИ | Вопросы для движения сюжета |
-| Извлечение персонажей из текста | ИИ → `Character` | AI достаёт упомянутых, код пишет в bible |
-| Консистентность мира | ИИ сверяет с `WorldState` | Флагит противоречия |
-| Сборка контекста, персист треда | Код | `AiThread`/`AiMessage` (1 тред на Story), `LlmCallLog`, кеш `AiSuggestion` |
+| Возможность                               | ИИ или код                | Заметки                                                                    |
+| ----------------------------------------- | ------------------------- | -------------------------------------------------------------------------- |
+| «Помоги со следующей сценой» / «Дай идею» | ИИ                        | Варианты развития, structured output                                       |
+| «Отредактируй»                            | ИИ                        | Проход по выделенному, предложение правок (diff)                           |
+| Сократический режим                       | ИИ                        | Вопросы для движения сюжета                                                |
+| Извлечение персонажей из текста           | ИИ → `Character`          | AI достаёт упомянутых, код пишет в bible                                   |
+| Консистентность мира                      | ИИ сверяет с `WorldState` | Флагит противоречия                                                        |
+| Сборка контекста, персист треда           | Код                       | `AiThread`/`AiMessage` (1 тред на Story), `LlmCallLog`, кеш `AiSuggestion` |
 
 Переиспользуем `lib/llm.ts`. Структурный JSON-выход и cost tracking — как у generator path.
 
@@ -93,20 +93,20 @@
 
 ## Data model — первый набросок
 
-| Таблица                                 | Назначение                                                                                |
-| --------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `users`                                 | Профили (Supabase Auth)                                                                   |
-| `stories`                               | Истории. **`source: WRITTEN \| GENERATED`** — дискриминатор двух путей. visibility, premise, owner |
-| `chapters`                              | Главы (story_id, ordinal, text, status DRAFT/PUBLISHED)                                    |
+| Таблица                                 | Назначение                                                                                           |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `users`                                 | Профили (Supabase Auth)                                                                              |
+| `stories`                               | Истории. **`source: WRITTEN \| GENERATED`** — дискриминатор двух путей. visibility, premise, owner   |
+| `chapters`                              | Главы (story_id, ordinal, text, status DRAFT/PUBLISHED)                                              |
 | `notes`                                 | **Заметки автора** (user_id, story_id?, title?, body) — глобальный inbox идей или привязка к истории |
-| `ai_threads` / `ai_messages`            | **Тред AI-ассистента** (1 на Story) + сообщения                                           |
-| `characters`                            | Персонажи в bible (story_id, name, description, voice_id). AI достаёт из текста в writer mode |
-| `tags`                                  | Теги (AO3-like). **`isCanonicalIp`** — маркер канонного фандома для video gating          |
-| `character_references`                  | Кеш картинок-референсов по `(fandom_normalized, character_name_normalized)`               |
-| `scenes`                                | JSON-структура сцен (parser output, generator path / иллюстрации)                         |
-| `assets`                                | Сгенерённые картинки/видео (scene_id, type, url, cost, template_id, template_version)     |
-| `jobs`                                  | Очередь генераций (type, status, payload, retries)                                        |
-| `likes`, `saves`, `comments`, `follows` | Социалка (общие для обоих путей)                                                          |
+| `ai_threads` / `ai_messages`            | **Тред AI-ассистента** (1 на Story) + сообщения                                                      |
+| `characters`                            | Персонажи в bible (story_id, name, description, voice_id). AI достаёт из текста в writer mode        |
+| `tags`                                  | Теги (AO3-like). **`isCanonicalIp`** — маркер канонного фандома для video gating                     |
+| `character_references`                  | Кеш картинок-референсов по `(fandom_normalized, character_name_normalized)`                          |
+| `scenes`                                | JSON-структура сцен (parser output, generator path / иллюстрации)                                    |
+| `assets`                                | Сгенерённые картинки/видео (scene_id, type, url, cost, template_id, template_version)                |
+| `jobs`                                  | Очередь генераций (type, status, payload, retries)                                                   |
+| `likes`, `saves`, `comments`, `follows` | Социалка (общие для обоих путей)                                                                     |
 
 Актуальная Prisma-схема — `prisma/schema.prisma`. Дельта writer-MVP описана в спеке `docs/superpowers/specs/`.
 

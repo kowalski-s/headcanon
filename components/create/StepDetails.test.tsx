@@ -4,9 +4,16 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { StepDetails, type StepDetailsValue } from './StepDetails';
 
 const EMPTY: StepDetailsValue = {
-  rating: null, category: null, warnings: [],
-  pov: null, tense: null, tones: [],
-  timeline: null, timelineNote: null, genres: [], setting: null,
+  rating: null,
+  category: null,
+  warnings: [],
+  pov: null,
+  tense: null,
+  tones: [],
+  timeline: null,
+  timelineNote: null,
+  genres: [],
+  setting: null,
   premise: null,
 };
 

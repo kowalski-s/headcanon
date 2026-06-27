@@ -5,10 +5,7 @@ function hashKey(input: unknown): string {
   return createHash('sha256').update(JSON.stringify(input)).digest('hex');
 }
 
-export async function getSuggestion<T>(
-  scope: string,
-  keyInput: unknown,
-): Promise<T | null> {
+export async function getSuggestion<T>(scope: string, keyInput: unknown): Promise<T | null> {
   const keyHash = hashKey(keyInput);
   const row = await prisma.aiSuggestion.findUnique({
     where: { scope_keyHash: { scope, keyHash } },

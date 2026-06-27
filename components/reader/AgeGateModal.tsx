@@ -7,8 +7,14 @@ interface Props {
 
 export function AgeGateModal({ onConfirm, onClose }: Props) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="max-w-sm rounded-2xl bg-surface-raised p-6">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="max-w-sm rounded-2xl bg-surface-raised p-6"
+      >
         <h2 className="font-display text-2xl text-ink">тебе 18+?</h2>
         <p className="mt-3 font-body italic text-body text-ink-dim">
           для контента с пометкой M/E нужно подтвердить возраст. это одноразовый шаг.

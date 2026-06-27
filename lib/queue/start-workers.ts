@@ -11,13 +11,15 @@ async function withBatchIsolation<T>(
 ): Promise<void> {
   const errors: Error[] = [];
   for (const j of jobs) {
-    try { await handler({ data: j.data }); }
-    catch (e) {
+    try {
+      await handler({ data: j.data });
+    } catch (e) {
       console.error(`[${queueName}] job failed`, { ...j.data, jobId: j.id, error: e });
       errors.push(e instanceof Error ? e : new Error(String(e)));
     }
   }
-  if (errors.length) throw new AggregateError(errors, `${errors.length}/${jobs.length} ${queueName} jobs failed`);
+  if (errors.length)
+    throw new AggregateError(errors, `${errors.length}/${jobs.length} ${queueName} jobs failed`);
 }
 
 export async function startAllWorkers(): Promise<void> {
@@ -28,9 +30,11 @@ export async function startAllWorkers(): Promise<void> {
   await boss.createQueue('auto-tag', { policy: 'stately', retryLimit: 3, retryBackoff: true });
   await boss.createQueue('ai-suggestion-sweeper');
   await boss.work<ExtractBibleJob>('extract-bible', { localConcurrency: 2 }, (jobs) =>
-    withBatchIsolation('extract-bible', jobs, handleExtractBible));
+    withBatchIsolation('extract-bible', jobs, handleExtractBible),
+  );
   await boss.work<AutoTagJob>('auto-tag', { localConcurrency: 2 }, (jobs) =>
-    withBatchIsolation('auto-tag', jobs, handleAutoTag));
+    withBatchIsolation('auto-tag', jobs, handleAutoTag),
+  );
   await boss.work('ai-suggestion-sweeper', async () => {
     const { prisma } = await import('@/lib/prisma');
     const { count } = await prisma.aiSuggestion.deleteMany({

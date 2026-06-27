@@ -6,7 +6,8 @@ const FREE_DAILY_STORIES = 3;
 
 export async function GET(req: NextRequest) {
   const userId = await getUserIdOrThrow(req);
-  const day = new Date(); day.setUTCHours(0, 0, 0, 0);
+  const day = new Date();
+  day.setUTCHours(0, 0, 0, 0);
   const usage = await prisma.dailyUsage.findUnique({
     where: { userId_day: { userId, day } },
   });

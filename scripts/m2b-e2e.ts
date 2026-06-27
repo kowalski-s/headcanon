@@ -52,7 +52,11 @@ async function main() {
     // Characters need to exist so the worker can match names and upsert CharacterState
     await prisma.character.createMany({
       data: [
-        { storyId: story.id, name: 'Гермиона', description: 'Умная волшебница, лучшая подруга Гарри.' },
+        {
+          storyId: story.id,
+          name: 'Гермиона',
+          description: 'Умная волшебница, лучшая подруга Гарри.',
+        },
         { storyId: story.id, name: 'Гарри', description: 'Мальчик, который выжил.' },
       ],
     });
@@ -61,7 +65,11 @@ async function main() {
 
     // ── [enqueue] ────────────────────────────────────────────────────────────
     console.log('[enqueue] Enqueuing extract-bible job …');
-    const jobId = await enqueue('extract-bible', { chapterId: chapter.id }, { singletonKey: chapter.id });
+    const jobId = await enqueue(
+      'extract-bible',
+      { chapterId: chapter.id },
+      { singletonKey: chapter.id },
+    );
     console.log(`   ↳ job id: ${jobId ?? '(singleton deduped — already queued)'}`);
 
     // ── [poll] ───────────────────────────────────────────────────────────────

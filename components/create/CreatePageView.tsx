@@ -13,11 +13,21 @@ import {
   StepFocusCharacters,
   type CharacterSuggestion,
 } from '@/components/create/StepFocusCharacters';
-import { StepDetails, type StepDetailsValue, type GenreSuggestion } from '@/components/create/StepDetails';
+import {
+  StepDetails,
+  type StepDetailsValue,
+  type GenreSuggestion,
+} from '@/components/create/StepDetails';
 import { QuotaModal } from '@/components/quota/QuotaModal';
 import { FANDOMS, type FandomOption } from '@/lib/create/fandoms';
 import { apiFetch } from '@/lib/api/client';
-import { TONE_LABELS, RATING_LABELS, CATEGORY_LABELS, POV_LABELS, TIMELINE_LABELS } from '@/lib/create/locale';
+import {
+  TONE_LABELS,
+  RATING_LABELS,
+  CATEGORY_LABELS,
+  POV_LABELS,
+  TIMELINE_LABELS,
+} from '@/lib/create/locale';
 import { track } from '@/lib/track';
 
 interface TropeSuggestion {
@@ -55,9 +65,16 @@ export function CreatePageView() {
 
   // Step 4
   const [details, setDetails] = useState<StepDetailsValue>({
-    rating: null, category: null, warnings: [],
-    pov: null, tense: null, tones: [],
-    timeline: null, timelineNote: null, genres: [], setting: null,
+    rating: null,
+    category: null,
+    warnings: [],
+    pov: null,
+    tense: null,
+    tones: [],
+    timeline: null,
+    timelineNote: null,
+    genres: [],
+    setting: null,
     premise: null,
   });
   const [genreSuggestions, setGenreSuggestions] = useState<GenreSuggestion[]>([]);
@@ -443,7 +460,12 @@ function StepFandom({ onPick }: { onPick: (f: FandomOption) => void }) {
 }
 
 function StepTropes({
-  suggestions, loading, selected, senseiTip, onChange, onNext,
+  suggestions,
+  loading,
+  selected,
+  senseiTip,
+  onChange,
+  onNext,
 }: {
   suggestions: TropeSuggestion[];
   loading: boolean;
@@ -452,12 +474,17 @@ function StepTropes({
   onChange: (next: string[]) => void;
   onNext: () => void;
 }) {
-  const suggestionOptions = suggestions.map((t) => ({ value: t.label_ru, label: t.label_ru, description: t.description_ru }));
+  const suggestionOptions = suggestions.map((t) => ({
+    value: t.label_ru,
+    label: t.label_ru,
+    description: t.description_ru,
+  }));
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          выбираем <span className="italic text-amber">тропы</span><span className="text-amber">.</span>
+          выбираем <span className="italic text-amber">тропы</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           тропы — сердце сюжета. минимум один.
@@ -487,7 +514,9 @@ function StepTropes({
           <TagInput
             values={selected.filter((s) => !suggestions.some((sug) => sug.label_ru === s))}
             onChange={(custom) => {
-              const fromSuggestions = selected.filter((s) => suggestions.some((sug) => sug.label_ru === s));
+              const fromSuggestions = selected.filter((s) =>
+                suggestions.some((sug) => sug.label_ru === s),
+              );
               onChange([...fromSuggestions, ...custom]);
             }}
             placeholder="+ свой троп"
@@ -519,7 +548,13 @@ function StepTropes({
 }
 
 function StepPreview({
-  fandom, focus, characters, tropes, details, isStarting, onStart,
+  fandom,
+  focus,
+  characters,
+  tropes,
+  details,
+  isStarting,
+  onStart,
 }: {
   fandom: FandomOption | null;
   focus: FocusType | null;
@@ -534,7 +569,8 @@ function StepPreview({
     <div className="flex flex-col gap-6 max-w-lg">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          всё <span className="italic text-amber">готово</span><span className="text-amber">.</span>
+          всё <span className="italic text-amber">готово</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 font-body text-body-s lg:text-body-l italic text-ink-dim">
           проверь — и нажмём старт.
@@ -550,23 +586,46 @@ function StepPreview({
             <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">тропы</div>
             <div className="mt-1 flex flex-wrap gap-1.5">
               {tropes.map((t) => (
-                <span key={t} className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase">
+                <span
+                  key={t}
+                  className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase"
+                >
                   {t}
                 </span>
               ))}
             </div>
           </div>
         )}
-        <SummaryRow label="рейтинг" value={details.rating ? RATING_LABELS[details.rating] : null} fallback={placeholder} />
-        <SummaryRow label="категория" value={details.category ? CATEGORY_LABELS[details.category] : null} fallback={placeholder} />
-        <SummaryRow label="POV" value={details.pov ? POV_LABELS[details.pov] : null} fallback={placeholder} />
+        <SummaryRow
+          label="рейтинг"
+          value={details.rating ? RATING_LABELS[details.rating] : null}
+          fallback={placeholder}
+        />
+        <SummaryRow
+          label="категория"
+          value={details.category ? CATEGORY_LABELS[details.category] : null}
+          fallback={placeholder}
+        />
+        <SummaryRow
+          label="POV"
+          value={details.pov ? POV_LABELS[details.pov] : null}
+          fallback={placeholder}
+        />
         {details.tones.length > 0 && (
           <SummaryRow label="тон" value={details.tones.map((t) => TONE_LABELS[t]).join(', ')} />
         )}
         {details.timeline && (
-          <SummaryRow label="когда" value={TIMELINE_LABELS[details.timeline] + (details.timelineNote ? ` — ${details.timelineNote}` : '')} />
+          <SummaryRow
+            label="когда"
+            value={
+              TIMELINE_LABELS[details.timeline] +
+              (details.timelineNote ? ` — ${details.timelineNote}` : '')
+            }
+          />
         )}
-        {details.genres.length > 0 && <SummaryRow label="жанр / AU" value={details.genres.join(', ')} />}
+        {details.genres.length > 0 && (
+          <SummaryRow label="жанр / AU" value={details.genres.join(', ')} />
+        )}
         {details.setting && <SummaryRow label="место" value={details.setting} />}
         {details.premise && <SummaryRow label="завязка" value={details.premise} />}
       </div>
@@ -586,7 +645,15 @@ function StepPreview({
   );
 }
 
-function SummaryRow({ label, value, fallback }: { label: string; value: string | null; fallback?: React.ReactNode }) {
+function SummaryRow({
+  label,
+  value,
+  fallback,
+}: {
+  label: string;
+  value: string | null;
+  fallback?: React.ReactNode;
+}) {
   return (
     <div>
       <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">{label}</div>

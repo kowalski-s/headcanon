@@ -124,18 +124,18 @@ components/
 
 ### Граница ИИ vs код (per architecture.md)
 
-| Шаг                                | ИИ или код                              |
-| ---------------------------------- | --------------------------------------- |
-| Генерация главы (prose)            | ИИ, stream                              |
-| Split главы на параграфы           | Код (regex `\n\n+`)                     |
-| Bible / world-state / summary      | ИИ, один structured-output вызов        |
-| Auto-tagging                       | ИИ, structured-output                   |
-| Ship / trope suggestions           | ИИ, structured-output + cache           |
-| Sensei tip                         | ИИ, structured-output                   |
-| Quota check                        | Код, Postgres                           |
-| Prompt-injection guard             | Код, delimiter + regex banlist          |
-| Paragraph addressing               | Код, by id                              |
-| Кеш AI-suggestions                 | Код, AiSuggestion table                 |
+| Шаг                           | ИИ или код                       |
+| ----------------------------- | -------------------------------- |
+| Генерация главы (prose)       | ИИ, stream                       |
+| Split главы на параграфы      | Код (regex `\n\n+`)              |
+| Bible / world-state / summary | ИИ, один structured-output вызов |
+| Auto-tagging                  | ИИ, structured-output            |
+| Ship / trope suggestions      | ИИ, structured-output + cache    |
+| Sensei tip                    | ИИ, structured-output            |
+| Quota check                   | Код, Postgres                    |
+| Prompt-injection guard        | Код, delimiter + regex banlist   |
+| Paragraph addressing          | Код, by id                       |
+| Кеш AI-suggestions            | Код, AiSuggestion table          |
 
 ---
 
@@ -244,7 +244,7 @@ export interface LlmAdapter {
     templateVersion: number;
     system: string;
     user: string;
-    model?: string;                    // default per-callType in config
+    model?: string; // default per-callType in config
     abortSignal?: AbortSignal;
     contextIds?: { storyId?: string; chapterId?: string; userId?: string };
   }): AsyncIterable<string>;
@@ -309,14 +309,18 @@ z.object({
     active_plot_threads: z.array(z.string()),
     foreshadowing: z.array(z.string()),
   }),
-  updated_character_states: z.array(z.object({
-    character_name: z.string(),
-    emotional_state: z.string(),
-    recent_events: z.array(z.string()).max(5),
-    relationships: z.record(z.object({ closeness: z.number(), tension: z.number(), last_interaction: z.string() })),
-    arc_progress: z.number().min(0).max(1),
-    voice_traits_drift: z.array(z.string()),
-  })),
+  updated_character_states: z.array(
+    z.object({
+      character_name: z.string(),
+      emotional_state: z.string(),
+      recent_events: z.array(z.string()).max(5),
+      relationships: z.record(
+        z.object({ closeness: z.number(), tension: z.number(), last_interaction: z.string() }),
+      ),
+      arc_progress: z.number().min(0).max(1),
+      voice_traits_drift: z.array(z.string()),
+    }),
+  ),
 });
 ```
 
@@ -327,7 +331,7 @@ z.object({
 
 ```ts
 z.object({
-  rating_suggestion: z.enum(['G', 'T', 'M', 'E']),         // юзер всё равно подтверждает
+  rating_suggestion: z.enum(['G', 'T', 'M', 'E']), // юзер всё равно подтверждает
   warnings_suggestion: z.array(z.enum([...AO3_WARNINGS])),
   category: z.enum(['Gen', 'F/F', 'F/M', 'M/M', 'Multi', 'Other']),
   freeform_tags: z.array(z.string()).max(10),
@@ -444,18 +448,18 @@ async function checkAndDebit(
   userId: string,
   resource: 'stories' | 'regens' | 'continues' | 'promptTweaks',
   amount = 1,
-  scopeId?: string,                              // chapterId для per-chapter лимитов
-): Promise<{ allowed: boolean; remaining: number }>
+  scopeId?: string, // chapterId для per-chapter лимитов
+): Promise<{ allowed: boolean; remaining: number }>;
 ```
 
 ### Лимиты (free tier, per pre-dev §4)
 
-| Resource         | Window      | Limit | Storage         |
-| ---------------- | ----------- | ----- | --------------- |
-| `stories`        | day         | 3     | `DailyUsage`    |
-| `regens`         | per chapter | 5     | `ChapterUsage`  |
-| `continues`      | per chapter | 1     | `ChapterUsage`  |
-| `promptTweaks`   | per chapter | 2     | `ChapterUsage`  |
+| Resource       | Window      | Limit | Storage        |
+| -------------- | ----------- | ----- | -------------- |
+| `stories`      | day         | 3     | `DailyUsage`   |
+| `regens`       | per chapter | 5     | `ChapterUsage` |
+| `continues`    | per chapter | 1     | `ChapterUsage` |
+| `promptTweaks` | per chapter | 2     | `ChapterUsage` |
 
 `Chapter.regens_count` остаётся для совместимости с pre-dev §6 (там оно введено), но `ChapterUsage` — каноническая таблица для всех per-chapter счётчиков. На write — обновляем оба (или делаем `regens_count` view/trigger в Phase 2; на MVP — два write'а в одной транзакции).
 
@@ -592,16 +596,16 @@ body: { mode: 'regen' | 'continue' | 'expand' | 'compress' | 'delete', hint?: st
 
 ## 13. Error handling
 
-| Сценарий                                  | Поведение                                                                                   |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------- |
-| LLM timeout (>60s no first token)         | abort, retry once on cheaper model, toast «модель задумалась, переключаем»                  |
-| LLM refusal mid-stream                    | detect first 200 chars by regex; abort; retry with softer system prompt; if still — error UI |
-| Structured-output parse fail              | one retry with stricter system; if fail — `LlmStructuredParseError` + fallback defaults     |
-| Quota exhausted                           | 429 + `QuotaModal` (для free tier) или soft toast (для paid когда М5 пришёл)                 |
-| Background job permanent fail             | pg_boss → archive; story не блокируется (bible не обновлён, но читать можно)                |
-| User abort (close tab / cancel)           | AbortController; partial chapter `status=DRAFT` без `Paragraph[]`; quota НЕ возвращаем для прерванного stream'а |
-| 18+ confirmation отсутствует, прислали rating=E | block в `/start` route — modal «подтверди возраст»                                          |
-| OpenAI down                               | `LlmProviderUnavailableError` → когда OpenRouter будет — fallback на нём; пока — error toast |
+| Сценарий                                        | Поведение                                                                                                       |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| LLM timeout (>60s no first token)               | abort, retry once on cheaper model, toast «модель задумалась, переключаем»                                      |
+| LLM refusal mid-stream                          | detect first 200 chars by regex; abort; retry with softer system prompt; if still — error UI                    |
+| Structured-output parse fail                    | one retry with stricter system; if fail — `LlmStructuredParseError` + fallback defaults                         |
+| Quota exhausted                                 | 429 + `QuotaModal` (для free tier) или soft toast (для paid когда М5 пришёл)                                    |
+| Background job permanent fail                   | pg_boss → archive; story не блокируется (bible не обновлён, но читать можно)                                    |
+| User abort (close tab / cancel)                 | AbortController; partial chapter `status=DRAFT` без `Paragraph[]`; quota НЕ возвращаем для прерванного stream'а |
+| 18+ confirmation отсутствует, прислали rating=E | block в `/start` route — modal «подтверди возраст»                                                              |
+| OpenAI down                                     | `LlmProviderUnavailableError` → когда OpenRouter будет — fallback на нём; пока — error toast                    |
 
 ---
 

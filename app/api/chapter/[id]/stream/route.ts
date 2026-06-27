@@ -61,7 +61,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     callType: 'chapter_stream',
     templateId: chapterPrompt.TEMPLATE_ID,
     templateVersion: chapterPrompt.TEMPLATE_VERSION,
-    system, user,
+    system,
+    user,
     contextIds: { storyId: chapter.storyId, chapterId: chapter.id, userId },
     abortSignal: req.signal,
   });

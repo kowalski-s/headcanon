@@ -37,6 +37,7 @@
 ## Task 1: Install pg-boss
 
 **Files:**
+
 - Modify: `package.json`
 
 - [ ] **Step 1: Install**
@@ -64,6 +65,7 @@ git commit -m "chore(M2-B): add pg-boss + types"
 ## Task 2: Remove dead `Job`/`JobType` from Prisma
 
 **Files:**
+
 - Modify: `prisma/schema.prisma`
 - Create: `prisma/migrations/<auto>_remove_legacy_jobs/migration.sql`
 
@@ -82,6 +84,7 @@ model Job { ... }
 ```bash
 pnpm db:migrate -- --name remove_legacy_jobs
 ```
+
 Expected: миграция дропает 3 объекта.
 
 - [ ] **Step 3: Verify типы**
@@ -89,6 +92,7 @@ Expected: миграция дропает 3 объекта.
 ```bash
 pnpm typecheck
 ```
+
 Expected: PASS (Job нигде не использовался — pre-dev sketch).
 
 - [ ] **Step 4: Commit**
@@ -103,6 +107,7 @@ git commit -m "chore(M2-B): drop legacy Job/JobType — replaced by pg_boss"
 ## Task 3: pg_boss singleton bootstrap
 
 **Files:**
+
 - Create: `lib/queue/boss.ts`
 
 - [ ] **Step 1: Implement**
@@ -127,7 +132,11 @@ export async function getBoss(): Promise<PgBoss> {
   return instance;
 }
 
-export async function enqueue(queue: string, payload: object, opts?: { singletonKey?: string }): Promise<string | null> {
+export async function enqueue(
+  queue: string,
+  payload: object,
+  opts?: { singletonKey?: string },
+): Promise<string | null> {
   const boss = await getBoss();
   return boss.send(queue, payload, opts ?? {});
 }
@@ -164,6 +173,7 @@ git commit -m "feat(M2-B): pg-boss singleton + enqueue helper"
 ## Task 4: Worker process entrypoint
 
 **Files:**
+
 - Create: `scripts/worker.ts`
 - Create: `lib/queue/start-workers.ts`
 - Modify: `package.json`
@@ -217,6 +227,7 @@ void main().catch((e) => {
 ```bash
 pnpm worker
 ```
+
 Expected: `[worker] queues registered: extract-bible, auto-tag` + `[worker] running.` Завершить Ctrl-C.
 
 - [ ] **Step 5: Commit**
@@ -231,6 +242,7 @@ git commit -m "feat(M2-B): pnpm worker entrypoint + queue registration"
 ## Task 5: Bible-extract prompt + schema
 
 **Files:**
+
 - Create: `lib/prompts/bible-extract.ts`
 - Test: `lib/prompts/bible-extract.test.ts`
 
@@ -252,18 +264,22 @@ export const BibleExtractSchema = z.object({
     active_plot_threads: z.array(z.string()),
     foreshadowing: z.array(z.string()),
   }),
-  updated_character_states: z.array(z.object({
-    character_name: z.string(),
-    emotional_state: z.string(),
-    recent_events: z.array(z.string()).max(5),
-    relationships: z.record(z.object({
-      closeness: z.number().min(-1).max(1),
-      tension: z.number().min(0).max(1),
-      last_interaction: z.string(),
-    })),
-    arc_progress: z.number().min(0).max(1),
-    voice_traits_drift: z.array(z.string()),
-  })),
+  updated_character_states: z.array(
+    z.object({
+      character_name: z.string(),
+      emotional_state: z.string(),
+      recent_events: z.array(z.string()).max(5),
+      relationships: z.record(
+        z.object({
+          closeness: z.number().min(-1).max(1),
+          tension: z.number().min(0).max(1),
+          last_interaction: z.string(),
+        }),
+      ),
+      arc_progress: z.number().min(0).max(1),
+      voice_traits_drift: z.array(z.string()),
+    }),
+  ),
 });
 export type BibleExtractOutput = z.infer<typeof BibleExtractSchema>;
 
@@ -271,7 +287,7 @@ export interface BibleExtractInput {
   chapterText: string;
   priorWorldState: object | null;
   priorCharacterStates: object[];
-  characterRoster: string[];   // names known to the story
+  characterRoster: string[]; // names known to the story
 }
 
 export function build(input: BibleExtractInput): { system: string; user: string } {
@@ -300,14 +316,24 @@ import { build, BibleExtractSchema } from './bible-extract';
 
 describe('bible-extract', () => {
   it('builds prompt', () => {
-    const p = build({ chapterText: 'Once...', priorWorldState: null, priorCharacterStates: [], characterRoster: ['A', 'B'] });
+    const p = build({
+      chapterText: 'Once...',
+      priorWorldState: null,
+      priorCharacterStates: [],
+      characterRoster: ['A', 'B'],
+    });
     expect(p.system).toMatch(/strict JSON/);
     expect(p.user).toMatch(/<user_input>Once/);
   });
   it('schema accepts valid', () => {
     const valid = {
       chapter_summary: 'sum',
-      updated_world_state: { current_location: 'x', story_time: 'y', active_plot_threads: [], foreshadowing: [] },
+      updated_world_state: {
+        current_location: 'x',
+        story_time: 'y',
+        active_plot_threads: [],
+        foreshadowing: [],
+      },
       updated_character_states: [],
     };
     expect(BibleExtractSchema.parse(valid)).toEqual(valid);
@@ -328,6 +354,7 @@ git commit -m "feat(M2-B): bible-extract prompt + zod schema"
 ## Task 6: extract-bible worker
 
 **Files:**
+
 - Create: `lib/queue/jobs/extract-bible.ts`
 - Modify: `lib/queue/start-workers.ts`
 - Test: `lib/queue/jobs/extract-bible.test.ts`
@@ -438,11 +465,18 @@ export async function startAllWorkers(): Promise<void> {
 // lib/queue/jobs/extract-bible.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { completeStructured: vi.fn(async () => ({
-    chapter_summary: 'Test summary.',
-    updated_world_state: { current_location: 'lib', story_time: 'd1', active_plot_threads: [], foreshadowing: [] },
-    updated_character_states: [],
-  })) },
+  openaiLlm: {
+    completeStructured: vi.fn(async () => ({
+      chapter_summary: 'Test summary.',
+      updated_world_state: {
+        current_location: 'lib',
+        story_time: 'd1',
+        active_plot_threads: [],
+        foreshadowing: [],
+      },
+      updated_character_states: [],
+    })),
+  },
 }));
 import { handleExtractBible } from './extract-bible';
 import { prisma } from '@/lib/prisma';
@@ -478,6 +512,7 @@ git commit -m "feat(M2-B): extract-bible worker — updates world+character stat
 ## Task 7: Wire enqueue в `/api/chapter/[id]/save`
 
 **Files:**
+
 - Modify: `app/api/chapter/[id]/save/route.ts`
 
 - [ ] **Step 1: Add enqueue calls**
@@ -513,6 +548,7 @@ git commit -m "feat(M2-B): /save enqueues extract-bible + auto-tag (debounced vi
 ## Task 8: Stream endpoint loads prior state для N>1
 
 **Files:**
+
 - Create: `lib/chapter/load-prior-state.ts`
 - Modify: `app/api/chapter/[id]/stream/route.ts`
 
@@ -523,7 +559,10 @@ git commit -m "feat(M2-B): /save enqueues extract-bible + auto-tag (debounced vi
 import { prisma } from '@/lib/prisma';
 import type { PriorState } from '@/lib/prompts/chapter';
 
-export async function loadPriorState(storyId: string, chapterOrdinal: number): Promise<PriorState | null> {
+export async function loadPriorState(
+  storyId: string,
+  chapterOrdinal: number,
+): Promise<PriorState | null> {
   if (chapterOrdinal <= 1) return null;
   const [worldState, characterStates, summaries, recentChapters] = await Promise.all([
     prisma.worldState.findUnique({ where: { storyId } }),
@@ -537,7 +576,10 @@ export async function loadPriorState(storyId: string, chapterOrdinal: number): P
       orderBy: { chapter: { ordinal: 'asc' } },
     }),
     prisma.chapter.findMany({
-      where: { storyId, ordinal: { in: [chapterOrdinal - 2, chapterOrdinal - 1].filter((n) => n > 0) } },
+      where: {
+        storyId,
+        ordinal: { in: [chapterOrdinal - 2, chapterOrdinal - 1].filter((n) => n > 0) },
+      },
       include: { paragraphs: { orderBy: { ordinal: 'asc' } } },
       orderBy: { ordinal: 'asc' },
     }),
@@ -545,7 +587,9 @@ export async function loadPriorState(storyId: string, chapterOrdinal: number): P
   if (!worldState) return null;
   return {
     worldState: worldState.stateJson as PriorState['worldState'],
-    characterStates: characterStates.map((cs) => cs.stateJson as PriorState['characterStates'][number]),
+    characterStates: characterStates.map(
+      (cs) => cs.stateJson as PriorState['characterStates'][number],
+    ),
     summaries: summaries.map((s) => s.summary),
     recentChapters: recentChapters.map((ch) => ch.paragraphs.map((p) => p.text).join('\n\n')),
   };
@@ -571,7 +615,13 @@ const { system, user } = chapterPrompt.build({
 ```ts
 // app/api/chapter/[id]/stream/route.coherence.test.ts
 import { describe, it, expect, vi } from 'vitest';
-vi.mock('@/lib/llm-openai', () => ({ openaiLlm: { stream: async function* () { yield 'ok'; } } }));
+vi.mock('@/lib/llm-openai', () => ({
+  openaiLlm: {
+    stream: async function* () {
+      yield 'ok';
+    },
+  },
+}));
 import { GET } from './route';
 // setup: создать Chapter ordinal=2, WorldState уже в БД
 // → assert: priorState попал в prompt (можно через spy на chapterPrompt.build)
@@ -590,6 +640,7 @@ git commit -m "feat(M2-B): stream loads CharacterState/WorldState/Summaries for 
 ## Task 9: Auto-tag prompt + worker
 
 **Files:**
+
 - Create: `lib/prompts/auto-tag.ts`
 - Create: `lib/queue/jobs/auto-tag.ts`
 
@@ -605,8 +656,12 @@ export const TEMPLATE_VERSION = 1;
 
 const RATINGS = ['G', 'T', 'M', 'E'] as const;
 const WARNINGS = [
-  'major_character_death', 'graphic_violence', 'rape_non_con',
-  'underage', 'choose_not_to_use', 'no_archive_warnings_apply',
+  'major_character_death',
+  'graphic_violence',
+  'rape_non_con',
+  'underage',
+  'choose_not_to_use',
+  'no_archive_warnings_apply',
 ] as const;
 const CATEGORIES = ['Gen', 'F/F', 'F/M', 'M/M', 'Multi', 'Other'] as const;
 
@@ -619,7 +674,10 @@ export const AutoTagSchema = z.object({
 });
 export type AutoTagOutput = z.infer<typeof AutoTagSchema>;
 
-export function build(input: { storyText: string; existingTags: string[] }): { system: string; user: string } {
+export function build(input: { storyText: string; existingTags: string[] }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest AO3-style tags for a fanfic.',
@@ -643,21 +701,24 @@ import { prisma } from '@/lib/prisma';
 import { openaiLlm } from '@/lib/llm-openai';
 import * as autoTag from '@/lib/prompts/auto-tag';
 
-export interface AutoTagJob { storyId: string; }
+export interface AutoTagJob {
+  storyId: string;
+}
 
 export async function handleAutoTag(job: { data: AutoTagJob }) {
   const { storyId } = job.data;
   const story = await prisma.story.findUnique({
     where: { id: storyId },
     include: {
-      chapters: { where: { status: 'PUBLISHED' }, include: { paragraphs: { orderBy: { ordinal: 'asc' } } } },
+      chapters: {
+        where: { status: 'PUBLISHED' },
+        include: { paragraphs: { orderBy: { ordinal: 'asc' } } },
+      },
       tags: { include: { tag: true } },
     },
   });
   if (!story) return;
-  const storyText = story.chapters
-    .flatMap((ch) => ch.paragraphs.map((p) => p.text))
-    .join('\n\n');
+  const storyText = story.chapters.flatMap((ch) => ch.paragraphs.map((p) => p.text)).join('\n\n');
   const existingTags = story.tags.map((st) => st.tag.name);
 
   const prompt = autoTag.build({ storyText, existingTags });
@@ -730,13 +791,15 @@ await boss.work('auto-tag', { teamSize: 2 }, handleAutoTag);
 // lib/queue/jobs/auto-tag.test.ts
 import { describe, it, expect, vi } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { completeStructured: vi.fn(async () => ({
-    rating_suggestion: 'T',
-    warnings_suggestion: ['no_archive_warnings_apply'],
-    category: 'M/M',
-    freeform_tags: ['slow-burn', 'enemies-to-lovers'],
-    confidence: 0.85,
-  })) },
+  openaiLlm: {
+    completeStructured: vi.fn(async () => ({
+      rating_suggestion: 'T',
+      warnings_suggestion: ['no_archive_warnings_apply'],
+      category: 'M/M',
+      freeform_tags: ['slow-burn', 'enemies-to-lovers'],
+      confidence: 0.85,
+    })),
+  },
 }));
 // ... assert prefilled tags created
 ```
@@ -754,13 +817,14 @@ git commit -m "feat(M2-B): auto-tag worker — pre-fills freeform tags + ai_tag_
 ## Task 10: Sweeper — AiSuggestion cleanup
 
 **Files:**
+
 - Modify: `lib/queue/start-workers.ts`
 
 - [ ] **Step 1: Add cron schedule**
 
 ```ts
 // lib/queue/start-workers.ts addition
-await boss.schedule('ai-suggestion-sweeper', '0 3 * * *');  // daily 3am UTC
+await boss.schedule('ai-suggestion-sweeper', '0 3 * * *'); // daily 3am UTC
 
 await boss.work('ai-suggestion-sweeper', async () => {
   const { prisma } = await import('@/lib/prisma');
@@ -783,6 +847,7 @@ git commit -m "feat(M2-B): nightly sweeper — drop expired AiSuggestion rows"
 ## Task 11: End-to-end smoke — chapter 2 cites chapter 1
 
 **Files:**
+
 - Create: `scripts/m2b-e2e.ts`
 
 - [ ] **Step 1: Script**

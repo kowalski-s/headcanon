@@ -6,8 +6,12 @@ export const TEMPLATE_VERSION = 1;
 
 const RATINGS = ['G', 'T', 'M', 'E'] as const;
 const WARNINGS = [
-  'major_character_death', 'graphic_violence', 'rape_non_con',
-  'underage', 'choose_not_to_use', 'no_archive_warnings_apply',
+  'major_character_death',
+  'graphic_violence',
+  'rape_non_con',
+  'underage',
+  'choose_not_to_use',
+  'no_archive_warnings_apply',
 ] as const;
 const CATEGORIES = ['Gen', 'F/F', 'F/M', 'M/M', 'Multi', 'Other'] as const;
 
@@ -20,7 +24,10 @@ export const AutoTagSchema = z.object({
 });
 export type AutoTagOutput = z.infer<typeof AutoTagSchema>;
 
-export function build(input: { storyText: string; existingTags: string[] }): { system: string; user: string } {
+export function build(input: { storyText: string; existingTags: string[] }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest AO3-style tags for a fanfic.',

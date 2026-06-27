@@ -68,11 +68,9 @@ async function main() {
 
   // ── Assert: chapter text streams in (>500 chars) ───────────────────────────
   console.log('   Waiting for chapter text (>500 chars, up to 90s) …');
-  await page.waitForFunction(
-    () => (document.body.innerText ?? '').length > 500,
-    undefined,
-    { timeout: 90_000 },
-  );
+  await page.waitForFunction(() => (document.body.innerText ?? '').length > 500, undefined, {
+    timeout: 90_000,
+  });
 
   const textLen = await page.evaluate(() => document.body.innerText.length);
   console.log(`   ↳ body text length: ${textLen} chars`);
