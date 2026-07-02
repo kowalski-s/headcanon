@@ -6,18 +6,22 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 // Load .env so this test works when run without --env-file
 config();
 
-let supabase: SupabaseClient;
+// Integration test against a live Supabase Storage project. It only runs when
+// credentials are present (e.g. locally with a real .env); in CI, where Supabase
+// secrets are intentionally absent, the suite is skipped rather than failing.
+const hasSupabaseCreds = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SECRET_KEY,
+);
 
-beforeAll(() => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SECRET_KEY;
-  if (!url || !key) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY must be set');
-  }
-  supabase = createClient(url, key);
-});
+describe.skipIf(!hasSupabaseCreds)('storage buckets', () => {
+  let supabase: SupabaseClient;
 
-describe('storage buckets', () => {
+  beforeAll(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
+    const key = process.env.SUPABASE_SECRET_KEY as string;
+    supabase = createClient(url, key);
+  });
+
   it('lists 3 expected buckets', async () => {
     const { data, error } = await supabase.storage.listBuckets();
     expect(error).toBeNull();
