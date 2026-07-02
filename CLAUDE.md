@@ -23,11 +23,11 @@ Headcanon — инструмент для авторов фанфиков с AI-
 Эти решения уже приняты — не предлагать альтернативы без явного запроса:
 
 - **Frontend:** Next.js (App Router) + TypeScript + Tailwind
-- **БД и backend:** self-hosted Supabase на Hetzner DE (Postgres + Auth + Storage + Realtime). Не Pocketbase, не SQLite.
+- **БД и backend:** self-hosted Supabase на RU-VPS — Timeweb Cloud / Selectel (Postgres + Auth + Storage + Realtime). Не Pocketbase, не SQLite. ⚠️ Не Hetzner/OVH/DO — их диапазоны блокируются РКН с июня 2025 (решение 2026-07-02).
 - **ORM:** Prisma. Не Drizzle.
 - **Деплой:** Coolify на собственный VPS. Не Vercel, не Netlify (проблемы РФ-оплаты и периодические баны).
 - **Платежи:** YooKassa. Не Stripe.
-- **AI-провайдеры:** OpenRouter (или прокси VseGPT/ProxyAPI) для LLM, Replicate/fal.ai для картинок и видео, ElevenLabs для TTS.
+- **AI-провайдеры:** российские агрегаторы (AITunnel / VseGPT / ProxyAPI) для LLM — OpenRouter больше не primary (с мая 2026 блокирует frontier-модели для RU-биллинга); Replicate/fal.ai для картинок и видео, ElevenLabs для TTS.
 
 Полное обоснование и альтернативы — [docs/tech-stack.md](docs/tech-stack.md).
 
