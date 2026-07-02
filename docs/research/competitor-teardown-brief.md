@@ -1,180 +1,237 @@
-# Brief для локальной сессии: teardown конкурентов (путь A)
+# Competitor Teardown — Brief & Protocol
 
-> Этот файл — задание для **локальной** сессии Claude Code (VS Code/CLI) с подключённым
-> `chrome-devtools-mcp`. Web-сессия не может это сделать: браузер там headless в облачном
-> сэндбоксе (юзер не видит окно и не может залогиниться) + egress-политика блокирует домены
-> конкурентов. Локально браузер твой, с твоим логином — поэтому teardown делается здесь.
-
----
-
-## 0. Перед стартом (setup)
-
-1. Установить и подключить Chrome DevTools MCP в локальной сессии:
-   ```bash
-   claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
-   ```
-   (или добавить в `.mcp.json` проекта; затем `/mcp` в Claude Code — проверить, что сервер `chrome-devtools` connected).
-2. Залогиниться **заранее** в браузере во всех платных тулзах (Sudowrite, NovelAI, NovelCrafter, Squibler, character.ai, AI Dungeon, Wattpad, Фикбук). chrome-devtools-mcp умеет работать с уже открытым Chrome — держи нужные вкладки открытыми и залогиненными.
-3. Прочитать контекст проекта перед анализом: `CLAUDE.md`, `docs/vision.md`, `handoff/DESIGN.md`, `handoff/TASKS.md`. Это источник правды по продукту и дизайн-направлению.
+> **Назначение.** Канонический reference для разбора конкурентов Headcanon: продукт, UX,
+> дизайн-система. Цель — **забрать лучшие решения подхода**, а не код/ассеты. Учимся, строим своё.
+>
+> Этот файл — источник правды для процесса. Артефакты складываем рядом (`screens/`, `tokens/`,
+> `teardown-*.md`, `teardown-synthesis.md`).
 
 ---
 
-## ⬇️ ПРОМПТ ДЛЯ ЛОКАЛЬНОЙ СЕССИИ (копировать целиком)
+## Этические границы (read first)
 
-Ты — исследователь-аналитик в проекте **Headcanon**. Цель — teardown конкурентов: разобрать
-их продукт, UX и дизайн-систему, чтобы **забрать лучшие решения** (НЕ копировать код/ассеты —
-учимся подходу и строим своё). У тебя подключён `chrome-devtools-mcp` и я (юзер) залогинена в
-тулзах. Рабочий протокол: **ты ведёшь браузер → упираешься в логин/пейвол → ставишь на паузу и
-просишь меня войти/нажать → продолжаешь**. Скриншоть ключевые экраны и состояния.
+- ✅ Инспектируем то, что сайт **отдаёт каждому посетителю**, + залогиненные экраны владельца
+  аккаунта (юзер сама входит) — ради UX-уроков.
+- ✅ Скриншоты ключевых экранов и состояний для нашего внутреннего анализа.
+- ✅ Снимаем дизайн-токены через `getComputedStyle` (это то, что браузер и так применил к публичной
+  странице).
+- ❌ **НЕ** выкачиваем чужие пользовательские данные (тексты других авторов массово, приватные
+  данные, email-листы).
+- ❌ **НЕ** копируем код/ассеты дословно (шрифты-файлы, SVG-иконки, картинки, CSS как есть).
+- ❌ **НЕ** обходим платный контент/rate-limits, не скрейпим за пейволом ради контента.
+- ❌ **НЕ** нагружаем сайт автоматизацией (никаких циклов-скрейпов; ручная навигация по экранам).
 
-Сначала прочитай `CLAUDE.md`, `docs/vision.md`, `handoff/DESIGN.md`, `handoff/TASKS.md` —
-это контекст. Кратко: Headcanon = **writer-first** AI-инструмент для авторов фанфиков +
-two-sided market. Primary — редактор + AI-ассистент (следующая сцена / идея / правка /
-сократические вопросы / извлечение персонажей в character bible / консистентность мира) +
-приватные черновики + заметки. Generation-from-prompt — secondary виральный канал. Аудио (TTS) —
-USP. Видео — только для оригинальных миров. Ниша: **русскоязычные авторы (Фикбук-сегмент)**,
-фандомы HP / All for the Game / Naruto / JJK. **Mobile-first, тёмная тема, late-night.**
-Дизайн-направление — **Editorial Y2K** (см. `handoff/DESIGN.md`).
+Правило большого пальца: **«мог бы это увидеть и записать любопытный дизайнер, открыв сайт в
+браузере?»** Если да — можно. Если для этого нужно слить чужую БД — нет.
 
-### Что разбираем (кластеры)
+---
 
-- **AI-писательские:** Sudowrite, NovelAI, NovelCrafter, Squibler — _самое важное: UX редактора + AI-ассистента._
-- **Фанфик-площадки:** AO3, Wattpad, Фикбук (ficbook.net) — _чтение, теги/фандомы, дискавери, engagement._
-- **Генеративные/chat:** character.ai, AI Dungeon — _онбординг, generation flow, виральность, ретеншн._
+## Кластеры и что разбираем
 
-### Метод по каждому сайту
+### Кластер A — AI-писательские (★ важнее всего: UX редактора + AI-ассистента)
 
-1. Пройди ключевые экраны (см. чек-лист кластера ниже). На каждом — скриншот (desktop + 375px mobile через device emulation).
-2. На 2-3 опорных экранах сними **дизайн-токены** — выполни в DevTools-консоли (через `evaluate`) скрипт из раздела «Token grab» ниже. Сохрани JSON-вывод.
-3. Зафиксируй **interaction-паттерны**: как вызываются действия, что в сайдбаре vs инлайн vs командах, как устроена навигация, пустые/загрузочные/ошибочные состояния.
-4. Если за логином — поставь паузу, попроси меня войти, продолжи.
+`Sudowrite · NovelAI · NovelCrafter · Squibler`
 
-### Чек-листы по кластерам
+Чек-лист по каждому:
 
-**AI-писательские** (на примере Sudowrite/NovelCrafter/NovelAI/Squibler):
+- **Онбординг / первый вход:** что показывают пустому юзеру, как заводят первый проект, есть ли
+  template/wizard, сколько шагов до «пишу».
+- **Редактор (core):** layout (одно/двух/трёх-колоночный), где текст, где AI, ширина колонки,
+  типографика письма, focus-mode, форматирование, как выглядит «пустой документ».
+- **Как вызывается AI:** инлайн-выделение → меню? правый сайдбар? слэш-команды? хоткеи? отдельная
+  «панель инструментов» с действиями (write/expand/describe/rewrite/brainstorm)?
+- **AI-действия (каталог):** перечислить ВСЕ кнопки/команды (Write, Expand, Describe, Rewrite,
+  Brainstorm, Canvas, Story Bible и т.д.) — это прямая карта для нашего W3.
+- **Story Bible / world-building / персонажи:** есть ли отдельная база сущностей, как извлекаются,
+  как подсовываются в контекст, ручной vs авто.
+- **Состояния:** empty (нет проектов/нет текста), loading (генерация — стриминг? спиннер?),
+  error (отказ модели/лимит), как показывают «AI думает».
+- **Принятие результата:** как AI-вывод попадает в текст (вставка / diff / accept-reject / карточки
+  вариантов), история версий.
+- **Биллинг/лимиты в UI:** где показан счётчик кредитов/слов, как давят на апгрейд.
+- **Мелочи, которые крадём:** микрокопирайт, hotkeys, ощущение «инструмента писателя».
 
-- Рабочая поверхность редактора: где текст, где AI, как они сосуществуют на экране.
-- Как инвокаются AI-действия (кнопка/слэш-команда/выделение→меню/сайдбар); как показывается результат (inline diff / карточки вариантов / стрим).
-- Система памяти/контекста: Story Bible / Codex / Lorebook — как заводятся персонажи/мир, как это переиспользуется в генерации, насколько структурно.
-- Версии/история, главы/структура книги, импорт/экспорт.
-- Онбординг: что показывают первым, как быстро до первой ценности.
-- Мобайл: есть ли, насколько урезан.
+### Кластер B — Фанфик-площадки (чтение, теги/фандомы, дискавери, engagement)
 
-**Фанфик-площадки** (AO3/Wattpad/Фикбук):
+`AO3 (archiveofourown.org) · Wattpad · Фикбук (ficbook.net)`
 
-- Reading UX: типографика длинного текста, ширина строки, шрифты, night/dark mode, настройки (размер/тема), навигация по главам, прогресс.
-- Теги и фандомная таксономия: фандомы/пейринги/предупреждения/рейтинги, фильтрация и исключение тегов (детально разобрать систему тегов AO3 и контраст с Фикбуком).
-- Дискавери/лента: как читатель находит истории, сортировки, что выводится.
-- Engagement: kudos/лайки, комменты, закладки/подписки, коллекции, «сохранения», списки чтения.
-- Флоу публикации многоглавника, черновики, серии.
+Чек-лист по каждому:
 
-**Генеративные/chat** (character.ai/AI Dungeon):
+- **Дискавери:** главная, поиск, фильтры, как устроены теги/фандомы, сортировки, «browse by fandom».
+- **Карточка работы в списке:** какие метаданные, теги-предупреждения, рейтинг, warnings, статистика.
+- **Reader (чтение главы):** ширина колонки, типографика, навигация глава↔глава, настройки (тема,
+  шрифт, размер), прогресс, мобильный режим.
+- **Метаданные/теги:** система тегов (canonical vs freeform у AO3), фандом, отношения (ship),
+  персонажи, предупреждения, completed/in-progress.
+- **Engagement:** kudos/likes, комменты, закладки/коллекции, подписки, share, history.
+- **Author-side (если видно):** как выглядит публикация, главы, черновики.
+- **Что НЕ делать как они:** AO3 — мощь тегов, но архаичный UI; Wattpad — engagement, но шумно;
+  Фикбук — родной для ниши, но визуально устарел. Берём систему, не вид.
 
-- Онбординг и скорость до «вау», как сидируется первый контент.
-- Generation/interaction flow, контролы, система памяти/персон.
-- Share/виральность: как контент шерится наружу, креатор-шеринг, соц-петли.
-- Ретеншн и проблема «надоедает через 2-3 главы»; где теряют людей.
-- Монетизация: что за пейволом (скорость, память, NSFW, голос).
-- Обращение с фандомами/IP, модерация, NSFW-позиция.
+### Кластер C — Генеративные / chat (онбординг, generation flow, виральность, ретеншн)
 
-### Token grab (выполнить через chrome-devtools-mcp `evaluate`)
+`character.ai · AI Dungeon`
+
+Чек-лист по каждому:
+
+- **Онбординг:** сколько экранов до первого «вау», просят ли регистрацию до ценности, как выбирают
+  персонажа/мир.
+- **Generation flow:** как выглядит ввод, стриминг ответа, регенерация, ветвление, «свайп вариантов».
+- **Виральность:** шеринг персонажей/историй, публичные галереи, ремикс, «создай своего».
+- **Ретеншн-крючки:** уведомления, продолжения, коллекции, дейли, персонализация ленты.
+- **Empty/loading/error:** как заполняют ожидание, чем держат в пустых состояниях.
+- **Монетизация:** где пейвол, что бесплатно, как показывают премиум.
+
+---
+
+## token-grab скрипт (запускать через `evaluate_script`)
+
+Снимаем на **2–3 опорных экранах** каждого конкурента (обычно: редактор/reader + дискавери/главная +
+одно модальное/настроечное состояние). Результат сохраняем в
+`docs/research/tokens/<competitor>-<screen>.json`.
+
+Скрипт собирает: CSS custom properties (`:root` — часто там вся дизайн-система), частотные палитры
+цветов/фонов/бордеров, типографику (font-family / size / weight / line-height / letter-spacing),
+радиусы, тени. Возвращает агрегаты, отсортированные по частоте.
 
 ```js
-(() => {
-  const out = {};
-  const vars = {};
-  for (const sheet of document.styleSheets) {
-    let rules;
-    try {
-      rules = sheet.cssRules;
-    } catch {
-      continue;
+() => {
+  const MAX_NODES = 6000;
+  const norm = (s) => (s || '').trim();
+  const bump = (m, k) => { if (!k) return; m[k] = (m[k] || 0) + 1; };
+  const topN = (m, n = 24) =>
+    Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, n)
+      .map(([value, count]) => ({ value, count }));
+
+  // 1. CSS custom properties on :root (the actual design tokens, when exposed)
+  const rootStyle = getComputedStyle(document.documentElement);
+  const cssVars = {};
+  for (let i = 0; i < rootStyle.length; i++) {
+    const prop = rootStyle[i];
+    if (prop.startsWith('--')) cssVars[prop] = norm(rootStyle.getPropertyValue(prop));
+  }
+
+  // 2. Walk visible elements, harvest computed styles
+  const colors = {}, bgs = {}, borderCols = {}, fontFams = {}, fontSizes = {},
+        fontWeights = {}, lineHeights = {}, letterSpacings = {}, radii = {}, shadows = {};
+  const nodes = document.querySelectorAll('body *');
+  let seen = 0;
+  for (const el of nodes) {
+    if (seen++ > MAX_NODES) break;
+    const r = el.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) continue;       // skip invisible
+    const cs = getComputedStyle(el);
+    if (cs.visibility === 'hidden' || cs.display === 'none') continue;
+    const hasText = el.childNodes && [...el.childNodes].some(
+      (n) => n.nodeType === 3 && norm(n.nodeValue));
+
+    if (hasText) {
+      bump(colors, cs.color);
+      bump(fontFams, cs.fontFamily);
+      bump(fontSizes, cs.fontSize);
+      bump(fontWeights, cs.fontWeight);
+      bump(lineHeights, cs.lineHeight);
+      bump(letterSpacings, cs.letterSpacing);
     }
-    if (!rules) continue;
-    for (const rule of rules)
-      if (rule.style)
-        for (const p of rule.style)
-          if (p.startsWith('--')) vars[p] = rule.style.getPropertyValue(p).trim();
+    if (cs.backgroundColor && cs.backgroundColor !== 'rgba(0, 0, 0, 0)')
+      bump(bgs, cs.backgroundColor);
+    if (cs.borderTopWidth !== '0px' && cs.borderTopColor) bump(borderCols, cs.borderTopColor);
+    if (cs.borderTopLeftRadius !== '0px') bump(radii, cs.borderTopLeftRadius);
+    if (cs.boxShadow && cs.boxShadow !== 'none') bump(shadows, cs.boxShadow);
   }
-  out.cssVariables = vars;
-  const S = (sel) => {
-    const el = document.querySelector(sel);
-    if (!el) return null;
-    const s = getComputedStyle(el);
-    return {
-      fontFamily: s.fontFamily,
-      fontSize: s.fontSize,
-      fontWeight: s.fontWeight,
-      lineHeight: s.lineHeight,
-      letterSpacing: s.letterSpacing,
-      color: s.color,
-      background: s.backgroundColor,
-      borderRadius: s.borderRadius,
-      boxShadow: s.boxShadow,
-      padding: s.padding,
-    };
+
+  return {
+    meta: {
+      url: location.href,
+      title: document.title,
+      viewport: { w: window.innerWidth, h: window.innerHeight },
+      nodesScanned: Math.min(seen, MAX_NODES),
+    },
+    cssVars,                                  // raw design tokens if exposed
+    color: topN(colors),
+    background: topN(bgs),
+    borderColor: topN(borderCols),
+    fontFamily: topN(fontFams, 12),
+    fontSize: topN(fontSizes),
+    fontWeight: topN(fontWeights),
+    lineHeight: topN(lineHeights, 12),
+    letterSpacing: topN(letterSpacings, 12),
+    borderRadius: topN(radii),
+    boxShadow: topN(shadows, 12),
   };
-  out.samples = {
-    body: S('body'),
-    h1: S('h1'),
-    h2: S('h2'),
-    p: S('p'),
-    button: S('button'),
-    a: S('a'),
-    input: S('input,textarea'),
-    card: S('[class*=card]'),
-  };
-  const els = [...document.querySelectorAll('*')].slice(0, 4000);
-  out.fonts = [...new Set(els.map((e) => getComputedStyle(e).fontFamily))].slice(0, 30);
-  const cc = {};
-  for (const e of els) {
-    const s = getComputedStyle(e);
-    for (const c of [s.color, s.backgroundColor, s.borderColor])
-      if (c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent') cc[c] = (cc[c] || 0) + 1;
-  }
-  out.colorsTop = Object.entries(cc)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 30);
-  return out;
-})();
+}
 ```
 
-### Артефакты (сохранять по ходу, не в самом конце)
-
-- Скриншоты → `docs/research/screens/<competitor>/<screen>.png`.
-- По каждому конкуренту — секция в `docs/research/teardown-<cluster>.md` по шаблону ниже.
-- Финал — `docs/research/teardown-synthesis.md`: что **берём** / что **избегаем** / **gaps**, замапленные на наши экраны и тикеты W2–W4.
-
-### Шаблон секции конкурента
-
-```
-## <Название>
-- **Позиционирование / кто юзер:**
-- **IA / основные экраны:**
-- **Редактор+AI UX** (или Reading UX / Generation flow по кластеру):
-- **Система памяти/контекста (Bible/Codex/Lorebook/теги):**
-- **Онбординг / first value / aha-момент:**
-- **Монетизация / что за пейволом:**
-- **Дизайн-язык:** типографика, палитра, плотность, dark mode, мобайл (+ вставить token-grab JSON)
-- **Любят / ненавидят** (из живого UX + что знаешь):
-- **Уроки для Headcanon** (3-5, конкретно: steal / avoid / gap):
-- **Скриншоты:** ссылки на файлы
-```
-
-### Этика / границы
-
-Инспектируем то, что сайт и так отдаёт каждому посетителю + твои залогиненные экраны — ради
-дизайн/UX-уроков. **Не** выкачиваем чужие пользовательские данные, **не** копируем код/ассеты
-дословно. «Best practices» = понять _как решено_ и сделать **своё**, лучше и под нашу нишу.
-
-— конец промпта —
+Сохранение: вывод `evaluate_script` → пишем как `tokens/<competitor>-<screen>.json` (через Write).
 
 ---
 
-## Как пользоваться (для Инги)
+## Скриншоты
 
-1. Открой локальную сессию Claude Code в этом репо (ветка `claude/project-review-access-d6lml4`), `git pull`.
-2. Подключи `chrome-devtools-mcp` (раздел 0).
-3. Залогинься в тулзах, оставь вкладки открытыми.
-4. Вставь промпт выше (от «Ты — исследователь-аналитик…» до «— конец промпта —»).
-5. Когда сессия упрётся в логин — она попросит тебя войти; входишь и говоришь «продолжай».
+- Desktop **и** mobile (375px) для ключевых экранов. Mobile — через `resize_page` (375×812) или
+  `emulate` устройства, затем `take_screenshot`.
+- Имя: `docs/research/screens/<competitor>/<screen>[-mobile].png`.
+- Снимаем состояния: default, hover/active меню AI, empty, loading/streaming, error, settings/modal.
+
+---
+
+## Шаблон секции конкурента (в `teardown-<cluster>.md`)
+
+```markdown
+## <Competitor> — <одно-строчное позиционирование>
+
+- **URL / дата разбора:** <url> · <YYYY-MM-DD>
+- **Доступ:** публично / по логину (юзер вошла) / частично за пейволом
+- **Скриншоты:** screens/<competitor>/*.png
+- **Токены:** tokens/<competitor>-*.json
+
+### Продукт в двух абзацах
+<что это, на кого, core loop>
+
+### Онбординг
+<шаги, фрикшн, момент первой ценности>
+
+### Редактор / Reader / Generation flow (по кластеру)
+<layout, колонки, типографика, навигация>
+
+### Как вызывается AI / действия (кластер A) ИЛИ теги/дискавери (B) ИЛИ виральность (C)
+<полный каталог: меню/команды/сайдбар/хоткеи; или система тегов; или sharing>
+
+### Состояния
+<empty / loading / streaming / error / settings — что увидели>
+
+### Дизайн-система (из токенов)
+<палитра, шрифты, радиусы, тени, плотность; ссылка на JSON>
+
+### 🎯 Что крадём (подход, не код)
+- <конкретный паттерн → как ляжет на наш экран/тикет W?-??>
+
+### 🚫 Чего избегаем
+- <анти-паттерн и почему он не для нас>
+
+### ❓ Открытые вопросы / не проверили
+- <за пейволом / не дошли>
+```
+
+---
+
+## Финальный синтез (`teardown-synthesis.md`)
+
+После всех кластеров — сводка:
+
+- **Берём** (ранжировано) → каждый пункт замаплен на наш экран (`handoff/screens/*`) и тикет
+  (`W2`/`W3`/`W4` из `handoff/TASKS.md`).
+- **Избегаем** → анти-паттерны с причиной.
+- **Gaps / возможности** → чего нет ни у кого, где наш Editorial-Y2K + writer-first + RU-ниша даёт
+  отличие.
+
+---
+
+## Рабочий протокол (interactive)
+
+1. Перед каждым новым сайтом — сказать юзеру, **какие вкладки открыть**, чтобы она подготовила логин.
+2. Вести браузер по чек-листу кластера.
+3. Упёрлись в логин/пейвол → **пауза**, просим юзера войти в той же вкладке → продолжаем.
+4. Скриншоты + токены **по ходу**, не в конце.
+5. Секцию конкурента дописываем сразу после его разбора, не копим в голове.
+```

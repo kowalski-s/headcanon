@@ -5,3 +5,6 @@ prisma/migrations
 pnpm-lock.yaml
 public
 handoff/prototypes
+
+# Research artifacts (screenshots, token dumps, teardown notes) — not source
+docs/research/
