@@ -14,11 +14,18 @@ describe('POST /api/write/story', () => {
 
   it('creates a WRITTEN private story with an empty first chapter', async () => {
     const res = await createStory(
-      new NextRequest('http://x', { method: 'POST', headers: auth, body: JSON.stringify({ title: 'Моя история' }) }),
+      new NextRequest('http://x', {
+        method: 'POST',
+        headers: auth,
+        body: JSON.stringify({ title: 'Моя история' }),
+      }),
     );
     expect(res.status).toBe(200);
     const json = await res.json();
-    const story = await prisma.story.findUniqueOrThrow({ where: { id: json.storyId }, include: { chapters: true } });
+    const story = await prisma.story.findUniqueOrThrow({
+      where: { id: json.storyId },
+      include: { chapters: true },
+    });
     expect(story.source).toBe('WRITTEN');
     expect(story.visibility).toBe('PRIVATE');
     expect(story.authorId).toBe(USER_ID);

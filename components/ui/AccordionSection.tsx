@@ -10,7 +10,13 @@ interface AccordionSectionProps {
   children: ReactNode;
 }
 
-export function AccordionSection({ title, subtitle, defaultOpen = false, onToggle, children }: AccordionSectionProps) {
+export function AccordionSection({
+  title,
+  subtitle,
+  defaultOpen = false,
+  onToggle,
+  children,
+}: AccordionSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <section className="border-t border-ink-faint/15 pt-3">

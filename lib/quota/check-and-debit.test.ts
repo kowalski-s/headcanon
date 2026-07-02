@@ -67,8 +67,8 @@ describe('debitChapter(regens, 5/chapter)', () => {
   });
 
   it('throws on invalid resource name', async () => {
-    await expect(
-      debitChapter(chapterId, 'badField' as never, 5),
-    ).rejects.toThrow('Invalid ChapterResource');
+    await expect(debitChapter(chapterId, 'badField' as never, 5)).rejects.toThrow(
+      'Invalid ChapterResource',
+    );
   });
 });

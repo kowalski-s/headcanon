@@ -4,8 +4,20 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { StepFocusCharacters } from './StepFocusCharacters';
 
 const SUGGESTIONS = [
-  { names: ['Гарри', 'Драко'], label_ru: 'Гарри × Драко', popularity: 0.9, rarity: 'top' as const, focus_compatible: ['romance' as const] },
-  { names: ['Снейп', 'Гермиона'], label_ru: 'Снейп × Гермиона', popularity: 0.3, rarity: 'rare' as const, focus_compatible: ['romance' as const] },
+  {
+    names: ['Гарри', 'Драко'],
+    label_ru: 'Гарри × Драко',
+    popularity: 0.9,
+    rarity: 'top' as const,
+    focus_compatible: ['romance' as const],
+  },
+  {
+    names: ['Снейп', 'Гермиона'],
+    label_ru: 'Снейп × Гермиона',
+    popularity: 0.3,
+    rarity: 'rare' as const,
+    focus_compatible: ['romance' as const],
+  },
 ];
 
 describe('StepFocusCharacters', () => {

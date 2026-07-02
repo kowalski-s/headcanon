@@ -4,7 +4,13 @@ import { tiptapDocToMarkdown, markdownToParagraphs } from './markdown';
 const doc = {
   type: 'doc',
   content: [
-    { type: 'paragraph', content: [{ type: 'text', text: 'Привет ' }, { type: 'text', marks: [{ type: 'italic' }], text: 'мир' }] },
+    {
+      type: 'paragraph',
+      content: [
+        { type: 'text', text: 'Привет ' },
+        { type: 'text', marks: [{ type: 'italic' }], text: 'мир' },
+      ],
+    },
     { type: 'horizontalRule' },
     { type: 'heading', attrs: { level: 2 }, content: [{ type: 'text', text: 'Глава' }] },
     { type: 'paragraph', content: [{ type: 'text', marks: [{ type: 'bold' }], text: 'жирный' }] },

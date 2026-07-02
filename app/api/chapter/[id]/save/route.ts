@@ -7,7 +7,10 @@ import { enqueue } from '@/lib/queue/boss';
 const Body = z.object({ fullText: z.string().min(1) });
 
 function splitParagraphs(text: string): string[] {
-  return text.split(/\n{2,}/g).map((p) => p.trim()).filter(Boolean);
+  return text
+    .split(/\n{2,}/g)
+    .map((p) => p.trim())
+    .filter(Boolean);
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -21,7 +24,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const { fullText } = parsed.data;
 
   const chapter = await prisma.chapter.findUnique({
-    where: { id }, include: { story: true },
+    where: { id },
+    include: { story: true },
   });
   if (!chapter || chapter.story.authorId !== userId) {
     return NextResponse.json({ error: 'not found' }, { status: 404 });

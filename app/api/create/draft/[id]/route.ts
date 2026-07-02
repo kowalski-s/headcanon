@@ -13,7 +13,9 @@ const UpdateSchema = z.object({
   warnings: z.array(z.enum(['death', 'violence', 'non_con', 'cntw'])).optional(),
   pov: z.enum(['FIRST', 'CLOSE_THIRD', 'OMNISCIENT']).nullable().optional(),
   tense: z.enum(['PAST', 'PRESENT']).nullable().optional(),
-  tones: z.array(z.enum(['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'])).optional(),
+  tones: z
+    .array(z.enum(['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK']))
+    .optional(),
   timeline: z.string().nullable().optional(),
   timelineNote: z.string().max(500).nullable().optional(),
   genres: z.array(z.string().min(1)).max(10).optional(),

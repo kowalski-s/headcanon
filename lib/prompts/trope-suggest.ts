@@ -21,11 +21,10 @@ export const TropeSuggestSchema = z.object({
 });
 export type TropeSuggestOutput = z.infer<typeof TropeSuggestSchema>;
 
-export function build(args: {
-  fandomName: string;
-  focus: FocusType;
-  characters: string[];
-}): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType; characters: string[] }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest fanfic tropes for a given fandom, focus mode, and main characters.',

@@ -18,7 +18,10 @@ export async function GET(req: NextRequest) {
   const focusParsed = FocusEnum.safeParse(focusRaw);
   if (!focusParsed.success) return NextResponse.json({ error: 'invalid focus' }, { status: 400 });
   const focus = focusParsed.data;
-  const characters = (charactersRaw ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  const characters = (charactersRaw ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   const fandom = await prisma.tag.findUnique({ where: { id: fandomId } });
   if (!fandom) return NextResponse.json({ error: 'fandom not found' }, { status: 404 });
@@ -29,7 +32,11 @@ export async function GET(req: NextRequest) {
     cacheKey,
   );
   if (cached) {
-    return NextResponse.json({ tropes: cached.tropes, sensei_tip: cached.sensei_tip, cached: true });
+    return NextResponse.json({
+      tropes: cached.tropes,
+      sensei_tip: cached.sensei_tip,
+      cached: true,
+    });
   }
 
   const prompt = tropeSuggest.build({

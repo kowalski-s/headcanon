@@ -15,7 +15,9 @@ function makeReq(userId: string) {
 }
 
 describe('DELETE /api/paragraph/[id]', () => {
-  beforeEach(() => { vi.clearAllMocks(); });
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('deletes paragraph and enqueues extract-bible', async () => {
     const { user, chapter } = await createTestStoryWithChapter();
@@ -25,7 +27,11 @@ describe('DELETE /api/paragraph/[id]', () => {
     const res = await DELETE(makeReq(user.id), { params: Promise.resolve({ id: para.id }) });
     expect(res.status).toBe(200);
     expect(await prisma.paragraph.findUnique({ where: { id: para.id } })).toBeNull();
-    expect(enqueue).toHaveBeenCalledWith('extract-bible', { chapterId: chapter.id }, { singletonKey: chapter.id });
+    expect(enqueue).toHaveBeenCalledWith(
+      'extract-bible',
+      { chapterId: chapter.id },
+      { singletonKey: chapter.id },
+    );
   });
 
   it('returns 404 when not owner', async () => {
@@ -33,10 +39,9 @@ describe('DELETE /api/paragraph/[id]', () => {
     const para = await prisma.paragraph.create({
       data: { chapterId: chapter.id, ordinal: 1, text: 'safe' },
     });
-    const res = await DELETE(
-      makeReq('00000000-0000-0000-0000-000000000999'),
-      { params: Promise.resolve({ id: para.id }) },
-    );
+    const res = await DELETE(makeReq('00000000-0000-0000-0000-000000000999'), {
+      params: Promise.resolve({ id: para.id }),
+    });
     expect(res.status).toBe(404);
     expect(await prisma.paragraph.findUnique({ where: { id: para.id } })).not.toBeNull();
   });

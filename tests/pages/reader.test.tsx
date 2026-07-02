@@ -6,7 +6,9 @@ import { ReaderPageView } from '@/app/(reader)/reader/[storyId]/[chapterN]/Reade
 // Mock next/navigation — ReaderPageView calls useRouter() at the top level.
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh: vi.fn() }),
-  notFound: () => { throw new Error('NOT_FOUND'); },
+  notFound: () => {
+    throw new Error('NOT_FOUND');
+  },
 }));
 
 describe('Reader page', () => {

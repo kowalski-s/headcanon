@@ -10,7 +10,12 @@ describe('POST /api/me/confirm-age', () => {
     const user = await prisma.user.upsert({
       where: { id: TEST_USER_ID },
       update: { ageConfirmedAt: null },
-      create: { id: TEST_USER_ID, email: 'confirm-age-test@hc.test', handle: 'confirm-age', ageConfirmedAt: null },
+      create: {
+        id: TEST_USER_ID,
+        email: 'confirm-age-test@hc.test',
+        handle: 'confirm-age',
+        ageConfirmedAt: null,
+      },
     });
 
     const req = new NextRequest('http://x', {

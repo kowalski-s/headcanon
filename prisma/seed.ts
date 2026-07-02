@@ -13,8 +13,12 @@ interface FandomTag {
 }
 
 const CANONICAL_FANDOM_SLUGS = [
-  'harry-potter', 'genshin-impact', 'marvel', 'naruto',
-  'jujutsu-kaisen', 'honkai-star-rail',
+  'harry-potter',
+  'genshin-impact',
+  'marvel',
+  'naruto',
+  'jujutsu-kaisen',
+  'honkai-star-rail',
 ];
 
 interface AftgCharacter {

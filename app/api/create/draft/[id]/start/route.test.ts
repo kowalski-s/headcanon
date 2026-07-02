@@ -24,7 +24,9 @@ describe('POST /api/create/draft/[id]/start', () => {
   });
 
   it('creates Story + Chapter(1) + ChapterUsage with new fields; returns ids', async () => {
-    const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HP-t14', slug: `${SLUG_PREFIX}hp` } });
+    const fandom = await prisma.tag.create({
+      data: { type: 'FANDOM', name: 'HP-t14', slug: `${SLUG_PREFIX}hp` },
+    });
     const draft = await prisma.createDraft.create({
       data: {
         userId: USER_ID,
@@ -54,7 +56,10 @@ describe('POST /api/create/draft/[id]/start', () => {
     expect(json.storyId).toBeTruthy();
     expect(json.chapterId).toBeTruthy();
 
-    const ch = await prisma.chapter.findUniqueOrThrow({ where: { id: json.chapterId }, include: { usage: true } });
+    const ch = await prisma.chapter.findUniqueOrThrow({
+      where: { id: json.chapterId },
+      include: { usage: true },
+    });
     expect(ch.ordinal).toBe(1);
     expect(ch.status).toBe('DRAFT');
     expect(ch.usage).toBeTruthy();
@@ -70,7 +75,7 @@ describe('POST /api/create/draft/[id]/start', () => {
     expect(story.pov).toBe('CLOSE_THIRD');
     expect(story.tense).toBe('PAST');
     expect(story.tones).toEqual(['SLOW_BURN', 'ANGST']);
-    expect(story.tone).toBe('SLOW_BURN');     // legacy single field = first of tones[]
+    expect(story.tone).toBe('SLOW_BURN'); // legacy single field = first of tones[]
     expect(story.timeline).toBe('post');
     expect(story.timelineNote).toBe('через 5 лет');
     expect(story.genres).toEqual(['современная AU']);
@@ -85,7 +90,9 @@ describe('POST /api/create/draft/[id]/start', () => {
   });
 
   it('returns 400 when focusType is null', async () => {
-    const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HPnf', slug: `${SLUG_PREFIX}hpnf` } });
+    const fandom = await prisma.tag.create({
+      data: { type: 'FANDOM', name: 'HPnf', slug: `${SLUG_PREFIX}hpnf` },
+    });
     const draft = await prisma.createDraft.create({
       data: { userId: USER_ID, fandomId: fandom.id, characters: ['x'], step: 5 },
     });
@@ -99,7 +106,9 @@ describe('POST /api/create/draft/[id]/start', () => {
   });
 
   it('returns 400 when characters is empty', async () => {
-    const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HPnc', slug: `${SLUG_PREFIX}hpnc` } });
+    const fandom = await prisma.tag.create({
+      data: { type: 'FANDOM', name: 'HPnc', slug: `${SLUG_PREFIX}hpnc` },
+    });
     const draft = await prisma.createDraft.create({
       data: { userId: USER_ID, fandomId: fandom.id, focusType: 'ROMANCE', step: 5 },
     });
@@ -113,10 +122,18 @@ describe('POST /api/create/draft/[id]/start', () => {
   });
 
   it('returns 429 over daily quota', async () => {
-    const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HP2-t14', slug: `${SLUG_PREFIX}hp2` } });
+    const fandom = await prisma.tag.create({
+      data: { type: 'FANDOM', name: 'HP2-t14', slug: `${SLUG_PREFIX}hp2` },
+    });
     await prisma.dailyUsage.create({ data: { userId: USER_ID, day: new Date(), stories: 3 } });
     const draft = await prisma.createDraft.create({
-      data: { userId: USER_ID, fandomId: fandom.id, focusType: 'ROMANCE', characters: ['x', 'y'], step: 5 },
+      data: {
+        userId: USER_ID,
+        fandomId: fandom.id,
+        focusType: 'ROMANCE',
+        characters: ['x', 'y'],
+        step: 5,
+      },
     });
     const res = await POST(
       new NextRequest('http://x', { method: 'POST', headers: { 'x-test-user-id': USER_ID } }),
@@ -126,9 +143,17 @@ describe('POST /api/create/draft/[id]/start', () => {
   });
 
   it('GEN focus with single character creates CHARACTER_TAG tags only (no RELATIONSHIP)', async () => {
-    const fandom = await prisma.tag.create({ data: { type: 'FANDOM', name: 'HPgen', slug: `${SLUG_PREFIX}hpgen` } });
+    const fandom = await prisma.tag.create({
+      data: { type: 'FANDOM', name: 'HPgen', slug: `${SLUG_PREFIX}hpgen` },
+    });
     const draft = await prisma.createDraft.create({
-      data: { userId: USER_ID, fandomId: fandom.id, focusType: 'GEN', characters: ['Юдзи'], step: 5 },
+      data: {
+        userId: USER_ID,
+        fandomId: fandom.id,
+        focusType: 'GEN',
+        characters: ['Юдзи'],
+        step: 5,
+      },
     });
     const res = await POST(
       new NextRequest('http://x', { method: 'POST', headers: { 'x-test-user-id': USER_ID } }),

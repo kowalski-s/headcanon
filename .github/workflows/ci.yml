@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'claude/**']
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static:
+    name: Typecheck · Lint · Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # @prisma/client types are generated; typecheck needs them.
+      - run: pnpm db:generate
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm format:check
+
+  test:
+    name: Unit tests (Postgres)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: headcanon_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/headcanon_test
+      DIRECT_URL: postgresql://postgres:postgres@localhost:5432/headcanon_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # db:seed runs `tsx --env-file=.env` and dotenv/config (prisma.config.ts,
+      # tests/setup.ts) all expect a .env file to exist.
+      - name: Write .env for CLI/seed/tests
+        run: |
+          {
+            echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/headcanon_test"
+            echo "DIRECT_URL=postgresql://postgres:postgres@localhost:5432/headcanon_test"
+          } > .env
+      - run: pnpm db:generate
+      - run: pnpm exec prisma migrate deploy
+      - run: pnpm db:seed
+      - run: pnpm test
+  # NOTE: storybook tests (pnpm test:storybook) run in a real browser via
+  # Playwright and are intentionally NOT gated here yet — add a separate job
+  # with `pnpm exec playwright install --with-deps chromium` when desired.

@@ -6,7 +6,7 @@ import { tiptapDocToMarkdown } from '@/lib/markdown';
 
 type Props = {
   initialMarkdown: string;
-  onSave: (markdown: string) => void;   // debounced снаружи
+  onSave: (markdown: string) => void; // debounced снаружи
 };
 
 export function Editor({ initialMarkdown, onSave }: Props) {
@@ -15,19 +15,31 @@ export function Editor({ initialMarkdown, onSave }: Props) {
     immediatelyRender: false, // Next SSR
     extensions: [
       StarterKit.configure({
-        bulletList: false, orderedList: false, listItem: false,
-        code: false, codeBlock: false, blockquote: false,
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+        code: false,
+        codeBlock: false,
+        blockquote: false,
       }),
     ],
     // initialMarkdown — простой текст/markdown; StarterKit примет как параграфы.
     content: initialMarkdown,
     onUpdate: ({ editor }) => {
       if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => onSave(tiptapDocToMarkdown(editor.getJSON() as never)), 1500);
+      timer.current = setTimeout(
+        () => onSave(tiptapDocToMarkdown(editor.getJSON() as never)),
+        1500,
+      );
     },
   });
 
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
 
   return <EditorContent editor={editor} className="prose-reader min-h-[300px] outline-none" />;
 }

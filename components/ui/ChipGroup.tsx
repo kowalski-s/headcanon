@@ -13,7 +13,12 @@ interface ChipGroupProps<V extends string> {
   testIdPrefix?: string;
 }
 
-export function ChipGroup<V extends string>({ options, value, onChange, testIdPrefix }: ChipGroupProps<V>) {
+export function ChipGroup<V extends string>({
+  options,
+  value,
+  onChange,
+  testIdPrefix,
+}: ChipGroupProps<V>) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => {

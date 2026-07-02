@@ -19,7 +19,11 @@ async function ownChapterOr404(req: NextRequest, id: string) {
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   let ch;
-  try { ch = await ownChapterOr404(req, id); } catch { return NextResponse.json({ error: 'unauthenticated' }, { status: 401 }); }
+  try {
+    ch = await ownChapterOr404(req, id);
+  } catch {
+    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+  }
   if (!ch) return NextResponse.json({ error: 'not found' }, { status: 404 });
   const parsed = Patch.safeParse(await req.json().catch(() => ({})));
   if (!parsed.success) return NextResponse.json({ error: 'bad_request' }, { status: 400 });
@@ -32,7 +36,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   let ch;
-  try { ch = await ownChapterOr404(req, id); } catch { return NextResponse.json({ error: 'unauthenticated' }, { status: 401 }); }
+  try {
+    ch = await ownChapterOr404(req, id);
+  } catch {
+    return NextResponse.json({ error: 'unauthenticated' }, { status: 401 });
+  }
   if (!ch) return NextResponse.json({ error: 'not found' }, { status: 404 });
   await prisma.chapter.delete({ where: { id } });
   return NextResponse.json({ ok: true });

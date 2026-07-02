@@ -33,9 +33,7 @@ export function PublishToggle({ storyId, visibility }: Props) {
 
   return (
     <div className="flex items-center gap-3">
-      <MonoBadge tone={isPublic ? 'amber' : 'default'}>
-        {visibilityLabel[visibility]}
-      </MonoBadge>
+      <MonoBadge tone={isPublic ? 'amber' : 'default'}>{visibilityLabel[visibility]}</MonoBadge>
 
       <button
         onClick={handleToggle}

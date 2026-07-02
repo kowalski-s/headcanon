@@ -9,6 +9,7 @@
 M2 завершён: текущий визард `/create` — 5 шагов, hard-required ship выбирается из закрытого LLM-списка, лейблы tone/тропов на английском, кроме базовых полей ничего не настраивается.
 
 **Проблемы:**
+
 1. Юзер не может построить gen-историю (приключение, character study, дружба) — ship обязателен.
 2. Ship закрыт списком LLM-сугестий: нет custom-ввода для редких пар/OC/poly-4+.
 3. Тропы — то же, только LLM-сугестии без custom.
@@ -43,6 +44,7 @@ Step 5 · preview        — summary + start
 ### Шаг 2 — Focus + characters
 
 **UI:**
+
 1. Сверху — 4 chip focus-режима (обязательный выбор):
    - Романтика — для пейринг-историй
    - Джен — приключения/мистика без любовной линии
@@ -51,14 +53,15 @@ Step 5 · preview        — summary + start
 
 2. Под focus — conditional input:
 
-| Focus | Input |
-|---|---|
-| Романтика | AI-чипы пейрингов + поле «свой пейринг» (текст: `имя × имя` или `имя/имя`). Auto-validate: ≥2 имени через разделитель. |
-| Джен | Tag-input «главные герои» (1-N) + AI-чипы популярных групп («Мародёры», «Золотое трио»). |
-| Character study | Tag-input одного героя + AI-чипы топ-героев фандома. |
-| Дружба | Tag-input 2+ героев + AI-чипы дружеских пар. |
+| Focus           | Input                                                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Романтика       | AI-чипы пейрингов + поле «свой пейринг» (текст: `имя × имя` или `имя/имя`). Auto-validate: ≥2 имени через разделитель. |
+| Джен            | Tag-input «главные герои» (1-N) + AI-чипы популярных групп («Мародёры», «Золотое трио»).                               |
+| Character study | Tag-input одного героя + AI-чипы топ-героев фандома.                                                                   |
+| Дружба          | Tag-input 2+ героев + AI-чипы дружеских пар.                                                                           |
 
 **API:**
+
 - `GET /api/create/suggestions/ships?fandomId=...` → `GET /api/create/suggestions/characters?fandomId=...&focus=...`
   - `focus=romance` → возвращает пейринги (как сейчас, плюс label_ru).
   - `focus=gen` → возвращает популярные группы + сольных героев.
@@ -76,6 +79,7 @@ Step 5 · preview        — summary + start
 ### Шаг 4 — Details (single page, 4 свёрнутых секций)
 
 **UI каркас:**
+
 ```
 [ глобальная кнопка «развернуть всё» / «свернуть всё» ]
 
@@ -90,21 +94,25 @@ Step 5 · preview        — summary + start
 Каждая секция auto-saves в draft на blur/change.
 
 **Секция «маркировка»:**
+
 - **Рейтинг** — 4 chip: `общий` / `16+` / `18+` / `explicit`. Дефолт пусто (LLM решит по контексту).
 - **Категория** — 5 chip: `слэш` / `фемслэш` / `гет` / `джен` / `multi`. Auto-pre-select по focus (Gen → джен), можно поменять.
 - **Предупреждения** — multi-chip: `смерть персонажа` / `жестокость` / `non-con` / `без предупреждений`. Дефолт: «без предупреждений».
 
 **Секция «голос истории»:**
+
 - **POV** — 3 chip: `от первого лица` / `третье близкое` (default visual highlight) / `всеведущее`.
 - **Время** — 2 chip: `прошедшее` (default highlight) / `настоящее`.
 - **Тон** — multi-chip: `слоуберн` / `спайси` / `флафф` / `ангст` / `хёрт/комфорт` / `крэк` / `дарк`. Можно несколько.
 
 **Секция «вселенная»:**
+
 - **Когда происходит** — 4 chip: `канон` / `pre-canon` / `post-canon` / `AU без канона` + textarea «уточни» (год/эпоха).
 - **Жанр / AU-тип** — AI-чипы (генерятся под фандом+focus): «современная AU», «школьная AU», «coffee shop», «омегаверс», «соулмейты», «исторический», «фантастика»… + free-input.
 - **Место и время** — textarea (то что сейчас `setting`).
 
 **Секция «завязка»:**
+
 - **Премиса** — textarea, опционально, placeholder: «что происходит в начале первой главы — фраза, сцена, идея».
 
 ### Шаг 5 — Preview
@@ -195,14 +203,14 @@ model CreateDraft {
 
 ### API изменения
 
-| Endpoint | Изменение |
-|---|---|
-| `GET /api/create/suggestions/characters?fandomId=...&focus=...` | новый, заменяет `/ships` |
-| `GET /api/create/suggestions/ships` | удалить после миграции |
-| `GET /api/create/suggestions/genres?fandomId=...&focus=...` | новый (chips для жанра/AU) |
-| `GET /api/create/suggestions/tropes` | без изменений schema, обновить промпт (focus + русские лейблы) |
-| `PATCH /api/create/draft/:id` | расширить Zod-схему всеми новыми полями |
-| `POST /api/create/draft/:id/start` | валидация: `focusType` обязательно, `characters.length ≥ 1` обязательно, ship больше не required |
+| Endpoint                                                        | Изменение                                                                                        |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `GET /api/create/suggestions/characters?fandomId=...&focus=...` | новый, заменяет `/ships`                                                                         |
+| `GET /api/create/suggestions/ships`                             | удалить после миграции                                                                           |
+| `GET /api/create/suggestions/genres?fandomId=...&focus=...`     | новый (chips для жанра/AU)                                                                       |
+| `GET /api/create/suggestions/tropes`                            | без изменений schema, обновить промпт (focus + русские лейблы)                                   |
+| `PATCH /api/create/draft/:id`                                   | расширить Zod-схему всеми новыми полями                                                          |
+| `POST /api/create/draft/:id/start`                              | валидация: `focusType` обязательно, `characters.length ≥ 1` обязательно, ship больше не required |
 
 ### LLM-промпты
 
@@ -234,16 +242,19 @@ interface ChapterInput {
 Сборка системного промпта — каждое поле добавляет строку только если задано (`if (input.rating) lines.push(...)`). Дефолтное поведение там где skip: модель решает сама.
 
 **`lib/prompts/ship-suggest.ts` → переименовать в `character-suggest.ts`:**
+
 - Schema: `{ characters: [{ names: string[], label_ru: string, popularity, avatar_prompt, rarity, focus_compatible: ['romance','gen','friendship','character_study'] }] }`.
 - Промпт условный по `focus`: для romance — ships как сейчас, для gen — main characters / групповые лейблы, для character_study — соло-герои, для friendship — friendship pairs.
 - Все имена/лейблы — на русском, как пишутся в русфандоме.
 
 **`lib/prompts/trope-suggest.ts`:**
+
 - Schema: `{ tropes: [{ slug, label_ru, description_ru, popularity }], sensei_tip }`.
 - Промпт: idiomatic Russian fanfic slang в `label_ru`.
 - Контекст: `focus` + `characters` вместо только `ship`.
 
 **`lib/prompts/genre-suggest.ts` (новый):**
+
 - Schema: `{ genres: [{ slug, label_ru, popularity }] }`.
 - Промпт: «Suggest 10 popular AU/genre tags for {fandom} + {focus} fanfic. Russian fandom slang. Mix mainstream («современная AU», «школьная AU») с поджанрами фандома.»
 
@@ -320,12 +331,14 @@ export const TIMELINE_LABELS: Record<string, string> = {
 ## Frontend компоненты
 
 `components/create/CreatePageView.tsx` рефакторится:
+
 - `StepShip` → `StepFocusCharacters` (focus chips + conditional input).
 - `StepTropes` дополняется `CustomTropeInput`.
 - `StepTone` (текущий) превращается в `StepDetails` с 4 секциями-аккордеонами.
 - `StepPreview` расширяется новыми полями summary.
 
 Новые UI-примитивы:
+
 - `ChipGroup` (single-select chip row) — для focus, rating, category, pov, tense, timeline.
 - `MultiChipGroup` (multi-select) — для warnings, tones, genres, tropes, characters (как тэг-input).
 - `TagInput` (свободный ввод + чипы выбранного) — для custom characters/tropes/genres.
@@ -333,20 +346,21 @@ export const TIMELINE_LABELS: Record<string, string> = {
 
 ## Edge cases
 
-| Случай | Поведение |
-|---|---|
-| Юзер вернулся к черновику | Восстанавливаем все поля включая focus; открываем последний step. |
-| Focus=Gen, юзер вписал «Гарри × Драко» в characters | Не разворачиваем в ship; передаём LLM как «main characters: Гарри, Драко». Категория auto-set в GEN. |
-| Focus=Romance, юзер вписал одного героя | Валидация: ≥2 имени; иначе — toast «нужно минимум 2 героя для романтики». |
-| Custom troп `«авторская драма»` | Сохраняется как FREEFORM tag (как сейчас), нормальный flow. |
-| Юзер skip всю Step 4 | LLM получает только focus/characters/tropes/fandom; решает остальное сам. |
-| Rating=EXPLICIT + warnings=cntw | Норм, передаётся как есть. LLM пишет 18+ контент. |
-| Категория конфликтует с characters (Het + Гарри × Драко) | UI не блокирует — юзер прав; LLM получает оба сигнала, отдаёт приоритет characters. |
-| Премиса с инжектом «ignore previous» | Уже обёрнуто в `wrapUserInput` injection-guard (как сейчас). |
+| Случай                                                   | Поведение                                                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Юзер вернулся к черновику                                | Восстанавливаем все поля включая focus; открываем последний step.                                    |
+| Focus=Gen, юзер вписал «Гарри × Драко» в characters      | Не разворачиваем в ship; передаём LLM как «main characters: Гарри, Драко». Категория auto-set в GEN. |
+| Focus=Romance, юзер вписал одного героя                  | Валидация: ≥2 имени; иначе — toast «нужно минимум 2 героя для романтики».                            |
+| Custom troп `«авторская драма»`                          | Сохраняется как FREEFORM tag (как сейчас), нормальный flow.                                          |
+| Юзер skip всю Step 4                                     | LLM получает только focus/characters/tropes/fandom; решает остальное сам.                            |
+| Rating=EXPLICIT + warnings=cntw                          | Норм, передаётся как есть. LLM пишет 18+ контент.                                                    |
+| Категория конфликтует с characters (Het + Гарри × Драко) | UI не блокирует — юзер прав; LLM получает оба сигнала, отдаёт приоритет characters.                  |
+| Премиса с инжектом «ignore previous»                     | Уже обёрнуто в `wrapUserInput` injection-guard (как сейчас).                                         |
 
 ## Tracking events
 
 Расширить существующие:
+
 - `create_focus_selected { focus_type }`
 - `create_character_added { source: 'suggestion' | 'custom' }`
 - `create_trope_added { source: 'suggestion' | 'custom' }`

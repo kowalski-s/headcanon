@@ -24,8 +24,7 @@ export default async function WriteStoryPage({ params, searchParams }: Props) {
   }
 
   const activeOrdinal = Number(ch ?? '1');
-  const active =
-    story.chapters.find((c) => c.ordinal === activeOrdinal) ?? story.chapters[0];
+  const active = story.chapters.find((c) => c.ordinal === activeOrdinal) ?? story.chapters[0];
 
   return (
     <div className="min-h-screen bg-bg text-ink">
@@ -54,11 +53,7 @@ export default async function WriteStoryPage({ params, searchParams }: Props) {
         <main className="flex-1 px-8 py-6">
           {active ? (
             <>
-              <ChapterEditor
-                key={active.id}
-                chapterId={active.id}
-                initialMarkdown={active.text}
-              />
+              <ChapterEditor key={active.id} chapterId={active.id} initialMarkdown={active.text} />
               {/* AI assistant placeholder — W3 */}
               <button
                 disabled

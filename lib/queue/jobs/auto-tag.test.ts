@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterAll } from 'vitest';
+import { describe, it, expect, vi, afterAll } from 'vitest';
 
 vi.mock('@/lib/llm-openai', () => ({
   openaiLlm: {
@@ -28,18 +28,27 @@ describe('handleAutoTag', () => {
   it('persists freeform tags as prefilled + writes aiTagSuggestion blob', async () => {
     const { story, chapter } = await createTestStoryWithChapter();
     await prisma.chapter.update({ where: { id: chapter.id }, data: { status: 'PUBLISHED' } });
-    await prisma.paragraph.create({ data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' } });
+    await prisma.paragraph.create({
+      data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' },
+    });
 
     await handleAutoTag({ data: { storyId: story.id } });
 
-    const tags = await prisma.storyTag.findMany({ where: { storyId: story.id }, include: { tag: true } });
+    const tags = await prisma.storyTag.findMany({
+      where: { storyId: story.id },
+      include: { tag: true },
+    });
     expect(tags).toHaveLength(2);
     expect(tags.map((t) => t.tag.slug).sort()).toEqual(['enemies-to-lovers', 'slow-burn']);
     expect(tags.every((t) => t.prefilled)).toBe(true);
 
     const fresh = await prisma.story.findUniqueOrThrow({ where: { id: story.id } });
-    expect((fresh.aiTagSuggestion as any).rating_suggestion).toBe('T');
-    expect((fresh.aiTagSuggestion as any).freeform_tags).toEqual(['slow-burn', 'enemies-to-lovers']);
+    const suggestion = fresh.aiTagSuggestion as unknown as {
+      rating_suggestion: string;
+      freeform_tags: string[];
+    };
+    expect(suggestion.rating_suggestion).toBe('T');
+    expect(suggestion.freeform_tags).toEqual(['slow-burn', 'enemies-to-lovers']);
   }, 20_000);
 
   it('normalizes mixed-case freeform slugs and preserves display name', async () => {
@@ -54,11 +63,16 @@ describe('handleAutoTag', () => {
 
     const { story, chapter } = await createTestStoryWithChapter();
     await prisma.chapter.update({ where: { id: chapter.id }, data: { status: 'PUBLISHED' } });
-    await prisma.paragraph.create({ data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' } });
+    await prisma.paragraph.create({
+      data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' },
+    });
 
     await handleAutoTag({ data: { storyId: story.id } });
 
-    const tags = await prisma.storyTag.findMany({ where: { storyId: story.id }, include: { tag: true } });
+    const tags = await prisma.storyTag.findMany({
+      where: { storyId: story.id },
+      include: { tag: true },
+    });
     expect(tags).toHaveLength(2);
 
     const slugs = tags.map((t) => t.tag.slug).sort();
@@ -73,7 +87,9 @@ describe('handleAutoTag', () => {
   it('is idempotent — re-running produces 2 storyTags, not 4', async () => {
     const { story, chapter } = await createTestStoryWithChapter();
     await prisma.chapter.update({ where: { id: chapter.id }, data: { status: 'PUBLISHED' } });
-    await prisma.paragraph.create({ data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' } });
+    await prisma.paragraph.create({
+      data: { chapterId: chapter.id, ordinal: 1, text: 'A sentence.' },
+    });
 
     await handleAutoTag({ data: { storyId: story.id } });
     await handleAutoTag({ data: { storyId: story.id } });

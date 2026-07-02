@@ -26,7 +26,9 @@ vi.mock('@/lib/reader/useChapterStream', () => ({
 // Mock next/navigation (used inside ReaderPageView).
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh: vi.fn() }),
-  notFound: () => { throw new Error('NOT_FOUND'); },
+  notFound: () => {
+    throw new Error('NOT_FOUND');
+  },
 }));
 
 const TEST_PARAGRAPHS = [
@@ -58,14 +60,15 @@ describe('ReaderPageView — live path', () => {
 
     // All three paragraphs should be in the DOM.
     expect(
-      screen.getAllByText((_, el) =>
-        el?.tagName === 'P' && /Первый абзац тестовой главы/i.test(el?.textContent ?? ''),
+      screen.getAllByText(
+        (_, el) =>
+          el?.tagName === 'P' && /Первый абзац тестовой главы/i.test(el?.textContent ?? ''),
       ).length,
     ).toBeGreaterThanOrEqual(1);
 
     expect(
-      screen.getAllByText((_, el) =>
-        el?.tagName === 'P' && /Второй абзац/i.test(el?.textContent ?? ''),
+      screen.getAllByText(
+        (_, el) => el?.tagName === 'P' && /Второй абзац/i.test(el?.textContent ?? ''),
       ).length,
     ).toBeGreaterThanOrEqual(1);
   });

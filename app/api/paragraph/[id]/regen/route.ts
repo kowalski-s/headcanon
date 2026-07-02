@@ -41,8 +41,12 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
     return NextResponse.json({ error: 'not found' }, { status: 404 });
   }
 
-  const ratingTag = para.chapter.story.tags.find((st) => st.tag.type === 'RATING')?.tag.name ?? null;
-  if (requiresAgeGate({ rating: ratingTag, tropes: [] }) && !isAgeConfirmed(para.chapter.story.author)) {
+  const ratingTag =
+    para.chapter.story.tags.find((st) => st.tag.type === 'RATING')?.tag.name ?? null;
+  if (
+    requiresAgeGate({ rating: ratingTag, tropes: [] }) &&
+    !isAgeConfirmed(para.chapter.story.author)
+  ) {
     return NextResponse.json({ error: 'age_gate' }, { status: 403 });
   }
 
@@ -55,7 +59,8 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string
   const prev = idx > 0 ? ordered[idx - 1] : null;
   const next = idx < ordered.length - 1 ? ordered[idx + 1] : null;
 
-  const fandomName = para.chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
+  const fandomName =
+    para.chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
   const ship = para.chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag.name ?? '';
 
   const { system, user } = regenPrompt.build({
@@ -125,7 +130,10 @@ async function persistResult(
     return;
   }
   if (mode === 'expand' || mode === 'continue') {
-    const newTexts = trimmed.split(/\n{2,}/g).map((s) => s.trim()).filter(Boolean);
+    const newTexts = trimmed
+      .split(/\n{2,}/g)
+      .map((s) => s.trim())
+      .filter(Boolean);
     if (newTexts.length === 0) return;
     // TODO(M2-C+): switch to Prisma.Decimal arithmetic — float coercion collapses precision after ~4-5 expansions between adjacent ordinals
     const lowerOrd = Number(target.ordinal);

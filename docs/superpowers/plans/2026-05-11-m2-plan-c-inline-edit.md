@@ -37,6 +37,7 @@
 ## Task 1: Fractional ordinal helpers
 
 **Files:**
+
 - Create: `lib/paragraph/ordinal.ts`
 - Test: `lib/paragraph/ordinal.test.ts`
 
@@ -104,6 +105,7 @@ git commit -m "feat(M2-C): fractional ordinal helpers — between() + needsRenum
 ## Task 2: Paragraph-regen prompt templates (5 modes)
 
 **Files:**
+
 - Create: `lib/prompts/paragraph-regen.ts`
 - Test: `lib/prompts/paragraph-regen.test.ts`
 
@@ -124,41 +126,54 @@ export interface RegenInput {
   targetText: string;
   prevText: string | null;
   nextText: string | null;
-  storyContext: { fandomName: string; ship: string; toneNote: string };  // короткое summary для prompt'а
+  storyContext: { fandomName: string; ship: string; toneNote: string }; // короткое summary для prompt'а
   hint?: string;
 }
 
-const COMMON = (input: RegenInput) => [
-  `Fandom: ${input.storyContext.fandomName}. Ship: ${input.storyContext.ship}.`,
-  input.storyContext.toneNote ? `Tone: ${input.storyContext.toneNote}.` : '',
-  'Match the surrounding prose voice. Use the same POV and tense.',
-  SYSTEM_INJECTION_NOTICE,
-].filter(Boolean).join('\n\n');
+const COMMON = (input: RegenInput) =>
+  [
+    `Fandom: ${input.storyContext.fandomName}. Ship: ${input.storyContext.ship}.`,
+    input.storyContext.toneNote ? `Tone: ${input.storyContext.toneNote}.` : '',
+    'Match the surrounding prose voice. Use the same POV and tense.',
+    SYSTEM_INJECTION_NOTICE,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 
 export function build(input: RegenInput): { system: string; user: string } {
   switch (input.mode) {
     case 'regen':
       return {
-        system: COMMON(input) + '\n\nRewrite the target paragraph in the same length and rhythm. Output only the new paragraph text — no preamble, no markdown.',
+        system:
+          COMMON(input) +
+          '\n\nRewrite the target paragraph in the same length and rhythm. Output only the new paragraph text — no preamble, no markdown.',
         user: [
           input.prevText ? `Previous paragraph: ${input.prevText}` : '',
           `Target paragraph (rewrite this): ${wrapUserInput(input.targetText)}`,
           input.nextText ? `Following paragraph: ${input.nextText}` : '',
           input.hint ? `Author hint: ${wrapUserInput(input.hint)}` : '',
-        ].filter(Boolean).join('\n\n'),
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
       };
     case 'continue':
       return {
-        system: COMMON(input) + '\n\nWrite continuation paragraphs. Output ~3-5 new paragraphs separated by blank lines. No preamble.',
+        system:
+          COMMON(input) +
+          '\n\nWrite continuation paragraphs. Output ~3-5 new paragraphs separated by blank lines. No preamble.',
         user: [
           input.prevText ? `Previous paragraph: ${input.prevText}` : '',
           `Continue from here (this is the last paragraph): ${wrapUserInput(input.targetText)}`,
           input.hint ? `Direction hint: ${wrapUserInput(input.hint)}` : '',
-        ].filter(Boolean).join('\n\n'),
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
       };
     case 'expand':
       return {
-        system: COMMON(input) + '\n\nInsert 1-2 details paragraphs RIGHT AFTER the target, fleshing out atmosphere, sensory detail, or interior thought. Do NOT rewrite the target. Output only the new inserted paragraphs separated by blank lines.',
+        system:
+          COMMON(input) +
+          '\n\nInsert 1-2 details paragraphs RIGHT AFTER the target, fleshing out atmosphere, sensory detail, or interior thought. Do NOT rewrite the target. Output only the new inserted paragraphs separated by blank lines.',
         user: [
           `Target paragraph (insert after this): ${wrapUserInput(input.targetText)}`,
           input.nextText ? `Following paragraph: ${input.nextText}` : '',
@@ -166,7 +181,9 @@ export function build(input: RegenInput): { system: string; user: string } {
       };
     case 'compress':
       return {
-        system: COMMON(input) + '\n\nMerge the target with its following paragraph into a single tighter paragraph. Output only the merged paragraph.',
+        system:
+          COMMON(input) +
+          '\n\nMerge the target with its following paragraph into a single tighter paragraph. Output only the merged paragraph.',
         user: [
           `First paragraph: ${wrapUserInput(input.targetText)}`,
           `Second paragraph (merge in): ${wrapUserInput(input.nextText ?? '')}`,
@@ -187,19 +204,43 @@ const ctx = { fandomName: 'HP', ship: 'Drarry', toneNote: 'slow burn' };
 
 describe('paragraph-regen prompt builder', () => {
   it('regen wraps target', () => {
-    const p = build({ mode: 'regen', targetText: 't', prevText: null, nextText: null, storyContext: ctx });
+    const p = build({
+      mode: 'regen',
+      targetText: 't',
+      prevText: null,
+      nextText: null,
+      storyContext: ctx,
+    });
     expect(p.user).toMatch(/<user_input>t<\/user_input>/);
   });
   it('continue asks for 3-5 paragraphs', () => {
-    const p = build({ mode: 'continue', targetText: 't', prevText: null, nextText: null, storyContext: ctx });
+    const p = build({
+      mode: 'continue',
+      targetText: 't',
+      prevText: null,
+      nextText: null,
+      storyContext: ctx,
+    });
     expect(p.system).toMatch(/3-5 new paragraphs/);
   });
-  it('expand says don\'t rewrite target', () => {
-    const p = build({ mode: 'expand', targetText: 't', prevText: null, nextText: 'n', storyContext: ctx });
+  it("expand says don't rewrite target", () => {
+    const p = build({
+      mode: 'expand',
+      targetText: 't',
+      prevText: null,
+      nextText: 'n',
+      storyContext: ctx,
+    });
     expect(p.system).toMatch(/Do NOT rewrite the target/);
   });
   it('compress merges two', () => {
-    const p = build({ mode: 'compress', targetText: 'a', prevText: null, nextText: 'b', storyContext: ctx });
+    const p = build({
+      mode: 'compress',
+      targetText: 'a',
+      prevText: null,
+      nextText: 'b',
+      storyContext: ctx,
+    });
     expect(p.user).toMatch(/Second paragraph/);
   });
 });
@@ -218,6 +259,7 @@ git commit -m "feat(M2-C): paragraph-regen prompt templates — 4 modes (delete 
 ## Task 3: Age gate helper
 
 **Files:**
+
 - Create: `lib/safety/age-gate.ts`
 - Test: `lib/safety/age-gate.test.ts`
 
@@ -267,6 +309,7 @@ git commit -m "feat(M2-C): age-gate predicates"
 ## Task 4: Paragraph regen endpoint
 
 **Files:**
+
 - Create: `app/api/paragraph/[id]/regen/route.ts`
 - Test: `app/api/paragraph/[id]/regen/route.test.ts`
 
@@ -276,7 +319,12 @@ git commit -m "feat(M2-C): age-gate predicates"
 // app/api/paragraph/[id]/regen/route.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 vi.mock('@/lib/llm-openai', () => ({
-  openaiLlm: { stream: async function* () { yield 'new '; yield 'text.'; } },
+  openaiLlm: {
+    stream: async function* () {
+      yield 'new ';
+      yield 'text.';
+    },
+  },
 }));
 vi.mock('@/lib/queue/boss', () => ({ enqueue: vi.fn() }));
 import { POST } from './route';
@@ -292,7 +340,8 @@ describe('POST /api/paragraph/[id]/regen', () => {
     });
     const res = await POST(
       new NextRequest('http://x', {
-        method: 'POST', headers: { 'x-test-user-id': user.id },
+        method: 'POST',
+        headers: { 'x-test-user-id': user.id },
         body: JSON.stringify({ mode: 'regen' }),
       }),
       { params: Promise.resolve({ id: para.id }) },
@@ -312,7 +361,8 @@ describe('POST /api/paragraph/[id]/regen', () => {
     });
     const res = await POST(
       new NextRequest('http://x', {
-        method: 'POST', headers: { 'x-test-user-id': user.id },
+        method: 'POST',
+        headers: { 'x-test-user-id': user.id },
         body: JSON.stringify({ mode: 'regen' }),
       }),
       { params: Promise.resolve({ id: para.id }) },
@@ -366,7 +416,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   // 18+ gate, если rating=E/M и юзер не подтверждал
   const ratingTag = para.chapter.story.tags.find((st) => st.tag.type === 'RATING')?.tag.name;
-  if (requiresAgeGate({ rating: ratingTag ?? null, tropes: [] }) && !isAgeConfirmed(para.chapter.story.author)) {
+  if (
+    requiresAgeGate({ rating: ratingTag ?? null, tropes: [] }) &&
+    !isAgeConfirmed(para.chapter.story.author)
+  ) {
     return NextResponse.json({ error: 'age_gate' }, { status: 403 });
   }
 
@@ -379,7 +432,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const prev = idx > 0 ? orderedParas[idx - 1] : null;
   const next = idx < orderedParas.length - 1 ? orderedParas[idx + 1] : null;
 
-  const fandomName = para.chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
+  const fandomName =
+    para.chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
   const ship = para.chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag.name ?? '';
 
   const { system, user } = regenPrompt.build({
@@ -401,7 +455,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           callType: `paragraph_${body.mode}`,
           templateId: regenPrompt.TEMPLATE_ID,
           templateVersion: regenPrompt.TEMPLATE_VERSION,
-          system, user,
+          system,
+          user,
           contextIds: { storyId: para.chapter.storyId, chapterId: para.chapter.id, userId },
           abortSignal: req.signal,
         })) {
@@ -410,7 +465,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         }
         await persistResult(body.mode, para, orderedParas, idx, collected);
         await prisma.chapter.update({ where: { id: para.chapter.id }, data: { userEdited: true } });
-        await enqueue('extract-bible', { chapterId: para.chapter.id }, { singletonKey: para.chapter.id });
+        await enqueue(
+          'extract-bible',
+          { chapterId: para.chapter.id },
+          { singletonKey: para.chapter.id },
+        );
       } catch (e) {
         controller.error(e);
         return;
@@ -440,7 +499,10 @@ async function persistResult(
   }
   if (mode === 'expand' || mode === 'continue') {
     // Split incoming on \n\n+, insert после target используя fractional ordinals.
-    const newTexts = fullText.split(/\n{2,}/g).map((s) => s.trim()).filter(Boolean);
+    const newTexts = fullText
+      .split(/\n{2,}/g)
+      .map((s) => s.trim())
+      .filter(Boolean);
     const lowerOrd = Number(target.ordinal);
     const upperOrd = idx < ordered.length - 1 ? Number(ordered[idx + 1].ordinal) : undefined;
     const step = upperOrd === undefined ? 1 : (upperOrd - lowerOrd) / (newTexts.length + 1);
@@ -463,7 +525,10 @@ async function persistResult(
       return;
     }
     await prisma.$transaction([
-      prisma.paragraph.update({ where: { id: target.id }, data: { text: fullText.trim(), regensCount: { increment: 1 } } }),
+      prisma.paragraph.update({
+        where: { id: target.id },
+        data: { text: fullText.trim(), regensCount: { increment: 1 } },
+      }),
       prisma.paragraph.delete({ where: { id: nextPara.id } }),
     ]);
   }
@@ -483,6 +548,7 @@ git commit -m "feat(M2-C): paragraph regen endpoint — streams + persists for 4
 ## Task 5: Paragraph delete endpoint (no LLM)
 
 **Files:**
+
 - Create: `app/api/paragraph/[id]/route.ts`
 
 - [ ] **Step 1: Implement**
@@ -523,6 +589,7 @@ git commit -m "feat(M2-C): paragraph DELETE — no LLM, no quota"
 ## Task 6: Tweak chapter prompt endpoint
 
 **Files:**
+
 - Create: `app/api/chapter/[id]/tweak-prompt/route.ts`
 
 - [ ] **Step 1: Implement (regenerate entire chapter with user hint)**
@@ -539,7 +606,10 @@ import * as chapterPrompt from '@/lib/prompts/chapter';
 import { loadPriorState } from '@/lib/chapter/load-prior-state';
 import { wrapUserInput } from '@/lib/safety/injection-guard';
 
-const Body = z.object({ hint: z.string().min(1).max(500), length: z.enum(['short','medium','long']).default('short') });
+const Body = z.object({
+  hint: z.string().min(1).max(500),
+  length: z.enum(['short', 'medium', 'long']).default('short'),
+});
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const userId = await getUserIdOrThrow();
@@ -547,7 +617,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const { hint, length } = Body.parse(await req.json());
 
   const chapter = await prisma.chapter.findUnique({
-    where: { id }, include: { story: { include: { tags: { include: { tag: true } } } } },
+    where: { id },
+    include: { story: { include: { tags: { include: { tag: true } } } } },
   });
   if (!chapter || chapter.story.authorId !== userId) {
     return NextResponse.json({ error: 'not found' }, { status: 404 });
@@ -556,11 +627,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!q.allowed) return NextResponse.json({ error: 'quota_exceeded' }, { status: 429 });
 
   const priorState = await loadPriorState(chapter.storyId, chapter.ordinal);
-  const fandomName = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
+  const fandomName =
+    chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag.name ?? 'unknown';
   const ship = chapter.story.tags.find((st) => st.tag.type === 'RELATIONSHIP')?.tag.name ?? '';
 
   const { system, user } = chapterPrompt.build({
-    fandomName, ship, tropes: [],
+    fandomName,
+    ship,
+    tropes: [],
     chapterLength: length,
     chapterOrdinal: chapter.ordinal,
     priorState: priorState ?? undefined,
@@ -579,11 +653,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           callType: 'chapter_tweak',
           templateId: chapterPrompt.TEMPLATE_ID,
           templateVersion: chapterPrompt.TEMPLATE_VERSION,
-          system, user,
+          system,
+          user,
           contextIds: { storyId: chapter.storyId, chapterId: id, userId },
           abortSignal: req.signal,
-        })) controller.enqueue(encoder.encode(chunk));
-      } catch (e) { controller.error(e); return; }
+        }))
+          controller.enqueue(encoder.encode(chunk));
+      } catch (e) {
+        controller.error(e);
+        return;
+      }
       controller.close();
     },
   });
@@ -603,6 +682,7 @@ git commit -m "feat(M2-C): chapter tweak-prompt endpoint — regenerate with aut
 ## Task 7: ParagraphMenu component (mobile bottom-sheet + desktop popover)
 
 **Files:**
+
 - Create: `components/reader/ParagraphMenu.tsx`
 
 - [ ] **Step 1: Component**
@@ -626,37 +706,59 @@ export function ParagraphMenu({ open, onClose, onAction, paragraphText }: Props)
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
-    const onClick = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) onClose(); };
+    const onClick = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) onClose();
+    };
     window.addEventListener('mousedown', onClick);
     return () => window.removeEventListener('mousedown', onClick);
   }, [open, onClose]);
   if (!open) return null;
 
   const items: Array<{ mode: Mode; label: string; hint?: string }> = [
-    { mode: 'regen',    label: '▸ переписать' },
+    { mode: 'regen', label: '▸ переписать' },
     { mode: 'continue', label: '▸ продолжить отсюда' },
-    { mode: 'expand',   label: '▸ развернуть' },
+    { mode: 'expand', label: '▸ развернуть' },
     { mode: 'compress', label: '▸ сжать' },
-    { mode: 'delete',   label: '▸ удалить' },
+    { mode: 'delete', label: '▸ удалить' },
   ];
 
   return (
     <>
       {/* Mobile bottom-sheet */}
-      <div ref={ref} className="lg:hidden fixed inset-x-0 bottom-0 z-40 rounded-t-2xl bg-surface-raised p-5 shadow-2xl">
+      <div
+        ref={ref}
+        className="lg:hidden fixed inset-x-0 bottom-0 z-40 rounded-t-2xl bg-surface-raised p-5 shadow-2xl"
+      >
         <div className="mx-auto mb-3 h-1 w-12 rounded-full bg-ink-faint" />
         {items.map((it) => (
-          <button key={it.mode} type="button" onClick={() => { onAction(it.mode); onClose(); }}
-            className="block w-full py-3 text-left font-mono text-mono-s tracking-caps uppercase text-ink">
+          <button
+            key={it.mode}
+            type="button"
+            onClick={() => {
+              onAction(it.mode);
+              onClose();
+            }}
+            className="block w-full py-3 text-left font-mono text-mono-s tracking-caps uppercase text-ink"
+          >
             {it.label}
           </button>
         ))}
       </div>
       {/* Desktop popover — positioned via parent via portal */}
-      <div ref={ref} className="hidden lg:block absolute right-0 top-full z-40 mt-2 w-56 rounded-xl border border-ink-faint/20 bg-surface-raised p-2 shadow-xl">
+      <div
+        ref={ref}
+        className="hidden lg:block absolute right-0 top-full z-40 mt-2 w-56 rounded-xl border border-ink-faint/20 bg-surface-raised p-2 shadow-xl"
+      >
         {items.map((it) => (
-          <button key={it.mode} type="button" onClick={() => { onAction(it.mode); onClose(); }}
-            className="block w-full rounded px-3 py-2 text-left font-mono text-mono-s tracking-caps uppercase text-ink hover:bg-bg-deep">
+          <button
+            key={it.mode}
+            type="button"
+            onClick={() => {
+              onAction(it.mode);
+              onClose();
+            }}
+            className="block w-full rounded px-3 py-2 text-left font-mono text-mono-s tracking-caps uppercase text-ink hover:bg-bg-deep"
+          >
             {it.label}
           </button>
         ))}
@@ -690,6 +792,7 @@ git commit -m "feat(M2-C): ParagraphMenu — bottom-sheet (mobile) / popover (de
 ## Task 8: InlineRegenStream renderer
 
 **Files:**
+
 - Create: `components/reader/InlineRegenStream.tsx`
 
 - [ ] **Step 1: Component (drop-by-letter, amber cursor, fade-out old)**
@@ -739,7 +842,7 @@ export function InlineRegenStream({ oldText, endpoint, body, onFinish, onError }
       }
     })();
     return () => abort.abort();
-  }, [endpoint]);  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [endpoint]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <p className="relative font-body text-body-l leading-relaxed">
@@ -749,7 +852,9 @@ export function InlineRegenStream({ oldText, endpoint, body, onFinish, onError }
       >
         {oldText}
       </span>
-      <span className={`relative ${done ? '' : 'after:ml-0.5 after:inline-block after:h-[1em] after:w-[2px] after:animate-pulse after:bg-amber'}`}>
+      <span
+        className={`relative ${done ? '' : 'after:ml-0.5 after:inline-block after:h-[1em] after:w-[2px] after:animate-pulse after:bg-amber'}`}
+      >
         {streamed}
       </span>
     </p>
@@ -771,6 +876,7 @@ git commit -m "feat(M2-C): InlineRegenStream — fade-out old, drop-by-letter ne
 ## Task 9: AgeGateModal + TweakPromptModal
 
 **Files:**
+
 - Create: `components/reader/AgeGateModal.tsx`
 - Create: `components/reader/TweakPromptModal.tsx`
 
@@ -779,7 +885,13 @@ git commit -m "feat(M2-C): InlineRegenStream — fade-out old, drop-by-letter ne
 ```tsx
 // components/reader/AgeGateModal.tsx
 'use client';
-export function AgeGateModal({ onConfirm, onClose }: { onConfirm: () => void; onClose: () => void }) {
+export function AgeGateModal({
+  onConfirm,
+  onClose,
+}: {
+  onConfirm: () => void;
+  onClose: () => void;
+}) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85">
       <div className="max-w-sm rounded-2xl bg-surface-raised p-6">
@@ -788,12 +900,16 @@ export function AgeGateModal({ onConfirm, onClose }: { onConfirm: () => void; on
           для контента с пометкой M/E нужно подтвердить возраст. это одноразовый шаг.
         </p>
         <div className="mt-5 flex gap-3">
-          <button onClick={onClose}
-            className="flex-1 rounded-full border border-ink-faint/30 px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-ink-dim">
+          <button
+            onClick={onClose}
+            className="flex-1 rounded-full border border-ink-faint/30 px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-ink-dim"
+          >
             нет
           </button>
-          <button onClick={onConfirm}
-            className="flex-1 rounded-full bg-amber px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-bg-deep">
+          <button
+            onClick={onConfirm}
+            className="flex-1 rounded-full bg-amber px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-bg-deep"
+          >
             да, мне 18+
           </button>
         </div>
@@ -810,27 +926,45 @@ export function AgeGateModal({ onConfirm, onClose }: { onConfirm: () => void; on
 'use client';
 import { useState } from 'react';
 
-interface Props { onSubmit: (hint: string) => void; onClose: () => void; }
+interface Props {
+  onSubmit: (hint: string) => void;
+  onClose: () => void;
+}
 export function TweakPromptModal({ onSubmit, onClose }: Props) {
   const [hint, setHint] = useState('');
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="max-w-md rounded-2xl bg-surface-raised p-6">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-bg-deep/85"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="max-w-md rounded-2xl bg-surface-raised p-6"
+      >
         <h2 className="font-display text-2xl">подкрутить главу</h2>
         <p className="mt-2 font-body text-body italic text-ink-dim">
           один абзац или общая правка — модель пере-сгенерит главу с учётом подсказки.
         </p>
         <textarea
-          value={hint} onChange={(e) => setHint(e.target.value)} maxLength={500} rows={4}
+          value={hint}
+          onChange={(e) => setHint(e.target.value)}
+          maxLength={500}
+          rows={4}
           placeholder="например: больше внутреннего монолога Драко"
           className="mt-4 w-full rounded-lg bg-bg-deep p-3 font-body text-body italic"
         />
         <div className="mt-4 flex gap-3">
-          <button onClick={onClose} className="rounded-full border border-ink-faint/30 px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-ink-dim">
+          <button
+            onClick={onClose}
+            className="rounded-full border border-ink-faint/30 px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-ink-dim"
+          >
             отмена
           </button>
-          <button onClick={() => onSubmit(hint)} disabled={!hint.trim()}
-            className="rounded-full bg-amber px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-bg-deep disabled:opacity-50">
+          <button
+            onClick={() => onSubmit(hint)}
+            disabled={!hint.trim()}
+            className="rounded-full bg-amber px-4 py-2 font-mono text-mono-s tracking-caps uppercase text-bg-deep disabled:opacity-50"
+          >
             пере-сгенерить
           </button>
         </div>
@@ -852,6 +986,7 @@ git commit -m "feat(M2-C): AgeGate + TweakPrompt modals"
 ## Task 10: Wire ParagraphMenu в ReaderPageView
 
 **Files:**
+
 - Modify: ReaderPageView (точное имя из M1)
 
 - [ ] **Step 1: Per-paragraph menu state**
@@ -866,7 +1001,11 @@ import { InlineRegenStream } from '@/components/reader/InlineRegenStream';
 import { AgeGateModal } from '@/components/reader/AgeGateModal';
 import type { RegenMode } from '@/lib/prompts/paragraph-regen';
 
-interface ParaProps { id: string; text: string; canEdit: boolean; }
+interface ParaProps {
+  id: string;
+  text: string;
+  canEdit: boolean;
+}
 
 function ParagraphView({ id, text, canEdit }: ParaProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -879,8 +1018,15 @@ function ParagraphView({ id, text, canEdit }: ParaProps) {
         oldText={text}
         endpoint={`/api/paragraph/${id}/regen`}
         body={{ mode: regenMode }}
-        onFinish={() => { /* parent refetches chapter; здесь — local replace для optimistic UX */ setRegenMode(null); }}
-        onError={(e) => { if (e.message.includes('age_gate')) setAgeGate(true); setRegenMode(null); }}
+        onFinish={() => {
+          /* parent refetches chapter; здесь — local replace для optimistic UX */ setRegenMode(
+            null,
+          );
+        }}
+        onError={(e) => {
+          if (e.message.includes('age_gate')) setAgeGate(true);
+          setRegenMode(null);
+        }}
       />
     );
   }
@@ -945,6 +1091,7 @@ git commit -m "feat(M2-C): Reader wires ParagraphMenu → regen/InlineRegenStrea
 ## Task 11: End-to-end smoke
 
 **Files:**
+
 - Create: `scripts/m2c-e2e.ts`
 
 - [ ] **Step 1: Playwright script**
@@ -961,10 +1108,13 @@ async function main() {
   await page.click('p >> nth=2');
   await page.click('text=переписать');
   // wait for fade + new text
-  await page.waitForFunction(() => {
-    const ps = document.querySelectorAll('p');
-    return ps[2]?.textContent && ps[2].textContent.length > 50;
-  }, { timeout: 60000 });
+  await page.waitForFunction(
+    () => {
+      const ps = document.querySelectorAll('p');
+      return ps[2]?.textContent && ps[2].textContent.length > 50;
+    },
+    { timeout: 60000 },
+  );
   await browser.close();
 }
 void main();

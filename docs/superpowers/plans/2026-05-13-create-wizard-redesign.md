@@ -14,40 +14,40 @@
 
 ## File Structure Map
 
-| Layer | File | Action |
-|---|---|---|
-| Schema | `prisma/schema.prisma` | modify: add enums + fields |
-| Schema | `prisma/migrations/<ts>_wizard_redesign/migration.sql` | create |
-| Locale | `lib/create/locale.ts` | create |
-| Prompts | `lib/prompts/chapter.ts` | modify |
-| Prompts | `lib/prompts/chapter.test.ts` | modify |
-| Prompts | `lib/prompts/character-suggest.ts` | create (replaces ship-suggest) |
-| Prompts | `lib/prompts/character-suggest.test.ts` | create |
-| Prompts | `lib/prompts/ship-suggest.ts` | delete after migration |
-| Prompts | `lib/prompts/trope-suggest.ts` | modify |
-| Prompts | `lib/prompts/trope-suggest.test.ts` | modify |
-| Prompts | `lib/prompts/genre-suggest.ts` | create |
-| Prompts | `lib/prompts/genre-suggest.test.ts` | create |
-| API | `app/api/create/draft/[id]/route.ts` | modify (Zod) |
-| API | `app/api/create/suggestions/characters/route.ts` | create |
-| API | `app/api/create/suggestions/characters/route.test.ts` | create |
-| API | `app/api/create/suggestions/tropes/route.ts` | modify |
-| API | `app/api/create/suggestions/tropes/route.test.ts` | modify |
-| API | `app/api/create/suggestions/genres/route.ts` | create |
-| API | `app/api/create/suggestions/genres/route.test.ts` | create |
-| API | `app/api/create/suggestions/ships/*` | delete |
-| API | `app/api/create/draft/[id]/start/route.ts` | modify |
-| API | `app/api/create/draft/[id]/start/route.test.ts` | modify |
-| API | `app/api/chapter/[id]/stream/route.ts` | modify (passes new fields) |
-| UI prim | `components/ui/ChipGroup.tsx` | create |
-| UI prim | `components/ui/MultiChipGroup.tsx` | create |
-| UI prim | `components/ui/TagInput.tsx` | create |
-| UI prim | `components/ui/AccordionSection.tsx` | create |
-| UI steps | `components/create/StepFocusCharacters.tsx` | create |
-| UI steps | `components/create/StepDetails.tsx` | create |
-| UI shell | `components/create/CreatePageView.tsx` | rewrite |
-| Tests | `tests/pages/create-flow.test.tsx` | rewrite |
-| Tracking | `lib/track.ts` | modify (event names) |
+| Layer    | File                                                   | Action                         |
+| -------- | ------------------------------------------------------ | ------------------------------ |
+| Schema   | `prisma/schema.prisma`                                 | modify: add enums + fields     |
+| Schema   | `prisma/migrations/<ts>_wizard_redesign/migration.sql` | create                         |
+| Locale   | `lib/create/locale.ts`                                 | create                         |
+| Prompts  | `lib/prompts/chapter.ts`                               | modify                         |
+| Prompts  | `lib/prompts/chapter.test.ts`                          | modify                         |
+| Prompts  | `lib/prompts/character-suggest.ts`                     | create (replaces ship-suggest) |
+| Prompts  | `lib/prompts/character-suggest.test.ts`                | create                         |
+| Prompts  | `lib/prompts/ship-suggest.ts`                          | delete after migration         |
+| Prompts  | `lib/prompts/trope-suggest.ts`                         | modify                         |
+| Prompts  | `lib/prompts/trope-suggest.test.ts`                    | modify                         |
+| Prompts  | `lib/prompts/genre-suggest.ts`                         | create                         |
+| Prompts  | `lib/prompts/genre-suggest.test.ts`                    | create                         |
+| API      | `app/api/create/draft/[id]/route.ts`                   | modify (Zod)                   |
+| API      | `app/api/create/suggestions/characters/route.ts`       | create                         |
+| API      | `app/api/create/suggestions/characters/route.test.ts`  | create                         |
+| API      | `app/api/create/suggestions/tropes/route.ts`           | modify                         |
+| API      | `app/api/create/suggestions/tropes/route.test.ts`      | modify                         |
+| API      | `app/api/create/suggestions/genres/route.ts`           | create                         |
+| API      | `app/api/create/suggestions/genres/route.test.ts`      | create                         |
+| API      | `app/api/create/suggestions/ships/*`                   | delete                         |
+| API      | `app/api/create/draft/[id]/start/route.ts`             | modify                         |
+| API      | `app/api/create/draft/[id]/start/route.test.ts`        | modify                         |
+| API      | `app/api/chapter/[id]/stream/route.ts`                 | modify (passes new fields)     |
+| UI prim  | `components/ui/ChipGroup.tsx`                          | create                         |
+| UI prim  | `components/ui/MultiChipGroup.tsx`                     | create                         |
+| UI prim  | `components/ui/TagInput.tsx`                           | create                         |
+| UI prim  | `components/ui/AccordionSection.tsx`                   | create                         |
+| UI steps | `components/create/StepFocusCharacters.tsx`            | create                         |
+| UI steps | `components/create/StepDetails.tsx`                    | create                         |
+| UI shell | `components/create/CreatePageView.tsx`                 | rewrite                        |
+| Tests    | `tests/pages/create-flow.test.tsx`                     | rewrite                        |
+| Tracking | `lib/track.ts`                                         | modify (event names)           |
 
 ---
 
@@ -56,6 +56,7 @@
 ### Task 1: Prisma schema — enums and CreateDraft fields
 
 **Files:**
+
 - Modify: `prisma/schema.prisma`
 
 - [ ] **Step 1: Add new enums and extend `CreateDraft`**
@@ -218,6 +219,7 @@ git commit -m "feat(db): wizard redesign schema — focus, characters[], AO3 fie
 ### Task 2: Russian locale module
 
 **Files:**
+
 - Create: `lib/create/locale.ts`
 - Create: `lib/create/locale.test.ts`
 
@@ -228,10 +230,15 @@ Create `lib/create/locale.test.ts`:
 ```ts
 import { describe, it, expect } from 'vitest';
 import {
-  FOCUS_LABELS, FOCUS_DESCRIPTIONS,
-  RATING_LABELS, CATEGORY_LABELS,
-  POV_LABELS, TENSE_LABELS,
-  TONE_LABELS, WARNING_LABELS, TIMELINE_LABELS,
+  FOCUS_LABELS,
+  FOCUS_DESCRIPTIONS,
+  RATING_LABELS,
+  CATEGORY_LABELS,
+  POV_LABELS,
+  TENSE_LABELS,
+  TONE_LABELS,
+  WARNING_LABELS,
+  TIMELINE_LABELS,
 } from './locale';
 
 describe('locale labels', () => {
@@ -361,6 +368,7 @@ git commit -m "feat(create): RU locale module — fanfic slang labels"
 ### Task 3: Chapter prompt — extended input + new fields
 
 **Files:**
+
 - Modify: `lib/prompts/chapter.ts`
 - Modify: `lib/prompts/chapter.test.ts`
 
@@ -431,8 +439,22 @@ describe('build chapter prompt', () => {
       chapterLength: 'medium',
       chapterOrdinal: 3,
       priorState: {
-        worldState: { current_location: 'library', story_time: 'Sept', active_plot_threads: ['letters'], foreshadowing: [] },
-        characterStates: [{ character_name: 'Draco', emotional_state: 'guarded', recent_events: [], relationships: {}, arc_progress: 0.3, voice_traits_drift: [] }],
+        worldState: {
+          current_location: 'library',
+          story_time: 'Sept',
+          active_plot_threads: ['letters'],
+          foreshadowing: [],
+        },
+        characterStates: [
+          {
+            character_name: 'Draco',
+            emotional_state: 'guarded',
+            recent_events: [],
+            relationships: {},
+            arc_progress: 0.3,
+            voice_traits_drift: [],
+          },
+        ],
         summaries: ['Ch 1 summary.'],
         recentChapters: ['Full ch 2.'],
       },
@@ -533,7 +555,9 @@ export function build(input: ChapterInput): { system: string; user: string } {
     input.tense ? `Tense: ${tense(input.tense)}.` : 'Tense: past.',
     input.tones?.length ? `Tones: ${input.tones.map(tone).join(', ')}.` : '',
     input.genres?.length ? `Genres: ${input.genres.join(', ')}.` : '',
-    input.timeline ? `Timeline: ${TIMELINE_DESCR[input.timeline] ?? input.timeline}${input.timelineNote ? ' — ' + input.timelineNote : ''}.` : '',
+    input.timeline
+      ? `Timeline: ${TIMELINE_DESCR[input.timeline] ?? input.timeline}${input.timelineNote ? ' — ' + input.timelineNote : ''}.`
+      : '',
     input.setting ? `Setting: ${input.setting}.` : '',
     `Target length: around ${target} words. Use blank lines between paragraphs (paragraphs of 2-4 sentences each).`,
     SYSTEM_INJECTION_NOTICE,
@@ -547,11 +571,12 @@ export function build(input: ChapterInput): { system: string; user: string } {
     lines.push(`Recent full chapters: ${input.priorState.recentChapters.join('\n---\n')}`);
   }
 
-  const user = input.chapterOrdinal === 1
-    ? input.premise
-      ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
-      : 'Write chapter 1 from scratch, drawing on the configured fandom/focus/characters/tropes.'
-    : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
+  const user =
+    input.chapterOrdinal === 1
+      ? input.premise
+        ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
+        : 'Write chapter 1 from scratch, drawing on the configured fandom/focus/characters/tropes.'
+      : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
 
   return { system: lines.join('\n\n'), user };
 }
@@ -574,6 +599,7 @@ git commit -m "feat(prompts): chapter — focus, characters, AO3 hints; bump tem
 ### Task 4: Character-suggest prompt (replaces ship-suggest)
 
 **Files:**
+
 - Create: `lib/prompts/character-suggest.ts`
 - Create: `lib/prompts/character-suggest.test.ts`
 
@@ -668,15 +694,17 @@ export type CharacterSuggestOutput = z.infer<typeof CharacterSuggestSchema>;
 const FOCUS_INSTRUCTIONS: Record<FocusType, string> = {
   ROMANCE:
     'Return 7 popular ship pairings on AO3 + 2 rare-but-beloved pairings. Each suggestion: 2 names (or 3 for poly), label_ru as written in Russian fandom (e.g. «Гарри × Драко», «Снейп/Гермиона»).',
-  GEN:
-    'Return main characters or groups for gen stories (adventure, mystery, no romance). Mix solo protagonists and well-known groups (e.g. «Мародёры», «Золотое трио»). label_ru is the Russian fandom name of the character or group.',
+  GEN: 'Return main characters or groups for gen stories (adventure, mystery, no romance). Mix solo protagonists and well-known groups (e.g. «Мародёры», «Золотое трио»). label_ru is the Russian fandom name of the character or group.',
   CHARACTER_STUDY:
     'Return solo protagonists for character study fanfic. label_ru is the Russian fandom spelling of the character name.',
   FRIENDSHIP:
     'Return friendship pairs or trios (no romance). label_ru in Russian fandom slang (e.g. «Гарри & Рон», «Мародёры»).',
 };
 
-export function build(args: { fandomName: string; focus: FocusType }): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest characters or pairings for a fanfic in a given fandom and focus mode.',
@@ -708,6 +736,7 @@ git commit -m "feat(prompts): character-suggest — focus-conditional, RU slang 
 ### Task 5: Trope-suggest — focus + characters context
 
 **Files:**
+
 - Modify: `lib/prompts/trope-suggest.ts`
 - Modify: `lib/prompts/trope-suggest.test.ts`
 
@@ -780,11 +809,10 @@ export const TropeSuggestSchema = z.object({
 });
 export type TropeSuggestOutput = z.infer<typeof TropeSuggestSchema>;
 
-export function build(args: {
-  fandomName: string;
-  focus: FocusType;
-  characters: string[];
-}): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType; characters: string[] }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest fanfic tropes for a given fandom, focus mode, and main characters.',
@@ -820,6 +848,7 @@ git commit -m "feat(prompts): trope-suggest — focus+characters, RU slang label
 ### Task 6: Genre-suggest prompt (new)
 
 **Files:**
+
 - Create: `lib/prompts/genre-suggest.ts`
 - Create: `lib/prompts/genre-suggest.test.ts`
 
@@ -887,7 +916,10 @@ export const GenreSuggestSchema = z.object({
 });
 export type GenreSuggestOutput = z.infer<typeof GenreSuggestSchema>;
 
-export function build(args: { fandomName: string; focus: FocusType }): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest AU/genre tags for fanfic in a given fandom and focus mode.',
@@ -920,6 +952,7 @@ git commit -m "feat(prompts): genre-suggest — fandom+focus AU/genre tags in RU
 ### Task 7: PATCH draft — extend Zod schema
 
 **Files:**
+
 - Modify: `app/api/create/draft/[id]/route.ts`
 
 - [ ] **Step 1: Update Zod schema**
@@ -942,7 +975,9 @@ const UpdateSchema = z.object({
   warnings: z.array(z.enum(['death', 'violence', 'non_con', 'cntw'])).optional(),
   pov: z.enum(['FIRST', 'CLOSE_THIRD', 'OMNISCIENT']).nullable().optional(),
   tense: z.enum(['PAST', 'PRESENT']).nullable().optional(),
-  tones: z.array(z.enum(['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'])).optional(),
+  tones: z
+    .array(z.enum(['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK']))
+    .optional(),
   timeline: z.string().nullable().optional(),
   timelineNote: z.string().max(500).nullable().optional(),
   genres: z.array(z.string().min(1)).max(10).optional(),
@@ -985,6 +1020,7 @@ git commit -m "feat(api): PATCH draft — extended Zod schema for new wizard fie
 ### Task 8: GET /api/create/suggestions/characters
 
 **Files:**
+
 - Create: `app/api/create/suggestions/characters/route.ts`
 - Create: `app/api/create/suggestions/characters/route.test.ts`
 
@@ -1138,6 +1174,7 @@ git commit -m "feat(api): GET /api/create/suggestions/characters — focus-aware
 ### Task 9: GET /api/create/suggestions/tropes — focus + characters
 
 **Files:**
+
 - Modify: `app/api/create/suggestions/tropes/route.ts`
 - Modify: `app/api/create/suggestions/tropes/route.test.ts`
 
@@ -1175,7 +1212,10 @@ export async function GET(req: NextRequest) {
   const focusParsed = FocusEnum.safeParse(focusRaw);
   if (!focusParsed.success) return NextResponse.json({ error: 'invalid focus' }, { status: 400 });
   const focus = focusParsed.data;
-  const characters = (charactersRaw ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  const characters = (charactersRaw ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   const fandom = await prisma.tag.findUnique({ where: { id: fandomId } });
   if (!fandom) return NextResponse.json({ error: 'fandom not found' }, { status: 404 });
@@ -1186,7 +1226,11 @@ export async function GET(req: NextRequest) {
     cacheKey,
   );
   if (cached) {
-    return NextResponse.json({ tropes: cached.tropes, sensei_tip: cached.sensei_tip, cached: true });
+    return NextResponse.json({
+      tropes: cached.tropes,
+      sensei_tip: cached.sensei_tip,
+      cached: true,
+    });
   }
 
   const prompt = tropeSuggest.build({
@@ -1229,6 +1273,7 @@ git commit -m "feat(api): GET tropes — focus + characters; v2 schema"
 ### Task 10: GET /api/create/suggestions/genres (new)
 
 **Files:**
+
 - Create: `app/api/create/suggestions/genres/route.ts`
 - Create: `app/api/create/suggestions/genres/route.test.ts`
 
@@ -1270,7 +1315,10 @@ export async function GET(req: NextRequest) {
   if (!fandom) return NextResponse.json({ error: 'fandom not found' }, { status: 404 });
 
   const cacheKey = { scope: 'genre_suggestions', fandomId, focus };
-  const cached = await getSuggestion<genreSuggest.GenreSuggestOutput>('genre_suggestions', cacheKey);
+  const cached = await getSuggestion<genreSuggest.GenreSuggestOutput>(
+    'genre_suggestions',
+    cacheKey,
+  );
   if (cached) return NextResponse.json({ genres: cached.genres, cached: true });
 
   const prompt = genreSuggest.build({
@@ -1312,12 +1360,14 @@ git commit -m "feat(api): GET genres — fandom+focus AU/genre suggestions"
 ### Task 11: POST start — new validation + Story field copying
 
 **Files:**
+
 - Modify: `app/api/create/draft/[id]/start/route.ts`
 - Modify: `app/api/create/draft/[id]/start/route.test.ts`
 
 - [ ] **Step 1: Update test**
 
 Open `app/api/create/draft/[id]/start/route.test.ts`. Update fixtures so drafts have `focusType: 'ROMANCE'` + `characters: ['Гарри', 'Драко']` instead of `shipId`. Add new test cases:
+
 - 400 when `focusType` is null
 - 400 when `characters` is empty
 - 200 when valid draft with new shape — assert Story has `focusType`, `category`, `rating` etc copied from draft.
@@ -1377,7 +1427,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         pov: draft.pov,
         tense: draft.tense,
         tones: draft.tones,
-        tone: draft.tones[0] ?? null,    // legacy single-value field
+        tone: draft.tones[0] ?? null, // legacy single-value field
         timeline: draft.timeline,
         timelineNote: draft.timelineNote,
         genres: draft.genres,
@@ -1398,7 +1448,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     await tx.storyTag.create({ data: { storyId: story.id, tagId: draft.fandomId! } });
 
     // Persist characters as RELATIONSHIP tag if focus=ROMANCE/FRIENDSHIP (≥2) else as CHARACTER tags.
-    const relationshipFocuses: typeof draft.focusType[] = ['ROMANCE', 'FRIENDSHIP'];
+    const relationshipFocuses: (typeof draft.focusType)[] = ['ROMANCE', 'FRIENDSHIP'];
     if (relationshipFocuses.includes(draft.focusType) && draft.characters.length >= 2) {
       const relName = draft.characters.join(' × ');
       const slug = toSlug(relName);
@@ -1478,6 +1528,7 @@ git commit -m "feat(api): start — focus+characters validation, propagate field
 ### Task 12: Chapter stream route — pass new fields from Story
 
 **Files:**
+
 - Modify: `app/api/chapter/[id]/stream/route.ts`
 
 - [ ] **Step 1: Update test**
@@ -1541,6 +1592,7 @@ git commit -m "feat(api): chapter stream — pass all new Story fields to chapte
 ### Task 13: Delete old ship-suggest endpoint and prompt
 
 **Files:**
+
 - Delete: `app/api/create/suggestions/ships/route.ts`
 - Delete: `app/api/create/suggestions/ships/route.test.ts`
 - Delete: `lib/prompts/ship-suggest.ts`
@@ -1572,6 +1624,7 @@ git commit -m "chore(api): drop deprecated ship-suggest endpoint"
 ### Task 14: ChipGroup (single-select)
 
 **Files:**
+
 - Create: `components/ui/ChipGroup.tsx`
 - Create: `components/ui/ChipGroup.test.tsx`
 
@@ -1635,7 +1688,12 @@ interface ChipGroupProps<V extends string> {
   testIdPrefix?: string;
 }
 
-export function ChipGroup<V extends string>({ options, value, onChange, testIdPrefix }: ChipGroupProps<V>) {
+export function ChipGroup<V extends string>({
+  options,
+  value,
+  onChange,
+  testIdPrefix,
+}: ChipGroupProps<V>) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => {
@@ -1681,6 +1739,7 @@ git commit -m "feat(ui): ChipGroup single-select primitive"
 ### Task 15: MultiChipGroup (multi-select)
 
 **Files:**
+
 - Create: `components/ui/MultiChipGroup.tsx`
 - Create: `components/ui/MultiChipGroup.test.tsx`
 
@@ -1808,6 +1867,7 @@ git commit -m "feat(ui): MultiChipGroup multi-select primitive"
 ### Task 16: TagInput (free-input + selected chips)
 
 **Files:**
+
 - Create: `components/ui/TagInput.tsx`
 - Create: `components/ui/TagInput.test.tsx`
 
@@ -1955,6 +2015,7 @@ git commit -m "feat(ui): TagInput — free-input with chips and max"
 ### Task 17: AccordionSection
 
 **Files:**
+
 - Create: `components/ui/AccordionSection.tsx`
 - Create: `components/ui/AccordionSection.test.tsx`
 
@@ -2010,7 +2071,12 @@ interface AccordionSectionProps {
   children: ReactNode;
 }
 
-export function AccordionSection({ title, subtitle, defaultOpen = false, children }: AccordionSectionProps) {
+export function AccordionSection({
+  title,
+  subtitle,
+  defaultOpen = false,
+  children,
+}: AccordionSectionProps) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <section className="border-t border-ink-faint/15 pt-3">
@@ -2054,6 +2120,7 @@ git commit -m "feat(ui): AccordionSection collapsible primitive"
 ### Task 18: StepFocusCharacters
 
 **Files:**
+
 - Create: `components/create/StepFocusCharacters.tsx`
 - Create: `components/create/StepFocusCharacters.test.tsx`
 
@@ -2066,8 +2133,20 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { StepFocusCharacters } from './StepFocusCharacters';
 
 const SUGGESTIONS = [
-  { names: ['Гарри', 'Драко'], label_ru: 'Гарри × Драко', popularity: 0.9, rarity: 'top' as const, focus_compatible: ['romance' as const] },
-  { names: ['Снейп', 'Гермиона'], label_ru: 'Снейп × Гермиона', popularity: 0.3, rarity: 'rare' as const, focus_compatible: ['romance' as const] },
+  {
+    names: ['Гарри', 'Драко'],
+    label_ru: 'Гарри × Драко',
+    popularity: 0.9,
+    rarity: 'top' as const,
+    focus_compatible: ['romance' as const],
+  },
+  {
+    names: ['Снейп', 'Гермиона'],
+    label_ru: 'Снейп × Гермиона',
+    popularity: 0.3,
+    rarity: 'rare' as const,
+    focus_compatible: ['romance' as const],
+  },
 ];
 
 describe('StepFocusCharacters', () => {
@@ -2232,7 +2311,8 @@ export function StepFocusCharacters({
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          <span className="italic text-amber">фокус</span> истории<span className="text-amber">.</span>
+          <span className="italic text-amber">фокус</span> истории
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           С чего строим сюжет — пейринг, приключение, один герой или дружба.
@@ -2249,7 +2329,12 @@ export function StepFocusCharacters({
       {focus && (
         <div className="flex flex-col gap-4">
           <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">
-            ✦ {focus === 'ROMANCE' ? 'пейринг' : focus === 'CHARACTER_STUDY' ? 'главный герой' : 'главные герои'}
+            ✦{' '}
+            {focus === 'ROMANCE'
+              ? 'пейринг'
+              : focus === 'CHARACTER_STUDY'
+                ? 'главный герой'
+                : 'главные герои'}
           </div>
 
           {suggestionsLoading && (
@@ -2318,6 +2403,7 @@ git commit -m "feat(create): StepFocusCharacters — focus-driven Step 2"
 ### Task 19: StepDetails (4 accordion sections)
 
 **Files:**
+
 - Create: `components/create/StepDetails.tsx`
 - Create: `components/create/StepDetails.test.tsx`
 
@@ -2330,9 +2416,16 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { StepDetails, type StepDetailsValue } from './StepDetails';
 
 const EMPTY: StepDetailsValue = {
-  rating: null, category: null, warnings: [],
-  pov: null, tense: null, tones: [],
-  timeline: null, timelineNote: null, genres: [], setting: null,
+  rating: null,
+  category: null,
+  warnings: [],
+  pov: null,
+  tense: null,
+  tones: [],
+  timeline: null,
+  timelineNote: null,
+  genres: [],
+  setting: null,
   premise: null,
 };
 
@@ -2462,31 +2555,43 @@ interface StepDetailsProps {
 }
 
 const RATING_OPTS = (['GENERAL', 'TEEN', 'MATURE', 'EXPLICIT'] as Rating[]).map((r) => ({
-  value: r, label: RATING_LABELS[r],
+  value: r,
+  label: RATING_LABELS[r],
 }));
 const CATEGORY_OPTS = (['SLASH', 'FEMSLASH', 'HET', 'GEN', 'MULTI'] as Category[]).map((c) => ({
-  value: c, label: CATEGORY_LABELS[c],
+  value: c,
+  label: CATEGORY_LABELS[c],
 }));
 const POV_OPTS = (['FIRST', 'CLOSE_THIRD', 'OMNISCIENT'] as Pov[]).map((p) => ({
-  value: p, label: POV_LABELS[p],
+  value: p,
+  label: POV_LABELS[p],
 }));
 const TENSE_OPTS = (['PAST', 'PRESENT'] as Tense[]).map((t) => ({
-  value: t, label: TENSE_LABELS[t],
+  value: t,
+  label: TENSE_LABELS[t],
 }));
-const TONE_OPTS = (['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'] as Tone[]).map((t) => ({
-  value: t, label: TONE_LABELS[t],
+const TONE_OPTS = (
+  ['SLOW_BURN', 'SPICY', 'FLUFF', 'ANGST', 'HURT_COMFORT', 'CRACK', 'DARK'] as Tone[]
+).map((t) => ({
+  value: t,
+  label: TONE_LABELS[t],
 }));
 const WARNING_OPTS = WARNING_KEYS.map((k) => ({ value: k, label: WARNING_LABELS[k] }));
 const TIMELINE_OPTS = TIMELINE_KEYS.map((k) => ({ value: k, label: TIMELINE_LABELS[k] }));
 
 export function StepDetails({
-  value, onChange, genreSuggestions, genreSuggestionsLoading, onNext,
+  value,
+  onChange,
+  genreSuggestions,
+  genreSuggestionsLoading,
+  onNext,
 }: StepDetailsProps) {
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          <span className="italic text-amber">детали</span><span className="text-amber">.</span>
+          <span className="italic text-amber">детали</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           всё опционально — пропусти, и AI заполнит сам.
@@ -2666,6 +2771,7 @@ git commit -m "feat(create): StepDetails — accordion advanced fields"
 ### Task 20: CreatePageView — rewire state machine
 
 **Files:**
+
 - Modify: `components/create/CreatePageView.tsx`
 
 This is a large rewrite. Plan it as two sub-commits: shell + step 3/5 first, then validate end-to-end with the existing flow test in Task 21.
@@ -2758,177 +2864,177 @@ export function CreatePageView() {
 Below the state block, add helpers and effects (still inside `CreatePageView`):
 
 ```tsx
-  useEffect(() => {
-    async function createDraft() {
-      try {
-        const res = await apiFetch('/api/create/draft', { method: 'POST' });
-        if (!res.ok) throw new Error('failed to create draft');
-        const data = await res.json();
-        setDraftId(data.id);
-      } catch {
-        setErrorMsg('не удалось создать черновик. перезагрузи страницу.');
-      } finally {
-        setIsInitializing(false);
-      }
-    }
-    void createDraft();
-  }, []);
-
-  const patchDraft = useCallback(
-    async (body: Record<string, unknown>) => {
-      if (!draftId) return;
-      try {
-        await apiFetch(`/api/create/draft/${draftId}`, {
-          method: 'PATCH',
-          body: JSON.stringify(body),
-        });
-      } catch {
-        // silent autosave failure
-      }
-    },
-    [draftId],
-  );
-
-  const debouncedPatch = useCallback(
-    (body: Record<string, unknown>) => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      debounceRef.current = setTimeout(() => void patchDraft(body), 500);
-    },
-    [patchDraft],
-  );
-
-  // ── Step 1 → 2 ─────────────────────────────────────────────────────────────
-  const pickFandom = useCallback(
-    async (fandom: FandomOption) => {
-      setSelectedFandom(fandom);
-      setStep(2);
-      await patchDraft({ fandomId: fandom.id, step: 2 });
-    },
-    [patchDraft],
-  );
-
-  // ── Step 2: pick focus → fetch character suggestions ──────────────────────
-  const handleFocusChange = useCallback(
-    async (next: FocusType) => {
-      setFocus(next);
-      setCharacters([]);
-      setCharacterSuggestionsLoading(true);
-      await patchDraft({ focusType: next, characters: [] });
-      if (!selectedFandom) return;
-      try {
-        const res = await apiFetch(
-          `/api/create/suggestions/characters?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${next}`,
-        );
-        if (!res.ok) throw new Error('characters fetch failed');
-        const data = await res.json();
-        setCharacterSuggestions(data.suggestions ?? []);
-      } catch {
-        setErrorMsg('не удалось загрузить подсказки');
-      } finally {
-        setCharacterSuggestionsLoading(false);
-      }
-    },
-    [patchDraft, selectedFandom],
-  );
-
-  const handleCharactersChange = useCallback(
-    (next: string[]) => {
-      setCharacters(next);
-      debouncedPatch({ characters: next });
-    },
-    [debouncedPatch],
-  );
-
-  const confirmFocusCharacters = useCallback(async () => {
-    setStep(3);
-    setTropeSuggestionsLoading(true);
-    await patchDraft({ step: 3 });
-    if (!selectedFandom || !focus) return;
+useEffect(() => {
+  async function createDraft() {
     try {
-      const res = await apiFetch(
-        `/api/create/suggestions/tropes?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}&characters=${encodeURIComponent(characters.join(','))}`,
-      );
-      if (!res.ok) throw new Error('tropes fetch failed');
+      const res = await apiFetch('/api/create/draft', { method: 'POST' });
+      if (!res.ok) throw new Error('failed to create draft');
       const data = await res.json();
-      setTropeSuggestions(data.tropes ?? []);
-      setSenseiTip(data.sensei_tip ?? '');
+      setDraftId(data.id);
     } catch {
-      setErrorMsg('не удалось загрузить тропы');
+      setErrorMsg('не удалось создать черновик. перезагрузи страницу.');
     } finally {
-      setTropeSuggestionsLoading(false);
+      setIsInitializing(false);
     }
-  }, [patchDraft, selectedFandom, focus, characters]);
+  }
+  void createDraft();
+}, []);
 
-  // ── Step 3 ─────────────────────────────────────────────────────────────────
-  const handleTropesChange = useCallback(
-    (next: string[]) => {
-      setTropes(next);
-      debouncedPatch({ tropes: next });
-    },
-    [debouncedPatch],
-  );
-
-  const confirmTropes = useCallback(async () => {
-    if (tropes.length === 0) return;
-    setStep(4);
-    setGenreSuggestionsLoading(true);
-    await patchDraft({ tropes, step: 4 });
-    if (!selectedFandom || !focus) return;
-    try {
-      const res = await apiFetch(
-        `/api/create/suggestions/genres?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}`,
-      );
-      if (!res.ok) throw new Error('genres fetch failed');
-      const data = await res.json();
-      setGenreSuggestions(data.genres ?? []);
-    } catch {
-      // non-blocking
-    } finally {
-      setGenreSuggestionsLoading(false);
-    }
-  }, [patchDraft, tropes, selectedFandom, focus]);
-
-  // ── Step 4 ─────────────────────────────────────────────────────────────────
-  const handleDetailsChange = useCallback(
-    (patch: Partial<StepDetailsValue>) => {
-      setDetails((prev) => {
-        const next = { ...prev, ...patch };
-        debouncedPatch(patch);
-        return next;
-      });
-    },
-    [debouncedPatch],
-  );
-
-  const confirmDetails = useCallback(async () => {
-    setStep(5);
-    await patchDraft({ step: 5 });
-  }, [patchDraft]);
-
-  // ── Step 5 ─────────────────────────────────────────────────────────────────
-  const startStory = useCallback(async () => {
+const patchDraft = useCallback(
+  async (body: Record<string, unknown>) => {
     if (!draftId) return;
-    setIsStarting(true);
-    setErrorMsg('');
     try {
-      const res = await apiFetch(`/api/create/draft/${draftId}/start`, { method: 'POST' });
-      if (res.status === 429) {
-        setShowQuota(true);
-        return;
-      }
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setErrorMsg(data.error ?? 'ошибка старта');
-        return;
-      }
-      const { storyId } = await res.json();
-      router.push(`/reader/${storyId}/1` as Route);
+      await apiFetch(`/api/create/draft/${draftId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+      });
     } catch {
-      setErrorMsg('не удалось начать историю. попробуй ещё раз.');
-    } finally {
-      setIsStarting(false);
+      // silent autosave failure
     }
-  }, [draftId, router]);
+  },
+  [draftId],
+);
+
+const debouncedPatch = useCallback(
+  (body: Record<string, unknown>) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => void patchDraft(body), 500);
+  },
+  [patchDraft],
+);
+
+// ── Step 1 → 2 ─────────────────────────────────────────────────────────────
+const pickFandom = useCallback(
+  async (fandom: FandomOption) => {
+    setSelectedFandom(fandom);
+    setStep(2);
+    await patchDraft({ fandomId: fandom.id, step: 2 });
+  },
+  [patchDraft],
+);
+
+// ── Step 2: pick focus → fetch character suggestions ──────────────────────
+const handleFocusChange = useCallback(
+  async (next: FocusType) => {
+    setFocus(next);
+    setCharacters([]);
+    setCharacterSuggestionsLoading(true);
+    await patchDraft({ focusType: next, characters: [] });
+    if (!selectedFandom) return;
+    try {
+      const res = await apiFetch(
+        `/api/create/suggestions/characters?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${next}`,
+      );
+      if (!res.ok) throw new Error('characters fetch failed');
+      const data = await res.json();
+      setCharacterSuggestions(data.suggestions ?? []);
+    } catch {
+      setErrorMsg('не удалось загрузить подсказки');
+    } finally {
+      setCharacterSuggestionsLoading(false);
+    }
+  },
+  [patchDraft, selectedFandom],
+);
+
+const handleCharactersChange = useCallback(
+  (next: string[]) => {
+    setCharacters(next);
+    debouncedPatch({ characters: next });
+  },
+  [debouncedPatch],
+);
+
+const confirmFocusCharacters = useCallback(async () => {
+  setStep(3);
+  setTropeSuggestionsLoading(true);
+  await patchDraft({ step: 3 });
+  if (!selectedFandom || !focus) return;
+  try {
+    const res = await apiFetch(
+      `/api/create/suggestions/tropes?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}&characters=${encodeURIComponent(characters.join(','))}`,
+    );
+    if (!res.ok) throw new Error('tropes fetch failed');
+    const data = await res.json();
+    setTropeSuggestions(data.tropes ?? []);
+    setSenseiTip(data.sensei_tip ?? '');
+  } catch {
+    setErrorMsg('не удалось загрузить тропы');
+  } finally {
+    setTropeSuggestionsLoading(false);
+  }
+}, [patchDraft, selectedFandom, focus, characters]);
+
+// ── Step 3 ─────────────────────────────────────────────────────────────────
+const handleTropesChange = useCallback(
+  (next: string[]) => {
+    setTropes(next);
+    debouncedPatch({ tropes: next });
+  },
+  [debouncedPatch],
+);
+
+const confirmTropes = useCallback(async () => {
+  if (tropes.length === 0) return;
+  setStep(4);
+  setGenreSuggestionsLoading(true);
+  await patchDraft({ tropes, step: 4 });
+  if (!selectedFandom || !focus) return;
+  try {
+    const res = await apiFetch(
+      `/api/create/suggestions/genres?fandomId=${encodeURIComponent(selectedFandom.id)}&focus=${focus}`,
+    );
+    if (!res.ok) throw new Error('genres fetch failed');
+    const data = await res.json();
+    setGenreSuggestions(data.genres ?? []);
+  } catch {
+    // non-blocking
+  } finally {
+    setGenreSuggestionsLoading(false);
+  }
+}, [patchDraft, tropes, selectedFandom, focus]);
+
+// ── Step 4 ─────────────────────────────────────────────────────────────────
+const handleDetailsChange = useCallback(
+  (patch: Partial<StepDetailsValue>) => {
+    setDetails((prev) => {
+      const next = { ...prev, ...patch };
+      debouncedPatch(patch);
+      return next;
+    });
+  },
+  [debouncedPatch],
+);
+
+const confirmDetails = useCallback(async () => {
+  setStep(5);
+  await patchDraft({ step: 5 });
+}, [patchDraft]);
+
+// ── Step 5 ─────────────────────────────────────────────────────────────────
+const startStory = useCallback(async () => {
+  if (!draftId) return;
+  setIsStarting(true);
+  setErrorMsg('');
+  try {
+    const res = await apiFetch(`/api/create/draft/${draftId}/start`, { method: 'POST' });
+    if (res.status === 429) {
+      setShowQuota(true);
+      return;
+    }
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setErrorMsg(data.error ?? 'ошибка старта');
+      return;
+    }
+    const { storyId } = await res.json();
+    router.push(`/reader/${storyId}/1` as Route);
+  } catch {
+    setErrorMsg('не удалось начать историю. попробуй ещё раз.');
+  } finally {
+    setIsStarting(false);
+  }
+}, [draftId, router]);
 ```
 
 - [ ] **Step 3: Implement renderStepContent and shell**
@@ -2936,57 +3042,57 @@ Below the state block, add helpers and effects (still inside `CreatePageView`):
 Below the handlers, add the render function and return the same shell as the current component, swapping in new step components:
 
 ```tsx
-  function renderStepContent() {
-    switch (step) {
-      case 1:
-        return <StepFandom onPick={pickFandom} />;
-      case 2:
-        return (
-          <StepFocusCharacters
-            focus={focus}
-            characters={characters}
-            suggestions={characterSuggestions}
-            suggestionsLoading={characterSuggestionsLoading}
-            onFocusChange={handleFocusChange}
-            onCharactersChange={handleCharactersChange}
-            onNext={confirmFocusCharacters}
-          />
-        );
-      case 3:
-        return (
-          <StepTropes
-            suggestions={tropeSuggestions}
-            loading={tropeSuggestionsLoading}
-            selected={tropes}
-            senseiTip={senseiTip}
-            onChange={handleTropesChange}
-            onNext={confirmTropes}
-          />
-        );
-      case 4:
-        return (
-          <StepDetails
-            value={details}
-            onChange={handleDetailsChange}
-            genreSuggestions={genreSuggestions}
-            genreSuggestionsLoading={genreSuggestionsLoading}
-            onNext={confirmDetails}
-          />
-        );
-      case 5:
-        return (
-          <StepPreview
-            fandom={selectedFandom}
-            focus={focus}
-            characters={characters}
-            tropes={tropes}
-            details={details}
-            isStarting={isStarting}
-            onStart={startStory}
-          />
-        );
-    }
+function renderStepContent() {
+  switch (step) {
+    case 1:
+      return <StepFandom onPick={pickFandom} />;
+    case 2:
+      return (
+        <StepFocusCharacters
+          focus={focus}
+          characters={characters}
+          suggestions={characterSuggestions}
+          suggestionsLoading={characterSuggestionsLoading}
+          onFocusChange={handleFocusChange}
+          onCharactersChange={handleCharactersChange}
+          onNext={confirmFocusCharacters}
+        />
+      );
+    case 3:
+      return (
+        <StepTropes
+          suggestions={tropeSuggestions}
+          loading={tropeSuggestionsLoading}
+          selected={tropes}
+          senseiTip={senseiTip}
+          onChange={handleTropesChange}
+          onNext={confirmTropes}
+        />
+      );
+    case 4:
+      return (
+        <StepDetails
+          value={details}
+          onChange={handleDetailsChange}
+          genreSuggestions={genreSuggestions}
+          genreSuggestionsLoading={genreSuggestionsLoading}
+          onNext={confirmDetails}
+        />
+      );
+    case 5:
+      return (
+        <StepPreview
+          fandom={selectedFandom}
+          focus={focus}
+          characters={characters}
+          tropes={tropes}
+          details={details}
+          isStarting={isStarting}
+          onStart={startStory}
+        />
+      );
   }
+}
 ```
 
 Keep the JSX shell (mobile/desktop wrappers, progress bar, error display) from the existing file as-is, but update the `stepLabel` derivation to use the new `STEPS` constant. Remove the old `StepShip`, `StepTone`, original `StepTropes`, and original `StepPreview` and replace them with the implementations below.
@@ -3001,7 +3107,12 @@ function StepFandom({ onPick }: { onPick: (f: FandomOption) => void }) {
 }
 
 function StepTropes({
-  suggestions, loading, selected, senseiTip, onChange, onNext,
+  suggestions,
+  loading,
+  selected,
+  senseiTip,
+  onChange,
+  onNext,
 }: {
   suggestions: TropeSuggestion[];
   loading: boolean;
@@ -3010,12 +3121,17 @@ function StepTropes({
   onChange: (next: string[]) => void;
   onNext: () => void;
 }) {
-  const suggestionOptions = suggestions.map((t) => ({ value: t.label_ru, label: t.label_ru, description: t.description_ru }));
+  const suggestionOptions = suggestions.map((t) => ({
+    value: t.label_ru,
+    label: t.label_ru,
+    description: t.description_ru,
+  }));
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          выбираем <span className="italic text-amber">тропы</span><span className="text-amber">.</span>
+          выбираем <span className="italic text-amber">тропы</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 max-w-[48ch] font-body text-body-s lg:text-body-l italic text-ink-dim">
           тропы — сердце сюжета. минимум один.
@@ -3045,7 +3161,9 @@ function StepTropes({
           <TagInput
             values={selected.filter((s) => !suggestions.some((sug) => sug.label_ru === s))}
             onChange={(custom) => {
-              const fromSuggestions = selected.filter((s) => suggestions.some((sug) => sug.label_ru === s));
+              const fromSuggestions = selected.filter((s) =>
+                suggestions.some((sug) => sug.label_ru === s),
+              );
               onChange([...fromSuggestions, ...custom]);
             }}
             placeholder="+ свой троп"
@@ -3077,7 +3195,13 @@ function StepTropes({
 }
 
 function StepPreview({
-  fandom, focus, characters, tropes, details, isStarting, onStart,
+  fandom,
+  focus,
+  characters,
+  tropes,
+  details,
+  isStarting,
+  onStart,
 }: {
   fandom: FandomOption | null;
   focus: FocusType | null;
@@ -3092,7 +3216,8 @@ function StepPreview({
     <div className="flex flex-col gap-6 max-w-lg">
       <div>
         <h1 className="font-display text-[34px] lg:text-[64px] leading-[1.05] lg:leading-[0.95] tracking-tight text-balance">
-          всё <span className="italic text-amber">готово</span><span className="text-amber">.</span>
+          всё <span className="italic text-amber">готово</span>
+          <span className="text-amber">.</span>
         </h1>
         <p className="mt-3 font-body text-body-s lg:text-body-l italic text-ink-dim">
           проверь — и нажмём старт.
@@ -3108,23 +3233,46 @@ function StepPreview({
             <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">тропы</div>
             <div className="mt-1 flex flex-wrap gap-1.5">
               {tropes.map((t) => (
-                <span key={t} className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase">
+                <span
+                  key={t}
+                  className="rounded-full border border-amber/30 bg-amber-soft px-2 py-0.5 font-mono text-mono-s tracking-caps text-amber uppercase"
+                >
                   {t}
                 </span>
               ))}
             </div>
           </div>
         )}
-        <SummaryRow label="рейтинг" value={details.rating ? RATING_LABELS[details.rating] : null} fallback={placeholder} />
-        <SummaryRow label="категория" value={details.category ? CATEGORY_LABELS[details.category] : null} fallback={placeholder} />
-        <SummaryRow label="POV" value={details.pov ? POV_LABELS[details.pov] : null} fallback={placeholder} />
+        <SummaryRow
+          label="рейтинг"
+          value={details.rating ? RATING_LABELS[details.rating] : null}
+          fallback={placeholder}
+        />
+        <SummaryRow
+          label="категория"
+          value={details.category ? CATEGORY_LABELS[details.category] : null}
+          fallback={placeholder}
+        />
+        <SummaryRow
+          label="POV"
+          value={details.pov ? POV_LABELS[details.pov] : null}
+          fallback={placeholder}
+        />
         {details.tones.length > 0 && (
           <SummaryRow label="тон" value={details.tones.map((t) => TONE_LABELS[t]).join(', ')} />
         )}
         {details.timeline && (
-          <SummaryRow label="когда" value={TIMELINE_LABELS[details.timeline] + (details.timelineNote ? ` — ${details.timelineNote}` : '')} />
+          <SummaryRow
+            label="когда"
+            value={
+              TIMELINE_LABELS[details.timeline] +
+              (details.timelineNote ? ` — ${details.timelineNote}` : '')
+            }
+          />
         )}
-        {details.genres.length > 0 && <SummaryRow label="жанр / AU" value={details.genres.join(', ')} />}
+        {details.genres.length > 0 && (
+          <SummaryRow label="жанр / AU" value={details.genres.join(', ')} />
+        )}
         {details.setting && <SummaryRow label="место" value={details.setting} />}
         {details.premise && <SummaryRow label="завязка" value={details.premise} />}
       </div>
@@ -3144,7 +3292,15 @@ function StepPreview({
   );
 }
 
-function SummaryRow({ label, value, fallback }: { label: string; value: string | null; fallback?: React.ReactNode }) {
+function SummaryRow({
+  label,
+  value,
+  fallback,
+}: {
+  label: string;
+  value: string | null;
+  fallback?: React.ReactNode;
+}) {
   return (
     <div>
       <div className="font-mono text-mono-s tracking-caps text-ink-dim uppercase">{label}</div>
@@ -3169,6 +3325,7 @@ git commit -m "feat(create): CreatePageView — new state machine, focus + detai
 ### Task 21: Rewrite full-flow integration test
 
 **Files:**
+
 - Modify: `tests/pages/create-flow.test.tsx`
 
 - [ ] **Step 1: Rewrite the test**
@@ -3190,14 +3347,23 @@ const DRAFT_ID = 'draft-1';
 const STORY_ID = 'story-abc-123';
 
 const MOCK_CHARACTERS = [
-  { names: ['Гарри', 'Драко'], label_ru: 'Гарри × Драко', popularity: 0.9, rarity: 'top', focus_compatible: ['romance'] },
+  {
+    names: ['Гарри', 'Драко'],
+    label_ru: 'Гарри × Драко',
+    popularity: 0.9,
+    rarity: 'top',
+    focus_compatible: ['romance'],
+  },
 ];
 const MOCK_TROPES = [
-  { slug: 'enemies-to-lovers', label_ru: 'от врагов к возлюбленным', description_ru: 'враждуют, потом любят', popularity: 0.9 },
+  {
+    slug: 'enemies-to-lovers',
+    label_ru: 'от врагов к возлюбленным',
+    description_ru: 'враждуют, потом любят',
+    popularity: 0.9,
+  },
 ];
-const MOCK_GENRES = [
-  { slug: 'modern-au', label_ru: 'современная AU', popularity: 0.8 },
-];
+const MOCK_GENRES = [{ slug: 'modern-au', label_ru: 'современная AU', popularity: 0.8 }];
 
 function buildFetchMock({ startStatus = 200 } = {}) {
   return vi.fn(async (url: string | Request | URL, init?: RequestInit) => {
@@ -3213,14 +3379,19 @@ function buildFetchMock({ startStatus = 200 } = {}) {
       return new Response(JSON.stringify({ suggestions: MOCK_CHARACTERS }), { status: 200 });
     }
     if (m === 'GET' && u.includes('/api/create/suggestions/tropes')) {
-      return new Response(JSON.stringify({ tropes: MOCK_TROPES, sensei_tip: 'удачи' }), { status: 200 });
+      return new Response(JSON.stringify({ tropes: MOCK_TROPES, sensei_tip: 'удачи' }), {
+        status: 200,
+      });
     }
     if (m === 'GET' && u.includes('/api/create/suggestions/genres')) {
       return new Response(JSON.stringify({ genres: MOCK_GENRES }), { status: 200 });
     }
     if (m === 'POST' && u.includes('/start')) {
-      if (startStatus === 429) return new Response(JSON.stringify({ error: 'quota_exceeded' }), { status: 429 });
-      return new Response(JSON.stringify({ storyId: STORY_ID, chapterId: 'ch-1' }), { status: 200 });
+      if (startStatus === 429)
+        return new Response(JSON.stringify({ error: 'quota_exceeded' }), { status: 429 });
+      return new Response(JSON.stringify({ storyId: STORY_ID, chapterId: 'ch-1' }), {
+        status: 200,
+      });
     }
     return new Response(JSON.stringify({ error: 'not mocked' }), { status: 404 });
   });
@@ -3234,13 +3405,17 @@ describe('CreatePageView — wizard flow', () => {
     global.fetch = buildFetchMock();
     render(<CreatePageView />);
 
-    await waitFor(() => expect(screen.getAllByText(/AftG|HP|Naruto|JJK/i).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByText(/AftG|HP|Naruto|JJK/i).length).toBeGreaterThan(0),
+    );
 
     // Step 1: pick HP
     fireEvent.click(screen.getAllByText('HP')[0]);
 
     // Step 2: pick Romance focus
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /романтика/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /романтика/i }).length).toBeGreaterThan(0),
+    );
     fireEvent.click(screen.getAllByRole('button', { name: /романтика/i })[0]);
     await waitFor(() =>
       expect(screen.getAllByRole('button', { name: /Гарри × Драко/i }).length).toBeGreaterThan(0),
@@ -3250,13 +3425,17 @@ describe('CreatePageView — wizard flow', () => {
 
     // Step 3: pick a trope
     await waitFor(() =>
-      expect(screen.getAllByRole('button', { name: /от врагов к возлюбленным/i }).length).toBeGreaterThan(0),
+      expect(
+        screen.getAllByRole('button', { name: /от врагов к возлюбленным/i }).length,
+      ).toBeGreaterThan(0),
     );
     fireEvent.click(screen.getAllByRole('button', { name: /от врагов к возлюбленным/i })[0]);
     fireEvent.click(screen.getAllByTestId('step-next')[0]);
 
     // Step 4: skip details
-    await waitFor(() => expect(screen.getAllByRole('button', { name: /маркировка/i }).length).toBeGreaterThan(0));
+    await waitFor(() =>
+      expect(screen.getAllByRole('button', { name: /маркировка/i }).length).toBeGreaterThan(0),
+    );
     fireEvent.click(screen.getAllByTestId('step-next')[0]);
 
     // Step 5: start
@@ -3320,6 +3499,7 @@ git commit -m "test(create): full wizard flow — focus + custom + skip-details 
 ### Task 22: Update tracking event names
 
 **Files:**
+
 - Modify: `lib/track.ts`
 
 - [ ] **Step 1: Read existing track.ts**
@@ -3365,6 +3545,7 @@ Expected: server up at http://localhost:3000.
 - [ ] **Step 2: Walk through scenario A — minimal Romance**
 
 In the browser:
+
 1. Navigate to `/create`.
 2. Pick HP.
 3. Pick «романтика».
@@ -3397,10 +3578,12 @@ Expected: chapter generates with all hints incorporated, Russian POV from Юдз
 - [ ] **Step 4: Verify DB rows**
 
 In Supabase studio (or psql):
+
 ```sql
 SELECT id, "focusType", characters, rating, category, pov, tones, genres, premise
 FROM "Story" ORDER BY "createdAt" DESC LIMIT 2;
 ```
+
 Expected: both stories present with fields populated as configured.
 
 - [ ] **Step 5: No commit needed**

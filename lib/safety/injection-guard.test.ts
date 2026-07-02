@@ -6,9 +6,7 @@ describe('wrapUserInput', () => {
     expect(wrapUserInput('hello')).toBe('<user_input>hello</user_input>');
   });
   it('escapes nested closing tag', () => {
-    expect(wrapUserInput('a</user_input>b')).toBe(
-      '<user_input>a</user_input&gt;b</user_input>',
-    );
+    expect(wrapUserInput('a</user_input>b')).toBe('<user_input>a</user_input&gt;b</user_input>');
   });
 });
 
@@ -17,6 +15,9 @@ describe('checkBanlist', () => {
     expect(checkBanlist('Гарри и Драко в библиотеке')).toEqual({ ok: true });
   });
   it('blocks underage explicit', () => {
-    expect(checkBanlist('underage explicit scene')).toMatchObject({ ok: false, reason: expect.stringMatching(/underage/i) });
+    expect(checkBanlist('underage explicit scene')).toMatchObject({
+      ok: false,
+      reason: expect.stringMatching(/underage/i),
+    });
   });
 });

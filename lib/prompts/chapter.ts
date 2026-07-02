@@ -78,7 +78,9 @@ export function build(input: ChapterInput): { system: string; user: string } {
     input.tense ? `Tense: ${tenseFmt(input.tense)}.` : 'Tense: past.',
     input.tones?.length ? `Tones: ${input.tones.map(toneFmt).join(', ')}.` : '',
     input.genres?.length ? `Genres: ${input.genres.join(', ')}.` : '',
-    input.timeline ? `Timeline: ${TIMELINE_DESCR[input.timeline] ?? input.timeline}${input.timelineNote ? ' — ' + input.timelineNote : ''}.` : '',
+    input.timeline
+      ? `Timeline: ${TIMELINE_DESCR[input.timeline] ?? input.timeline}${input.timelineNote ? ' — ' + input.timelineNote : ''}.`
+      : '',
     input.setting ? `Setting: ${input.setting}.` : '',
     `Target length: around ${target} words. Use blank lines between paragraphs (paragraphs of 2-4 sentences each).`,
     SYSTEM_INJECTION_NOTICE,
@@ -92,11 +94,12 @@ export function build(input: ChapterInput): { system: string; user: string } {
     lines.push(`Recent full chapters: ${input.priorState.recentChapters.join('\n---\n')}`);
   }
 
-  const user = input.chapterOrdinal === 1
-    ? input.premise
-      ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
-      : 'Write chapter 1 from scratch, drawing on the configured fandom/focus/characters/tropes.'
-    : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
+  const user =
+    input.chapterOrdinal === 1
+      ? input.premise
+        ? `Write chapter 1 from this premise: ${wrapUserInput(input.premise)}`
+        : 'Write chapter 1 from scratch, drawing on the configured fandom/focus/characters/tropes.'
+      : `Continue the story with chapter ${input.chapterOrdinal}. Honor existing state.`;
 
   return { system: lines.join('\n\n'), user };
 }

@@ -27,18 +27,17 @@ export type CharacterSuggestOutput = z.infer<typeof CharacterSuggestSchema>;
 const FOCUS_INSTRUCTIONS: Record<FocusType, string> = {
   ROMANCE:
     'Return 7 popular ship pairings on AO3 + 2 rare-but-beloved pairings. Each suggestion: 2 names (or 3 for poly), label_ru as written in Russian fandom (e.g. «Гарри × Драко», «Снейп/Гермиона»).',
-  GEN:
-    'Return main characters or groups for gen stories (adventure, mystery, no romance). Mix solo protagonists and well-known groups (e.g. «Мародёры», «Золотое трио»). label_ru is the Russian fandom name of the character or group.',
+  GEN: 'Return main characters or groups for gen stories (adventure, mystery, no romance). Mix solo protagonists and well-known groups (e.g. «Мародёры», «Золотое трио»). label_ru is the Russian fandom name of the character or group.',
   CHARACTER_STUDY:
     'Return solo protagonists for character study fanfic. label_ru is the Russian fandom spelling of the character name.',
   FRIENDSHIP:
     'Return friendship pairs or trios (no romance). label_ru in Russian fandom slang (e.g. «Гарри & Рон», «Мародёры»).',
 };
 
-export function build(args: {
-  fandomName: string;
-  focus: FocusType;
-}): { system: string; user: string } {
+export function build(args: { fandomName: string; focus: FocusType }): {
+  system: string;
+  user: string;
+} {
   return {
     system: [
       'You suggest characters or pairings for a fanfic in a given fandom and focus mode.',

@@ -1,5 +1,11 @@
 type Mark = { type: string };
-type Node = { type: string; text?: string; marks?: Mark[]; attrs?: { level?: number }; content?: Node[] };
+type Node = {
+  type: string;
+  text?: string;
+  marks?: Mark[];
+  attrs?: { level?: number };
+  content?: Node[];
+};
 
 function inline(nodes: Node[] = []): string {
   return nodes

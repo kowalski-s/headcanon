@@ -46,7 +46,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         pov: draft.pov,
         tense: draft.tense,
         tones: draft.tones,
-        tone: draft.tones[0] ?? null,    // legacy single-value field
+        tone: draft.tones[0] ?? null, // legacy single-value field
         timeline: draft.timeline,
         timelineNote: draft.timelineNote,
         genres: draft.genres,

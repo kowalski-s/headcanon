@@ -22,7 +22,10 @@ export async function GET(req: NextRequest) {
   if (!fandom) return NextResponse.json({ error: 'fandom not found' }, { status: 404 });
 
   const cacheKey = { scope: 'genre_suggestions', fandomId, focus };
-  const cached = await getSuggestion<genreSuggest.GenreSuggestOutput>('genre_suggestions', cacheKey);
+  const cached = await getSuggestion<genreSuggest.GenreSuggestOutput>(
+    'genre_suggestions',
+    cacheKey,
+  );
   if (cached) return NextResponse.json({ genres: cached.genres, cached: true });
 
   const prompt = genreSuggest.build({

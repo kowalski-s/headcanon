@@ -17,6 +17,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     id: chapter.id,
     ordinal: chapter.ordinal,
     status: chapter.status,
-    paragraphs: chapter.paragraphs.map((p) => ({ id: p.id, ordinal: Number(p.ordinal), text: p.text })),
+    paragraphs: chapter.paragraphs.map((p) => ({
+      id: p.id,
+      ordinal: Number(p.ordinal),
+      text: p.text,
+    })),
   });
 }

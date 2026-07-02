@@ -14,11 +14,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  * storyId→chapterId lookup. Non-UUID story keys fall through to the fixture path
  * so M1 preview URLs (e.g. /reader/hero-1/7) keep working unchanged.
  */
-export default async function ReaderPage({
-  params,
-}: {
-  params: Promise<Params>;
-}) {
+export default async function ReaderPage({ params }: { params: Promise<Params> }) {
   const { storyId, chapterN } = await params;
   const ordinal = Number(chapterN);
 
@@ -48,7 +44,7 @@ export default async function ReaderPage({
         authorId: chapter.story.authorId,
         initialParagraphs:
           chapter.paragraphs.length > 0
-            ? chapter.paragraphs.map((p) => ({ id: p.id, text: p.text }))           // generator path — unchanged
+            ? chapter.paragraphs.map((p) => ({ id: p.id, text: p.text })) // generator path — unchanged
             : chapterToParagraphs(chapter).map((text, i) => ({ id: `${chapter.id}-${i}`, text })), // writer path
       }}
     />

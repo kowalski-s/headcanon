@@ -31,11 +31,9 @@ async function main() {
   await page.goto(`http://localhost:3000/reader/${storyId}/1`, { waitUntil: 'domcontentloaded' });
 
   // Wait until at least 3 paragraphs are rendered.
-  await page.waitForFunction(
-    () => document.querySelectorAll('article p').length >= 3,
-    undefined,
-    { timeout: 30_000 },
-  );
+  await page.waitForFunction(() => document.querySelectorAll('article p').length >= 3, undefined, {
+    timeout: 30_000,
+  });
 
   console.log('[2/4] Tapping 3rd paragraph …');
   const para = page.locator('article p').nth(2);
