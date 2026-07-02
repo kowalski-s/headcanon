@@ -36,7 +36,7 @@ describe('handleExtractBible', () => {
     await handleExtractBible({ data: { chapterId: chapter.id } });
 
     const ws = await prisma.worldState.findUniqueOrThrow({ where: { storyId: story.id } });
-    expect((ws.stateJson as any).current_location).toBe('lib');
+    expect((ws.stateJson as unknown as { current_location: string }).current_location).toBe('lib');
 
     const cs = await prisma.chapterSummary.findUniqueOrThrow({
       where: { chapterId: chapter.id },

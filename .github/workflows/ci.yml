@@ -22,7 +22,10 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      # --no-frozen: the committed lockfile omits some platform-specific optional
+      # native deps (e.g. @rolldown/binding-linux-x64-gnu, needed by vitest on
+      # Linux), so let pnpm resolve them. TODO: regenerate a cross-platform lockfile.
+      - run: pnpm install --no-frozen-lockfile
       # @prisma/client types are generated; typecheck needs them.
       - run: pnpm db:generate
       - run: pnpm typecheck
@@ -58,7 +61,10 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      # --no-frozen: the committed lockfile omits some platform-specific optional
+      # native deps (e.g. @rolldown/binding-linux-x64-gnu, needed by vitest on
+      # Linux), so let pnpm resolve them. TODO: regenerate a cross-platform lockfile.
+      - run: pnpm install --no-frozen-lockfile
       # db:seed runs `tsx --env-file=.env` and dotenv/config (prisma.config.ts,
       # tests/setup.ts) all expect a .env file to exist.
       - name: Write .env for CLI/seed/tests
