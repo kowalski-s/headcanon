@@ -1,0 +1,1095 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - text: "["
+        - button "dismiss" [ref=e8] [cursor=pointer]
+        - text: "]"
+      - paragraph [ref=e12]:
+        - text: On Fanlore, users with accounts can edit pages including user pages, can create pages, and more. Any information you publish on a page or an edit summary will be accessible by the public and to Fanlore personnel. Because Fanlore is a wiki, information published on Fanlore will be publicly available forever, even if edited later. Be mindful when sharing personal information, including your religious or political views, health, racial background, country of origin, sexual identity and/or personal relationships. To learn more, check out our
+        - link "Terms of Service and Privacy Policy" [ref=e13] [cursor=pointer]:
+          - /url: /wiki/Fanlore:Terms_of_Service
+        - text: . Select "dismiss" to agree to these terms.
+    - heading "2026 Heated Rivalry AI Accusations and Fanfiction Harassment Controversy" [level=1] [ref=e14]
+    - generic [ref=e15]:
+      - link "Jump to navigation" [ref=e16] [cursor=pointer]:
+        - /url: "#mw-head"
+      - link "Jump to search" [ref=e17] [cursor=pointer]:
+        - /url: "#searchInput"
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - text: This article or section
+          - generic [ref=e21]:
+            - text: needs
+            - link "expansion" [ref=e22] [cursor=pointer]:
+              - /url: /wiki/Category:Pages_that_need_expansion
+            - text: .
+        - paragraph [ref=e24]: This article documents a currently unfolding situation within the fannish realm. Content may change quickly, and the page structure itself may undergo major revision. New details are very welcome.
+        - table [ref=e25]:
+          - rowgroup [ref=e26]:
+            - row "Event" [ref=e27]:
+              - columnheader "Event" [ref=e28]:
+                - link "Event" [ref=e29] [cursor=pointer]:
+                  - /url: /wiki/Category:Fandom_Occurrences
+            - 'row "Event: AI Accusations and Fanfiction Harassment in the Heated Rivalry Fandom" [ref=e30]':
+              - cell "Event:" [ref=e31]
+              - cell "AI Accusations and Fanfiction Harassment in the Heated Rivalry Fandom" [ref=e32]
+            - 'row "Participants: Multiple parties" [ref=e33]':
+              - cell "Participants:" [ref=e34]
+              - cell "Multiple parties" [ref=e35]
+            - 'row "Date(s): 2026 –" [ref=e36]':
+              - cell "Date(s):" [ref=e37]
+              - cell "2026 –" [ref=e38]
+            - 'row "Type: harassment, AI use accusations" [ref=e39]':
+              - cell "Type:" [ref=e40]
+              - cell "harassment, AI use accusations" [ref=e41]
+            - 'row "Fandom: Heated Rivalry" [ref=e42]':
+              - cell "Fandom:" [ref=e43]
+              - cell "Heated Rivalry" [ref=e44]:
+                - link "Heated Rivalry" [ref=e45] [cursor=pointer]:
+                  - /url: /wiki/Heated_Rivalry
+            - row "URL:" [ref=e46]:
+              - cell "URL:" [ref=e47]
+              - cell [ref=e48]
+            - row "Click here for related articles on Fanlore." [ref=e49]:
+              - cell "Click here for related articles on Fanlore." [ref=e50]:
+                - link "Click here for related articles on Fanlore." [ref=e52] [cursor=pointer]:
+                  - /url: /wiki/Special:WhatLinksHere/2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy
+            - row "Contents" [ref=e53]:
+              - cell "Contents" [ref=e54]:
+                - navigation "Contents" [ref=e55]:
+                  - button "Hide the table of contents" [ref=e56]
+                  - generic [ref=e57]:
+                    - heading "Contents" [level=2] [ref=e58]
+                    - generic [ref=e59]:
+                      - text: "["
+                      - generic [ref=e60] [cursor=pointer]: hide
+                      - text: "]"
+                  - list [ref=e61]:
+                    - listitem [ref=e62]:
+                      - link "1 Background" [ref=e63] [cursor=pointer]:
+                        - /url: "#Background"
+                        - generic [ref=e64]: "1"
+                        - generic [ref=e65]: Background
+                    - listitem [ref=e66]:
+                      - link "2 AI Accusations" [ref=e67] [cursor=pointer]:
+                        - /url: "#AI_Accusations"
+                        - generic [ref=e68]: "2"
+                        - generic [ref=e69]: AI Accusations
+                      - list [ref=e70]:
+                        - listitem [ref=e71]:
+                          - link "2.1 \"Fandom has a Hidden Generative AI Problem\" document" [ref=e72] [cursor=pointer]:
+                            - /url: "#\"Fandom_has_a_Hidden_Generative_AI_Problem\"_document"
+                            - generic [ref=e73]: "2.1"
+                            - generic [ref=e74]: "\"Fandom has a Hidden Generative AI Problem\" document"
+                    - listitem [ref=e75]:
+                      - link "3 Author Harassment" [ref=e76] [cursor=pointer]:
+                        - /url: "#Author_Harassment"
+                        - generic [ref=e77]: "3"
+                        - generic [ref=e78]: Author Harassment
+                      - list [ref=e79]:
+                        - listitem [ref=e80]:
+                          - link "3.1 Purity Discourse" [ref=e81] [cursor=pointer]:
+                            - /url: "#Purity_Discourse"
+                            - generic [ref=e82]: "3.1"
+                            - generic [ref=e83]: Purity Discourse
+                    - listitem [ref=e84]:
+                      - link "4 Deleted, Privated, or Paused Works" [ref=e85] [cursor=pointer]:
+                        - /url: "#Deleted,_Privated,_or_Paused_Works"
+                        - generic [ref=e86]: "4"
+                        - generic [ref=e87]: Deleted, Privated, or Paused Works
+                      - list [ref=e88]:
+                        - listitem [ref=e89]:
+                          - link "4.1 Wolfbird" [ref=e90] [cursor=pointer]:
+                            - /url: "#Wolfbird"
+                            - generic [ref=e91]: "4.1"
+                            - generic [ref=e92]: Wolfbird
+                        - listitem [ref=e93]:
+                          - link "4.2 Dust Bowl" [ref=e94] [cursor=pointer]:
+                            - /url: "#Dust_Bowl"
+                            - generic [ref=e95]: "4.2"
+                            - generic [ref=e96]: Dust Bowl
+                        - listitem [ref=e97]:
+                          - link "4.3 Carry the name" [ref=e98] [cursor=pointer]:
+                            - /url: "#Carry_the_name"
+                            - generic [ref=e99]: "4.3"
+                            - generic [ref=e100]: Carry the name
+                        - listitem [ref=e101]:
+                          - link "4.4 Other Works and Authors" [ref=e102] [cursor=pointer]:
+                            - /url: "#Other_Works_and_Authors"
+                            - generic [ref=e103]: "4.4"
+                            - generic [ref=e104]: Other Works and Authors
+                    - listitem [ref=e105]:
+                      - link "5 Push-back on Accusations" [ref=e106] [cursor=pointer]:
+                        - /url: "#Push-back_on_Accusations"
+                        - generic [ref=e107]: "5"
+                        - generic [ref=e108]: Push-back on Accusations
+                    - listitem [ref=e109]:
+                      - link "6 Further Reading" [ref=e110] [cursor=pointer]:
+                        - /url: "#Further_Reading"
+                        - generic [ref=e111]: "6"
+                        - generic [ref=e112]: Further Reading
+                    - listitem [ref=e113]:
+                      - link "7 References" [ref=e114] [cursor=pointer]:
+                        - /url: "#References"
+                        - generic [ref=e115]: "7"
+                        - generic [ref=e116]: References
+        - paragraph [ref=e117]:
+          - text: Since the beginning of 2026, there has been growing number of disputes, discussions, and incidents of harassment in the
+          - link "Heated Rivalry" [ref=e118] [cursor=pointer]:
+            - /url: /wiki/Heated_Rivalry
+          - text: fandom. These have included accusations that some fanfiction writers had used
+          - link "generative AI" [ref=e119] [cursor=pointer]:
+            - /url: /wiki/AI_Generated_Content
+          - text: to make their works; public criticism of fic authors; and the deletion, privating, or hiatus of several fanworks.
+        - paragraph [ref=e120]:
+          - text: Fans discussed the controversy across multiple social media platforms, on
+          - link "Fail Fandom Anon" [ref=e121] [cursor=pointer]:
+            - /url: /wiki/Fail_Fandom_Anon
+          - text: ", and some of the controversy also spilled into"
+          - link "Archive of Our Own" [ref=e122] [cursor=pointer]:
+            - /url: /wiki/Archive_of_Our_Own
+          - text: ", including within comments sections and with the collections features being used to harass authors. Occurring alongside this were growing discussions about how people felt there were disproportionately more AI generated fanworks in the Heated Rivalry fandom than other fandoms they had been in and the exploration of this has been a parallel and related source of discourse."
+        - heading "Background" [level=2] [ref=e123]
+        - paragraph [ref=e124]:
+          - text: After Heated Rivalry aired at the end of 2025, the fandom grew rapidly. At the end of November 2025, there were around 300 works for the fandom on AO3. By the end of 2025 there were more than 4,500; 20,000 by the end of February, and six months after the show's debut the fandom had hit over 35,000 fanworks. As the fandom grew, a number of writers and other fans increasingly reported harassment, social media dog-piles, and unpleasant behaviour growing within the fandom. Some of this was directed towards the books’ author, cast and crew of the show (which is covered on the main Heated Rivalry page), and some of it was directed towards other fans, particularly those making
+          - link "fanworks" [ref=e125] [cursor=pointer]:
+            - /url: /wiki/Fanworks
+          - text: in the fandom.
+        - blockquote [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - text: "[shiorimia"
+              - superscript [ref=e129]:
+                - link "[1]" [ref=e130] [cursor=pointer]:
+                  - /url: "#cite_note-1"
+              - text: "]"
+            - text: It’s the Big Fandom Curse, sadly.
+            - paragraph [ref=e131]: Every single time a show/game/book explodes in popularity and gains a huge following, you inevitably get tons of people who are new to fandom and don’t understand the established etiquette on how to act.
+            - text: Heated Rivalry isn’t the first, and it won’t be the last.
+        - blockquote [ref=e133]:
+          - generic [ref=e134]:
+            - text: "[laurelinvanyar]"
+            - paragraph [ref=e135]:
+              - text: "There’s definitely a bell curve of fandom size. Too small and it becomes too insular and circlejerk-y. Too big and you wind up with legit cults (ie:"
+              - link "snapewives" [ref=e136] [cursor=pointer]:
+                - /url: /wiki/Snapewives
+              - text: ) and religious schisms.
+            - paragraph [ref=e137]: There’s no such thing as a drama free fandom but at least there are some where you can play in your corner of the sandbox in relative peace.
+        - paragraph [ref=e138]:
+          - text: A number of factors were suggested for this. The size of the fandom and its rapid growth was one. Another was the huge success of Heated Rivalry, which had brought in a lot of new fans who hadn’t previously navigated transformative fandom spaces before, leading to repeated mentions of
+          - link "baby's first fandom" [ref=e139] [cursor=pointer]:
+            - /url: /wiki/Baby%27s_First_Fandom
+          - text: in discussions about some of the behaviours in the fandom. Some fans discussed feeling as though some people in fandom spaces were not interested in being part of a fandom at all, and viewed fanworks more from a lens of content to be consumed, and behaving as though they were customers.
+        - blockquote [ref=e140]:
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - text: "[HUDC0N"
+              - superscript [ref=e143]:
+                - link "[2]" [ref=e144] [cursor=pointer]:
+                  - /url: "#cite_note-2"
+              - text: "]"
+            - text: The issue with the HR fandom (inregards to fanfics) is that most of the fandom isn’t actually into fandom culture/community
+        - blockquote [ref=e146]:
+          - generic [ref=e147]:
+            - text: "[violetrose1410]"
+            - paragraph [ref=e148]: When I saw someone say they had a right to complain about a fanfic as a consumer, I knew I was not in a typical fandom space.
+        - paragraph [ref=e149]:
+          - text: Other fans discussed how fandom etiquette and spaces seemed like they had been changing for the worse for the past five years, if not more. Other fans pointed out that social media platforms were a particular source of the harassment, particularly on
+          - link "X" [ref=e150] [cursor=pointer]:
+            - /url: /wiki/Twitter
+          - text: ", and these had been becoming increasingly hostile within and separate from fandom for the past few years as well, expressing feelings that this was how fandoms were going to be going forward."
+        - blockquote [ref=e151]:
+          - generic [ref=e152]:
+            - generic [ref=e153]:
+              - text: "[prettywords_"
+              - superscript [ref=e154]:
+                - link "[3]" [ref=e155] [cursor=pointer]:
+                  - /url: "#cite_note-3"
+              - text: "]"
+            - text: I love the show but the Fandom terrifies me. It seems like for a lot of people it’s their first real TV show "obsession" and they’ve never interacted with fan spaces before. I swear they put some kind of drug in the show that makes people insanely addicted. I can’t even explain it.
+            - paragraph [ref=e156]: I saw stats that said of the people who watched it, 1 in 5 watched it at least 5 times. At this point it had only been out for a month. It’s just a constant stream of dopamine.
+            - paragraph [ref=e157]: There’s a little tour that goes to clubs around the world playing tiktok edits of the show and it sells out almost instantly. It’s going to be studied in the future.
+            - paragraph [ref=e158]: Props to the creator, I don’t know how he did it. I’ve never seen anything like this reaction to a show. Maybe it’s comparable to twilight?
+            - text: I think with most characters that people ship they watch hours of content just for the brief "moments", and with Heated Rivalry it’s just a continously endless stream of those "moments". No filler, no other characters to worry about, plus insane chemistry between the leads, it’s the perfect storm for obsession I guess.
+        - generic [ref=e159]:
+          - blockquote [ref=e160]:
+            - generic [ref=e161]:
+              - text: "[laurelinvanyar]"
+              - paragraph [ref=e162]: It’s so clearly baby's first fandom for a lot of people and it’s awful.
+              - paragraph [ref=e163]: Love seeing the excitement. Hate seeing the lack of fandom etiquette. The sheer number of ao3 screenshots I see being dogpiled on Twitter is insanity
+          - blockquote [ref=e165]:
+            - generic [ref=e166]:
+              - text: "[CalmGiraffe1373]"
+              - paragraph [ref=e167]:
+                - text: People keep saying this, though. They said it about
+                - link "Stranger Things" [ref=e168] [cursor=pointer]:
+                  - /url: /wiki/Stranger_Things
+                - text: ", for example."
+              - paragraph [ref=e169]: Sadly, I think this is just what fandom is like at this point.
+        - paragraph [ref=e170]: "Alongside this, two linked forms of discourse emerged early on (starting in January 2026) relating to AI: firstly growing discussions about how some fans felt that there were noticeably more AI generated fanworks in Heated Rivalry than in other fandoms they and been in, and, secondly, AI accusations aimed at fanfiction authors increased both directly and indirectly. Both of these also led to harassment of authors and other fans who were discussing AI. March 2026 seemed to be one tipping point, with accusations becoming widespread, harassment being reported on multiple social media platforms, and multiple authors deleting or hiding their works, or going on hiatus."
+        - heading "AI Accusations" [level=2] [ref=e171]
+        - paragraph [ref=e172]:
+          - text: One
+          - link "early accusation of AI use" [ref=e173] [cursor=pointer]:
+            - /url: /wiki/Accusations_of_Generative_AI_Use_in_Fandom
+          - text: was about the writing in an
+          - link "MPreg" [ref=e174] [cursor=pointer]:
+            - /url: /wiki/MPreg
+          - link "AU" [ref=e175] [cursor=pointer]:
+            - /url: /wiki/AU
+          - text: fic 'The Secrets We Kept' by Larissa_liest. It was a very popular and widely shared fic on social media, which attracted both positive and negative responses. Some fans were critical of the way Ilya's English was written, some were critical of the writing quality, and soon after the accusations of AI being used to write it followed. Some fans pushed back on the accusations, pointing out how authors had written similarly long before AI was around, and how AO3 had been scraped by a number of bots used by AI companies. There was one one
+          - link "thread on X" [ref=e176] [cursor=pointer]:
+            - /url: https://x.com/atsusomi/status/2008223745396138443
+          - text: which received over 400 responses in comments and retweets.
+        - blockquote [ref=e177]:
+          - generic [ref=e178]:
+            - text: "[atsusomi]"
+            - text: No one can tell me this isn’t ai idgaf
+        - generic [ref=e179]:
+          - blockquote [ref=e180]:
+            - generic [ref=e181]:
+              - text: "[fuckemupmyleige]"
+              - paragraph [ref=e182]: it was more then ___. it was ___.
+          - blockquote [ref=e184]:
+            - generic [ref=e185]:
+              - text: "[atsusomi]"
+              - paragraph [ref=e186]: every time 😭
+          - blockquote [ref=e187]:
+            - generic [ref=e188]:
+              - text: "[skatersangg]"
+              - paragraph [ref=e189]: It’s the one or two word sentences for me. Like occasionally I’ll do that for emphasis but only like 3 times. 10/16 sentences being that…
+          - blockquote [ref=e191]:
+            - generic [ref=e192]:
+              - text: "[atsusomi]"
+              - paragraph [ref=e193]: 100%! I also use that for emphasis sometimes. But doing it every paragraph is crazy 😭 and you can just tell idk how to explain it
+          - blockquote [ref=e194]:
+            - generic [ref=e195]:
+              - text: "[lf_fandom]"
+              - paragraph [ref=e196]: I’ve seen fics like this for 20+ years. People genuinely write this way. Is it a *good* style of writing? No. Could this person be using AI? Maybe. But witch hunting people because you don’t like the ~vibes~ instead of giving them the benefit of the doubt is shitty.
+          - blockquote [ref=e198]:
+            - generic [ref=e199]:
+              - text: "[chicourier]"
+              - paragraph [ref=e200]: I’ve been reading fics for well over a decade too and I’d never seen this exact pattern of writing repeat in the exact same way multiple times in a fic before 2022. Now it’s everywhere. It’s very obviously ai.
+        - paragraph [ref=e201]:
+          - text: In March 2026, on both
+          - link "TikTok" [ref=e202] [cursor=pointer]:
+            - /url: /wiki/TikTok
+          - text: and
+          - link "X" [ref=e203] [cursor=pointer]:
+            - /url: /wiki/Twitter
+          - text: ", people accused the author"
+          - link "the_green_fairy" [ref=e204] [cursor=pointer]:
+            - /url: /w/index.php?title=The_green_fairy&action=edit&redlink=1
+          - text: ", who had written in multiple fandoms but was newly involved in and enthusiastic about Heated Rivalry, of using generative AI to write their works. One pair, ghostiesdagger and tapatiomagic, included a Google Slide as part of their reasoning"
+          - superscript [ref=e205]:
+            - link "[4]" [ref=e206] [cursor=pointer]:
+              - /url: "#cite_note-4"
+          - text: for coming to that conclusion, which received a mixed response.
+        - paragraph [ref=e207]: Unlike other accusations of works in the fandom or other fandoms, they had not used an AI Detector (which are unreliable and many use generative AI themselves), nor were they pointing to common LLM quirks like em-dashes or comparative framing. Their approach was based on meta-data for backdating, the large word count that they argued was not explained by prewriting, and a high amount of inconsistencies in the works which they felt were not mistakes a human would make.
+        - blockquote [ref=e208]:
+          - generic [ref=e209]:
+            - text: Backdating Works
+            - paragraph [ref=e210]: First, for their fic Cherry Tarts and Broken Hearts, they appear to have “started” the fic in 2020, then resumed exactly five years later. They didn’t do a very good job changing the dates. It seems to be a strange coincidence that the posting dates would jump from September 4–6, 2020, to September 7, 8, 9 (and so on) of 2025.
+            - paragraph [ref=e211]: Isn’t it possible that this work really was posted earlier?
+            - text: No. The_green_fairy admits in the comment section of Cherry Tarts and Broken Hearts, in a comment posted in 2025, that they are “working on chapter 2.” Chapter 2 has a posting date of August 25, 2020. Why do this?
+          - paragraph [ref=e212]:
+            - generic [ref=e213]:
+              - text: Excerpt from ghostiesdagger and tapatiomagic's Google Doc
+              - superscript [ref=e215]:
+                - link "[5]" [ref=e216] [cursor=pointer]:
+                  - /url: "#cite_note-5"
+        - blockquote [ref=e217]:
+          - generic [ref=e218]:
+            - text: Inconsistencies in the Text
+            - paragraph [ref=e219]: "The fics are also riddled with inconsistencies. Why is this a sign of use of AI? LLMs are generally limited to a a context window: the amount of tokens (LLM inputs, like the written prompt a user provides) or words that it can remember at one time. This is an oversimplification, but models like ChatGPT or Claude essentially have a limited memory. The model will forget where characters are standing, what their last names are in this AU, or where they live, unless they are constantly reminded. They will forget how much something cost a chapter before, or whether two characters met before."
+            - paragraph [ref=e220]: Humans make mistakes too. But not like this.
+            - text: Some of these contradict the canon of the original work, and some contradict the internal logic of the_green_fairy’s own narrative. Many of these have been “fixed,” but the_green_fairy admits them in comments and attributes them to poor editing or earlier versions of the story. Sure, that might happen. But it is rampant. We invite you to look at the comment sections of the fics and to read them for yourself.
+          - paragraph [ref=e221]:
+            - generic [ref=e222]:
+              - text: Excerpt from ghostiesdagger and tapatiomagic's Google Doc
+              - superscript [ref=e224]:
+                - link "[6]" [ref=e225] [cursor=pointer]:
+                  - /url: "#cite_note-6"
+        - paragraph [ref=e226]:
+          - text: This approach caused more doubt amongst some fans than the usual LLM tells which were pointed at, and some fans became convinced that the_green_fairy had used AI to write their fan works and were disappointed. Other fans, whether they were convinced or not, pushed back strongly on the accusation and the approach, concerned that AI accusations would only do harm to a fandom even if they were correct. Some felt that it was insignificant in light of other things going on in the world, and that people
+          - link "should just block authors" [ref=e227] [cursor=pointer]:
+            - /url: /wiki/Don%27t_Like,_Don%27t_Read
+          - text: ; this often prompted the discussion to move into the wider impact of AI.
+        - blockquote [ref=e228]:
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - text: "[tapatiomagic"
+              - superscript [ref=e231]:
+                - link "[7]" [ref=e232] [cursor=pointer]:
+                  - /url: "#cite_note-7"
+              - text: "]"
+            - text: Enough is enough. The_green_fairy, creator of Heated Rivalry fic Night Shift, uses AI in the creation of their fics and refuses to acknowledge it. @ghostiesdagger and I compiled the evidence of their inconsistencies, lies, and output. See it for yourself.
+        - generic [ref=e233]:
+          - blockquote [ref=e234]:
+            - generic [ref=e235]:
+              - text: "[trustyousaid]"
+              - paragraph [ref=e236]: This has been pretty obvious for a while though i wanted so bad not to see it :( loved their omegaverse fic but it has super repetitive paragraphs in every chapter (sometimes exact sentences) and then random inconsistencies in the characters and biology
+          - blockquote [ref=e237]:
+            - generic [ref=e238]:
+              - text: "[lectovers]"
+              - paragraph [ref=e239]: Glad people are calling it out. Even beyond this author the Hr fandom has a huge problem with ai fics, everyone should be way more vigilant
+          - blockquote [ref=e240]:
+            - generic [ref=e241]:
+              - text: "[Itsmeimbxtches]"
+              - paragraph [ref=e242]: I’m gonna be so fucking for real right now… the world is on fire and yall are out here compiling Google Docs for proof of AI? Just block the fucking author and move on. Jesus Christ.
+        - paragraph [ref=e243]: the_green_fairy would, later, change their username to continue writing under a different name, and people pointed out that the AI tells that had been identified earlier, along with some others which hadn’t been previously discussed (including the the high number of re-use of certain names, like Marcus, for different characters within the same work, which has been noted as a tell of the LLM Claude), were present in their new works.
+        - paragraph [ref=e244]: Those who believed works were being created with assistance or entirely from AI and were opposed to that would often draw attention to what they felt was the poor quality of writing, questioning how other readers could enjoy it. Sometimes the people in the fandom defending the authors would also qualify their statements with reference to the fact it wasn’t good writing, but that humans were capable of bad writing too. This meant the comments defending works and authors could, at times, have a double-edge to them, also contributing to the public criticism of fanworks while defending them.
+        - paragraph [ref=e245]: "Around the same time, other authors were increasingly reporting accusations of AI use, either alone or as part of wider issues of harassment of authors or reader entitlement. Popular fanworks were scrutinised for evidence of AI use and some authors deleted or privated their works in response, or went on hiatus. Other fans began to post, asking for the constant accusations of using AI to stop, as they felt it would damage the fandom more than it would help:"
+        - blockquote [ref=e246]:
+          - generic [ref=e247]: "[…] I think AI writing accusations are harmful for fandom because it puts extra burden on authors who are providing entertainment for free. Generative AI is like pandora's box. It’s already opened, no one's going to be able to shove everything back in. These accusations won’t lead to less AI writing and only makes it harder for human writers to create their works. Thanks for reading. Tl;dr I think accusations of AI writing only leads to fewer human made fanworks, not fewer AI generated fanworks, and thus is more harmful than constructive to the community as a whole."
+          - paragraph [ref=e248]:
+            - generic [ref=e249]:
+              - text: daisyemeritus
+              - superscript [ref=e251]:
+                - link "[8]" [ref=e252] [cursor=pointer]:
+                  - /url: "#cite_note-8"
+        - paragraph [ref=e253]: Amid all the rising discourse and accusations, someone created a collection on Archive of Our Own where they proclaimed to be placing all the fics they found which used generative AI. Fans responded quickly and negatively to the behaviour, with some pointing out that it was a type of harassment under AO3′s Terms of Service and reporting it. The collection was gone shortly afterwards, which people presumed was due do it being removed by AO3 volunteers.
+        - paragraph [ref=e254]:
+          - text: In April 2026, a work titled '
+          - link "Rose-Colored Glasses’" [ref=e255] [cursor=pointer]:
+            - /url: /wiki/Rose-Colored_Glasses
+          - text: by forebodingforecast was published to AO3. The first chapter seemed to be simply fiction, despite the work carrying the tag of
+          - link "meta" [ref=e256] [cursor=pointer]:
+            - /url: /wiki/Meta
+          - text: ", but at the end of the first chapter, the author disclosed that the majority of the work had been 'written' by Claude, the Anthropic LLM, with minor editing from themselves. They had posted the meta as a means of drawing attention to tells of LLMs and then spent the next chapter showing the LLM tells and explaining what they had edited to avoid the most glaring tells. This received both appreciative comments from fans hoping to learn to avoid AI generated fanworks and frustrated or annoyed comments from fans who were upset that they had read an AI generated fic or felt the meta itself contributed to the harassment of authors."
+        - paragraph [ref=e257]: Alongside this, there were also despondent comments from fan writers about how popular generative AI fanworks seemed to be, making them question their own writing. This looped back to discussions around fanworks being perceived through a lens of consumption.
+        - blockquote [ref=e258]:
+          - generic [ref=e259]:
+            - text: a lot of talk about how unfounded genAI use accusations against fic writers (“witch hunts”) will drive authors to stop posting and very little talk about how fucking demoralizing it is to see readers openly fawn over obvious genAI slop fics that have amassed thousands of kudos
+            - paragraph [ref=e260]: if u accuse me of using genAI, i’m just gonna pull up my version history and show how it took me 4 sessions and 30 edits to choose between “dragged” and “slid”
+            - paragraph [ref=e261]: if u praise genAI slop, i’m gonna wonder what the point of sharing my work even is
+            - paragraph [ref=e262]: ftr, i think public callouts are Bad For The Culture, especially (!!) when the accuser doesn’t have concrete proof, and i think we should all get more comfortable with the back, mute, and block buttons
+            - text: but “witch hunts” aren’t the only thing that can dampen a writer’s spirit :/
+          - paragraph [ref=e263]:
+            - generic [ref=e264]:
+              - text: cardinal_writes
+              - superscript [ref=e266]:
+                - link "[9]" [ref=e267] [cursor=pointer]:
+                  - /url: "#cite_note-9"
+        - paragraph [ref=e268]:
+          - text: While others were frustrated or angry that there was an increasing use of fanfic being free and
+          - link "don’t like, don’t read" [ref=e269] [cursor=pointer]:
+            - /url: /wiki/Don%E2%80%99t_Like,_Don%E2%80%99t_Read
+          - text: ", in response to any discussions about the use of Generative AI within the fandom."
+        - paragraph [ref=e270]: By June 2026, the AI discussions were still ongoing and frequent, as were the harassment of authors for including things in their fanworks that some readers did not like. Both of these, which at times could overlap, led to discourse cycles around the fandom of Heated Rivalry and the arguments and debates within it.
+        - paragraph [ref=e271]: Some authors accused of AI use in the six months previous had privated or deleted their works, others took a break from the fandom, and others admitted that they had used AI in the creation of the work. Some of those who disclosed AI use downplayed the amount, stating they had used it for minor amendments to dialogue or scenes which they found challenging, which received mixed levels of belief from fans. Others began to be transparent in their notes about the extent to which they had used AI, including adding the tag to their work and detailing the ways they had used LLMs. There was sometimes less controversy around these works as fans could avoid them by blocking the tag, but this depended on a number of factors. Discussions about the purpose of using Generative AI in fan spaces, the impact it had on human creative development and critical thinking, and similar discussions tended to be more commonplace where disclosure occurred, though this was not always the case.
+        - heading "\"Fandom has a Hidden Generative AI Problem\" document" [level=3] [ref=e272]: "\"Fandom has a Hidden Generative AI Problem\" document"
+        - paragraph [ref=e273]:
+          - text: On June 29, 2026, anonymous X account @heatedrivalryau posted a thread stating that "unequivocal proof of AI (Claude-generated) content is buried in its HTML and can be found, across fandoms, in a number of well-known fanfics on Archive of Our Own."
+          - superscript [ref=e274]:
+            - link "[10]" [ref=e275] [cursor=pointer]:
+              - /url: "#cite_note-10"
+          - text: The presence of these tags meant that text had been copy-pasted straight from the Claude LLM into AO3.
+        - paragraph [ref=e276]: "The account posted a link to a Google Doc exposé whose stated aim was to encourage tagging of AI use:"
+        - blockquote [ref=e277]:
+          - generic [ref=e278]:
+            - paragraph [ref=e279]: All of this was in the interest of preserving the humanity and authenticity of fan spaces.
+            - paragraph [ref=e280]: Do not ostracize, harass, or bully any of the people named in this document. WE DO NOT ENDORSE THIS.
+            - paragraph [ref=e281]: Similarly, we are NOT asking for the removal of any of these works from the Archive. Considering the human and environmental ethical issues around Generative AI, we are asking for the proper tagging so that all us fans can make informed decisions with as much transparency as possible.
+            - paragraph [ref=e282]: Fandom is a uniquely connective, collaborative space. It thrives on the human element and the creative spark which drives it and feeds off it. If we unknowingly allow AI to corrupt these spaces, what will be left of them?
+          - paragraph [ref=e283]:
+            - generic [ref=e284]:
+              - text: Anonymous
+              - link "Fandom has a Hidden Generative AI Problem.pdf" [ref=e286] [cursor=pointer]:
+                - /url: https://drive.google.com/file/d/1YyFKLzunnvVJRDTql5nHJwBb-swxIftn/view
+        - paragraph [ref=e287]:
+          - text: The doc detailed the methodology used and a list of 38 works by various authors, with screencaps showing Claude-specific HTML embedded in their source code.
+          - superscript [ref=e288]:
+            - link "[11]" [ref=e289] [cursor=pointer]:
+              - /url: "#cite_note-11"
+          - text: Some works included hundreds of instances, while others only had one or two. The authors also saved copies of the stories on a separate drive for reference.
+        - paragraph [ref=e290]: The doc also included an AO3 site skin which makes works containing Claude-specific HTML light up red when viewed on the archive.
+        - paragraph [ref=e291]:
+          - text: The list included well-known authors and works, such
+          - link "OpalApparition" [ref=e292] [cursor=pointer]:
+            - /url: /w/index.php?title=OpalApparition&action=edit&redlink=1
+          - text: (of "Wolfbird" fame/controversy (see below) whose work "Nutcracker!" was listed as containing 2 instances of the Claude HTML tags),
+          - link "frozenmorningdew" [ref=e293] [cursor=pointer]:
+            - /url: /w/index.php?title=Frozenmorningdew&action=edit&redlink=1
+          - text: ("hanging a moment," a work with over 10k kudos and 122 instances) or
+          - link "mashawiostsky" [ref=e294] [cursor=pointer]:
+            - /url: /w/index.php?title=Mashawiostsky&action=edit&redlink=1
+          - text: ("Halt and Catch Fire," which had already been placed in a hidden collection by the time the Doc was published, but whose preserved ePub contained 402 instances.)
+        - paragraph [ref=e295]: As a result, some works were deleted and others reverted to "Mystery works" placed in unrevealed collections. Some authors posted clarifications (for example claiming that their beta had betrayed them by using AI unbenownst to them). Several authors were the target of anti-ai comments on the listed works, especially those whose works contained incriminating code at the same time as "Fuck AI" or "No AI Use" tags.
+        - paragraph [ref=e296]:
+          - text: The thread was widely discussed on X, Bluesky and Reddit.
+          - superscript [ref=e297]:
+            - link "[12]" [ref=e298] [cursor=pointer]:
+              - /url: "#cite_note-12"
+        - blockquote [ref=e299]:
+          - generic [ref=e300]:
+            - text: Tnw9904
+            - paragraph [ref=e301]: What annoys me are the authors who has the nerve to guilt trip and send their fans after people who could tell the fics were written with AI and are now in the document 😕
+            - blockquote [ref=e302]:
+              - paragraph [ref=e303]: sydw1328
+              - paragraph [ref=e304]: my stance with ai in fic is that it needs to be disclosed & tagged, so then you are able to avoid it. it really does hurt seeing authors who stood 10 toes down against allegations were actually using it all along
+              - blockquote [ref=e305]:
+                - paragraph [ref=e306]: Huge_Confection4475
+                - paragraph [ref=e307]: Yeah, it's the lying that's the shitty thing. Don't piss on my leg and tell me it's raining and don't feed me LLM slop and tell me it's fanfiction.
+          - paragraph [ref=e308]:
+            - 'link "Megathread: Claude AI Code Found in Fics Reddit comments, June 29, 2026" [ref=e311] [cursor=pointer]':
+              - /url: https://www.reddit.com/r/heatedrivalryfanfics/comments/1ujats8/comment/ouma5im/
+        - blockquote [ref=e312]:
+          - generic [ref=e313]:
+            - text: fairieglossamer
+            - paragraph [ref=e314]: You know what really pisses me off?
+            - paragraph [ref=e315]: The manipulation.
+            - paragraph [ref=e316]: “Oh no I’ve been unfairly attacked and now I must hide my fic in a hidden collection or orphan my fics or delete everything. All because of you bullies!”
+            - paragraph [ref=e317]: Cue the defenders (including me because I was a naive moron). Cue the many posts on this very subreddit bemoaning how cruel and mean the AI accusations were.
+            - paragraph [ref=e318]: Between OpalApparition & AzraelRiego faking their death via a “cousin’s” message (only to be found editing fics after their “death”) & EvilHarlowe…. I am so demoralized. Fandom should be joyful and collaborative and FUN. Why would you do this? Are you so addicted to kudos and praise that you’re okay with someone else writing for you?
+            - paragraph [ref=e319]: "[...]"
+            - paragraph [ref=e320]: What’s scary is this list only included folks who copy-pasted directly from Claude AI. It doesn’t include other LLMs or people smart enough to edit the source code to destroy evidence. I feel sick.
+          - paragraph [ref=e321]:
+            - 'link "Megathread: Claude AI Code Found in Fics Reddit thread comment, June 29, 2026" [ref=e324] [cursor=pointer]':
+              - /url: https://www.reddit.com/r/heatedrivalryfanfics/comments/1ujats8/comment/oumbw2q/
+        - heading "Author Harassment" [level=2] [ref=e325]
+        - list [ref=e326]:
+          - listitem [ref=e327]: Readers putting works into AI to "continue them"
+          - listitem [ref=e328]: Criticism that authors felt was far more extreme than previously fandoms had delivered
+          - listitem [ref=e329]: Rude comments about the author, their work, and not posting in a way or to a schedule the fans wanted
+          - listitem [ref=e330]:
+            - text: The
+            - link "Fail Fandom Anon" [ref=e331] [cursor=pointer]:
+              - /url: /wiki/Fail-Fandomanon
+            - text: post
+        - heading "Purity Discourse" [level=3] [ref=e332]
+        - list [ref=e333]:
+          - listitem [ref=e334]: Criticism of sex work AUs or kink-related portrayals
+        - heading "Deleted, Privated, or Paused Works" [level=2] [ref=e335]: Deleted, Privated, or Paused Works
+        - link "Examples Wanted" [ref=e337] [cursor=pointer]:
+          - /url: /wiki/Category:Examples_Wanted
+        - text: ": Editors are encouraged to add more examples or a wider variety of examples."
+        - paragraph [ref=e338]: A common thread in many of the Heated Rivalry works which were targeted for harassment was that they were shared in some way on social media, often on X but sometimes other social media sites. Sometimes screengrabs of small sections were shared without context, sometimes seemingly deliberately to drive harassment to the work and the author, other times direct links were shared alongside criticism. Sometimes it was a widely shared fic read that meant that a larger than usual volume of readers were directed to a work.
+        - heading "Wolfbird" [level=3] [ref=e339]
+        - paragraph [ref=e340]:
+          - link "Wolfbird" [ref=e341] [cursor=pointer]:
+            - /url: /w/index.php?title=Wolfbird&action=edit&redlink=1
+          - text: by OpalApparition was a very popular
+          - link "sex worker" [ref=e342] [cursor=pointer]:
+            - /url: /wiki/Sex_Worker_AU
+          - link "BDSM" [ref=e343] [cursor=pointer]:
+            - /url: /wiki/BDSM
+          - text: fic (as of June 2026, it has over 1.8M hits) that became widely
+          - link "recced" [ref=e344] [cursor=pointer]:
+            - /url: /wiki/Recced
+          - text: across social media and so
+          - link "breached containment" [ref=e345] [cursor=pointer]:
+            - /url: /wiki/Breached_containment
+          - text: . While the work was positively received by many readers, leading the the volume of recs to read the work, there were also other readers critical of the work or the premise entirely.
+        - paragraph [ref=e346]:
+          - text: The author received repeated criticisms, including that they were irresponsible in their portrayal of sex workers, that they failed to correctly portray sex work in a way that was instructional to the reader, and for choosing to write a sex worker or BDSM work in the first place
+          - superscript [ref=e347]:
+            - link "[13]" [ref=e348] [cursor=pointer]:
+              - /url: "#cite_note-13"
+          - text: ". They later added a disclaimer to their author's notes about the fic being a work of fiction:"
+        - blockquote [ref=e349]:
+          - generic [ref=e350]: "Obligatory Disclaimer: Wolfbird is a work of fiction. It is not a documentary, an academic study, a harm reduction resource, or a how-to guide for anything contained within. Characters do not always behave in ways that are realistic, professionally accurate, or strictly advisable. They do, however, behave in ways that serve the story… which is, after all, the whole point."
+          - paragraph [ref=e351]:
+            - generic [ref=e352]:
+              - text: OpalApparition
+              - superscript [ref=e354]:
+                - link "[14]" [ref=e355] [cursor=pointer]:
+                  - /url: "#cite_note-14"
+        - paragraph [ref=e356]:
+          - text: OpalApparition has also been accused of using Generative AI in their work, both in the comments of their work or through social media, including direct messaging
+          - superscript [ref=e357]:
+            - link "[15]" [ref=e358] [cursor=pointer]:
+              - /url: "#cite_note-15"
+          - text: . Some readers posted about discrepancies within the work which they felt were indicative of Generative AI use, such as inconsistency around anatomy, positioning, and overuse of certain words and phrases
+          - superscript [ref=e359]:
+            - link "[16]" [ref=e360] [cursor=pointer]:
+              - /url: "#cite_note-16"
+          - text: . Response to the accusations has been mixed, with some readers agreeing that parts of the work were similar to works where the author had admitted to AI use, while others pointed out that inconsistencies in positioning or overuse of words is a human failing as much as an LLM one.
+        - blockquote [ref=e361]:
+          - generic [ref=e362]:
+            - generic [ref=e363]:
+              - text: "[norobotsallowed"
+              - superscript [ref=e364]:
+                - link "[17]" [ref=e365] [cursor=pointer]:
+                  - /url: "#cite_note-17"
+              - text: "]"
+            - text: "[Screenshots of annotated sections of Wolfbird]"
+            - paragraph [ref=e366]: Wolfbird by Opal Apparition, Ch. 12, annotated with AI evidence.
+            - text: "Summary: this fic struggles with point of view, human physiology, and interaction between human bodies. It does this to a degree that we believe is inconsistent with human authorship and is indicative of AI use."
+        - blockquote [ref=e368]:
+          - generic [ref=e369]:
+            - text: "[bonumcor]"
+            - paragraph [ref=e370]: This is unnecessary.
+            - paragraph [ref=e371]: I believe the author has even stated they don’t use AI, they don’t support it, nor approve their works being used to train AI. The anatomy inconsistencies picked here can also be tallied up to human error. I don’t know about others, but I don’t know the back thigh muscle name.
+            - paragraph [ref=e372]: As for ‘siege condom’…it’s a fucking reference to Shane buying so many goddamn fucking condoms. LITERALLY ITS A POINT IN THE FIC.
+        - paragraph [ref=e373]: OpalApparition announced publicly in March 2026, that they were putting the fic on hiatus. They posted saying that they hoped to upload the full work once they completed it, but could not continue to post the fic as they wrote due to the harassment they were receiving.
+        - blockquote [ref=e374]:
+          - generic [ref=e375]: "UPDATE 4/3/2026: Hi everyone. Writing is a fun hobby for me and that's all it’s ever been; lately it has not been fun at all. I’m returning to just writing privately until it is something I enjoy again. This fic will be finished offline with my OG friends and community because I still love this story, but I don’t plan on posting more at this time. My hope is that when the entire story is finished and I’m in a different headspace I can come back and post the rest."
+          - paragraph [ref=e376]:
+            - generic [ref=e377]:
+              - text: OpalApparition
+              - superscript [ref=e379]:
+                - link "[18]" [ref=e380] [cursor=pointer]:
+                  - /url: "#cite_note-18"
+        - paragraph [ref=e381]:
+          - text: "June 2026: Two hidden Claude-generated HTML artifacts were identified in the fic's source code of one of the author's other works. For some, this lent credence to previous accusations, while supporters argued that it was not conclusive proof."
+          - superscript [ref=e382]:
+            - link "[19]" [ref=e383] [cursor=pointer]:
+              - /url: "#cite_note-19"
+        - heading "Dust Bowl" [level=3] [ref=e384]
+        - paragraph [ref=e385]:
+          - text: Dust Bowl by thathastu, and other
+          - link "Heated Rivalry" [ref=e386] [cursor=pointer]:
+            - /url: /wiki/Heated_Rivalry
+          - text: "works of his, were privated on Archive of Our Own, and readers on social media speculated that it was because the author had received negative backlash for writing Shane as trans fem. thathastu had a line in their authors notes which some readers suggested was the reason for the privating of the work:"
+        - blockquote [ref=e387]:
+          - generic [ref=e388]: If you’re coming here to get mad about making hollanov "hetslop" then reread the fucking tags and try again. This is an exploration of a specific but real queer experience.
+          - paragraph [ref=e389]:
+            - generic [ref=e390]:
+              - text: thathastu
+              - superscript [ref=e392]:
+                - link "[20]" [ref=e393] [cursor=pointer]:
+                  - /url: "#cite_note-20"
+        - paragraph [ref=e394]: "However, one of thathastu's comments on the first chapter suggests otherwise:"
+        - blockquote [ref=e395]:
+          - generic [ref=e396]:
+            - text: "[creamsicle_melt]"
+            - paragraph [ref=e397]:
+              - text: also if anyone calls this hetslop they should fuck off??????
+              - superscript [ref=e398]:
+                - link "[21]" [ref=e399] [cursor=pointer]:
+                  - /url: "#cite_note-21"
+        - blockquote [ref=e401]:
+          - generic [ref=e402]:
+            - text: "[thathastu]"
+            - paragraph [ref=e403]: HELP I put that there as like a pre-caution bc I wasn’t sure how open this ficdom was to gender fuckery that's not just making yaoi yuri. I might've jumped the gun though bc everyone has been amazingly supportive so far!!!!
+        - paragraph [ref=e404]: "On Twitter, thathastu also commented that while he felt he had received a more positive than not response from the Heated Rivalry fandom and that his own enjoyment was harmed by seeing authors they liked being harassed, he was also receiving comments about his portrayal of Shane as trans fem suggesting he was leaning into the feminization of Asian men:"
+        - blockquote [ref=e405]:
+          - generic [ref=e406]:
+            - generic [ref=e407]:
+              - text: "[oli"
+              - superscript [ref=e408]:
+                - link "[22]" [ref=e409] [cursor=pointer]:
+                  - /url: "#cite_note-22"
+              - text: "]"
+            - text: why do people tell you that they didn’t think they’d enjoy your fic? it’s one of the funniest recurring comments i get like "wasn’t sure about this…" or "normally i hate this concept but…" 🤔 like cool that i won you over ig but i didn’t write it as a persuasive exercise lol
+        - blockquote [ref=e411]:
+          - generic [ref=e412]:
+            - text: "[thathastu]"
+            - paragraph [ref=e413]: i’ve been getting a lot of comments like this on dust bowl recently, specifically wrt to their fears of me 'feminizing/fetishizing shane for being asian & a bottom' and it’s like ok. so asian trans women exist, first of all,
+        - paragraph [ref=e414]: thathatsu later unprivated their works.
+        - heading "Carry the name" [level=3] [ref=e415]
+        - paragraph [ref=e416]: Carry the name by passacig was one fanwork which was deleted (along with passacig's other works) after fans found what appeared to be an LLM prompt left in the body of their work.
+        - blockquote [ref=e417]:
+          - generic [ref=e418]:
+            - text: Ilya looked over at him then, quieter now. "You are right, Hina. Always"
+            - paragraph [ref=e419]: "-"
+            - paragraph [ref=e420]: "Here’s a smoother, more natural version with a bit of continuation to carry the scene:"
+            - text: While navigating his transition, Shane had all but forgotten that he and Ilya were—at one point—somewhat famous. Of course, there was still the occasional person who recognized Ilya when they were out, but most people didn’t seem to know who Shane was anymore.
+          - paragraph [ref=e421]:
+            - generic [ref=e422]:
+              - text: Extract from Carry the name
+              - superscript [ref=e424]:
+                - link "[23]" [ref=e425] [cursor=pointer]:
+                  - /url: "#cite_note-23"
+        - paragraph [ref=e426]: "Fans brought the comment to the author's attention and commentary about it spread online:"
+        - blockquote [ref=e427]:
+          - generic [ref=e428]:
+            - generic [ref=e429]:
+              - text: "[tapatío"
+              - superscript [ref=e430]:
+                - link "[24]" [ref=e431] [cursor=pointer]:
+                  - /url: "#cite_note-24"
+              - text: "]"
+            - text: AO3 user passacig, is your “peer editor” named Claude? we know what an ai prompt response looks like in a fic. then you deleted the comments and acted like it never happened? be serious. does it feel good to get praise for prose you generated?
+        - blockquote [ref=e433]:
+          - generic [ref=e434]:
+            - text: "[meowy yaoi]"
+            - paragraph [ref=e435]: I’ll never understand how ppl use Ai to write their fics and then leave ai prompts in the fic like yall don’t proof read?? Yall don’t see what the ai came up with you just generate and post??
+        - paragraph [ref=e436]: Despite initially responding and explaining the presence of the line as a drafting/editing note, some readers we not convinced by the explanation. passacig later deleted their account and removed all their works.
+        - heading "Other Works and Authors" [level=3] [ref=e437]
+        - heading "Push-back on Accusations" [level=2] [ref=e438]
+        - paragraph [ref=e439]: Some fans have pushed back on the various accusations, sometimes calling them "witch hunts" and arguing that the call-outs were more harmful to fandom that the use of AI itself.
+        - blockquote [ref=e440]:
+          - generic [ref=e441]:
+            - text: champagne_pants
+            - paragraph [ref=e442]: AI was trained on fanfic. I had someone accuse something I wrote for a different fandom site as ai… I posted it in 2013. These “telltale signs” might just be fandom elders who use old fanfic styles.
+            - blockquote [ref=e443]:
+              - paragraph [ref=e444]: UnthinkableAlternate
+              - paragraph [ref=e445]: Exactly this. Obsessing over "this is a sign of AI" is utterly pointless. And more writers are being wrongly accused, driving them out of writing fanfic, than the number of AI generated fics being accurately sussed out. Nothing good comes from AI- hunting. If you personally feel a fic is AI, block the account and move on.
+              - blockquote [ref=e446]:
+                - paragraph [ref=e447]: champagne_pants
+                - paragraph [ref=e448]: Also people posting AI know it’s wrong. Otherwise they’d tag it as AI. “Calling them out” isn’t going to help. You’re right, it’s just going to push out the people who are actually writing.
+            - paragraph [ref=e449]: NightSalut
+            - paragraph [ref=e450]: Some of this AI stuff sounds like things I had to learn and write as ESL student. Like - literally, my teachers were like “you need to show that you know more words and know how to elaborate with repetition”. Some of these AI were how we were taught to write, although not as clumsily perhaps.
+            - blockquote [ref=e451]:
+              - paragraph [ref=e452]: UnthinkableAlternate
+              - paragraph [ref=e453]: Which means ESL fanfic writers will also be more often accused of using AI when they're doing something as amazing as writing an entire fanfic in their second (or third or more) language.
+              - paragraph [ref=e454]: No good comes from pointing at a fic and saying "this sounds like AI!"
+          - paragraph [ref=e455]:
+            - generic [ref=e456]:
+              - text: "\"Obvious use of AI in fics\" r/heatedrivalryfanfics comments, March 24-25 2026"
+              - link "[1]" [ref=e458] [cursor=pointer]:
+                - /url: https://www.reddit.com/r/heatedrivalryfanfics/comments/1s28ad5/comment/oc7ul0f/
+        - blockquote [ref=e459]:
+          - generic [ref=e460]:
+            - text: 1) i genuinely and truly believe that call outs like this are far more corrosive to fandom than minding your own business or feeling sad because you got got by some mid claude generated prose. all this does is foster an atmosphere of paranoia, hypervigilance, increased scrutiny and systemised unpersoning & dehumanisation of "immoral" and "deceptive" others. [...]
+            - paragraph [ref=e461]: 2) [...] if you want people to tag their ai fics, you, person who gets upset at the concept of being "tainted", have to manage your own big feelings and create a space where using ai is a morally neutral thing* and where engaging with ai created works does not make you a fandom outcast.
+            - paragraph [ref=e462]: 3) i do think some reflection is in order to contemplate why people even feel the need to turn to ai to create fic. [...] if people feel the need to create, why do they believe merely writing it out themselves is not enough? are they afraid of "failing" as writers? why? do they feel they're not good enough to make art? why? if they believe this is the only way they can make friends and have community? if so, why? the answers to all of these questions, in my opinion, at least partly indicts fandom culture at present and should call for some serious self-reflection!
+            - paragraph [ref=e463]: 4) genuinely WHAT harm is being done to you by the existence of an unlabelled ai fic? what actual harm? [...]
+            - paragraph [ref=e464]: "5) now for my really mean and problematic opinion :) : i frankly believe half the \"distressed\" feelings about being \"deceived\" by ai use are because people have created a moral identity out of not reading or using ai which butts straight up against their tastes in fanfiction running heavily towards the kind of deeply ubiquitous ao3 house style fic which almost certainly underpins LLM data training sets. [...]"
+            - paragraph [ref=e465]: 6) i think we could all do with a good hefty dose of a) DON'T LIKE DON'T READ and b) MINDING OUR OWN FUCKING BUSINESS [...]
+          - paragraph [ref=e466]:
+            - generic [ref=e467]:
+              - text: tobermoriansass, June 29, 2026
+              - link "reply to anonymous ask about the June 29 Google Doc" [ref=e469] [cursor=pointer]:
+                - /url: https://www.tumblr.com/tobermoriansass/820824613144739840/red-ditc-omrheated-rivalryfanficscomments1uj
+        - heading "Further Reading" [level=2] [ref=e470]
+        - heading "References" [level=2] [ref=e471]
+        - list [ref=e473]:
+          - listitem [ref=e474]:
+            - link "Jump up" [ref=e476] [cursor=pointer]:
+              - /url: "#cite_ref-1"
+              - text: ^
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - link "\"'What is going on in the Heated Rivalry fandom?', r/AO3, 27 March 2026\"" [ref=e479] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/XaKEY
+                  - text: "\""
+                  - text: "'What is going on in the Heated Rivalry fandom?', r/AO3, 27 March 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e480] [cursor=pointer]:
+                  - /url: https://old.reddit.com/r/AO3/comments/1s53mja/what_is_going_on_in_the_heated_rivalry_fandom/
+                - text: on 2026–04–17.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27What+is+going+on+in+the+Heated+Rivalry+fandom%3F%27%2C+r%2FAO3%2C+27+March+2026&rft_id=https%3A%2F%2Fold.reddit.com%2Fr%2FAO3%2Fcomments%2F1s53mja%2Fwhat_is_going_on_in_the_heated_rivalry_fandom%2F&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e481]:
+            - link "Jump up" [ref=e483] [cursor=pointer]:
+              - /url: "#cite_ref-2"
+              - text: ^
+            - generic [ref=e484]:
+              - generic [ref=e485]:
+                - link "\"'X.com post from HUDC0N', 10 July 2026\"" [ref=e486] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/B5B7B
+                  - text: "\""
+                  - text: "'X.com post from HUDC0N', 10 July 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e487] [cursor=pointer]:
+                  - /url: https://nitter.net/HUDC0N/status/2064508052037136467
+                - text: on 2026–06–11.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27X.com+post+from+HUDC0N%27%2C+10+July+2026&rft_id=https%3A%2F%2Fnitter.net%2FHUDC0N%2Fstatus%2F2064508052037136467&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e488]:
+            - link "Jump up" [ref=e490] [cursor=pointer]:
+              - /url: "#cite_ref-3"
+              - text: ^
+            - generic [ref=e491]:
+              - generic [ref=e492]:
+                - link "\"'What is going on in the Heated Rivalry fandom?', r/AO3, 27 March 2026\"" [ref=e493] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/XaKEY
+                  - text: "\""
+                  - text: "'What is going on in the Heated Rivalry fandom?', r/AO3, 27 March 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e494] [cursor=pointer]:
+                  - /url: https://old.reddit.com/r/AO3/comments/1s53mja/what_is_going_on_in_the_heated_rivalry_fandom/
+                - text: on 2026–04–17.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27What+is+going+on+in+the+Heated+Rivalry+fandom%3F%27%2C+r%2FAO3%2C+27+March+2026&rft_id=https%3A%2F%2Fold.reddit.com%2Fr%2FAO3%2Fcomments%2F1s53mja%2Fwhat_is_going_on_in_the_heated_rivalry_fandom%2F&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e495]:
+            - link "Jump up" [ref=e497] [cursor=pointer]:
+              - /url: "#cite_ref-4"
+              - text: ^
+            - generic [ref=e498]:
+              - generic [ref=e499]:
+                - link "\"'Why we believe The_green_fairy is likely using AI', Document created by ghostiesdagger and tapatiomagic, 22 March 2026\"" [ref=e500] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/yGEyA
+                  - text: "\""
+                  - text: "'Why we believe The_green_fairy is likely using AI', Document created by ghostiesdagger and tapatiomagic, 22 March 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e501] [cursor=pointer]:
+                  - /url: https://drive.google.com/file/d/1xvnkeQfyLC8VQNherHDYXQy3DvD7gW2j/view
+                - text: on 2026–04–17.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27Why+we+believe+The_green_fairy+is+likely+using+AI%27%2C+Document+created+by+ghostiesdagger+and+tapatiomagic%2C+22+March+2026&rft_id=https%3A%2F%2Fdrive.google.com%2Ffile%2Fd%2F1xvnkeQfyLC8VQNherHDYXQy3DvD7gW2j%2Fview&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e502]:
+            - link "Jump up" [ref=e504] [cursor=pointer]:
+              - /url: "#cite_ref-5"
+              - text: ^
+            - text: "\"'Why we believe The_green_fairy is likely using AI', Document created by ghostiesdagger and tapatiomagic, 22 March 2026″. Archived from the original on 2026–04–17."
+          - listitem [ref=e505]:
+            - link "Jump up" [ref=e507] [cursor=pointer]:
+              - /url: "#cite_ref-6"
+              - text: ^
+            - text: "\"'Why we believe The_green_fairy is likely using AI', Document created by ghostiesdagger and tapatiomagic, 22 March 2026″. Archived from the original on 2026–04–17."
+          - listitem [ref=e508]:
+            - link "Jump up" [ref=e510] [cursor=pointer]:
+              - /url: "#cite_ref-7"
+              - text: ^
+            - link "Thread on X about AI use in the_green_fairy's fanworks" [ref=e512] [cursor=pointer]:
+              - /url: https://x.com/tapatiomagic/status/2035804327470838255
+          - listitem [ref=e513]:
+            - link "Jump up" [ref=e515] [cursor=pointer]:
+              - /url: "#cite_ref-8"
+              - text: ^
+            - generic [ref=e516]:
+              - generic [ref=e517]:
+                - link "\"'A (Not Really) Treatise on AI Accusations', r/heatedrivalryfanfics, 26 March 2026\"" [ref=e518] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/k6drF
+                  - text: "\""
+                  - text: "'A (Not Really) Treatise on AI Accusations', r/heatedrivalryfanfics, 26 March 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e519] [cursor=pointer]:
+                  - /url: https://old.reddit.com/r/heatedrivalryfanfics/comments/1s4bmpm/a_not_really_treatise_on_ai_accusations/
+                - text: on 2026–04–17.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27A+%28Not+Really%29+Treatise+on+AI+Accusations%E2%80%99%2C+r%2Fheatedrivalryfanfics%2C+26+March+2026&rft_id=https%3A%2F%2Fold.reddit.com%2Fr%2Fheatedrivalryfanfics%2Fcomments%2F1s4bmpm%2Fa_not_really_treatise_on_ai_accusations%2F&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e520]:
+            - link "Jump up" [ref=e522] [cursor=pointer]:
+              - /url: "#cite_ref-9"
+              - text: ^
+            - generic [ref=e523]:
+              - generic [ref=e524]:
+                - link "\"'X.com post from cardinal_writes', 21 April 2026\"" [ref=e525] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/UpL6u
+                  - text: "\""
+                  - text: "'X.com post from cardinal_writes', 21 April 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e526] [cursor=pointer]:
+                  - /url: https://nitter.net/cardinal_writes/status/2046588262144151887
+                - text: on 2026–06–11.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27X.com+post+from+cardinal_writes%E2%80%99%2C+21+April+2026&rft_id=https%3A%2F%2Fnitter.net%2Fcardinal_writes%2Fstatus%2F2046588262144151887&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e527]:
+            - link "Jump up" [ref=e529] [cursor=pointer]:
+              - /url: "#cite_ref-10"
+              - text: ^
+            - link "https://x.com/heatedrivalryai/status/2071719230223811032" [ref=e531] [cursor=pointer]:
+              - /url: https://x.com/heatedrivalryai/status/2071719230223811032
+          - listitem [ref=e532]:
+            - link "Jump up" [ref=e534] [cursor=pointer]:
+              - /url: "#cite_ref-11"
+              - text: ^
+            - link "https://drive.google.com/file/d/1YyFKLzunnvVJRDTql5nHJwBb-swxIftn/view" [ref=e536] [cursor=pointer]:
+              - /url: https://drive.google.com/file/d/1YyFKLzunnvVJRDTql5nHJwBb-swxIftn/view
+          - listitem [ref=e537]:
+            - link "Jump up" [ref=e539] [cursor=pointer]:
+              - /url: "#cite_ref-12"
+              - text: ^
+            - link "https://www.reddit.com/r/heatedrivalryfanfics/comments/1ujats8/megathread_claude_ai_code_found_in_fics/" [ref=e541] [cursor=pointer]:
+              - /url: https://www.reddit.com/r/heatedrivalryfanfics/comments/1ujats8/megathread_claude_ai_code_found_in_fics/
+          - listitem [ref=e542]:
+            - link "Jump up" [ref=e544] [cursor=pointer]:
+              - /url: "#cite_ref-13"
+              - text: ^
+            - generic [ref=e545]:
+              - generic [ref=e546]:
+                - link "\"'Wolfbird Hiatus', posted to r/heatedrivalryfanfics, 25 March 2026\"" [ref=e547] [cursor=pointer]:
+                  - /url: https://old.reddit.com/r/heatedrivalryfanfics/comments/1s3p4is/wolfbird_hiatus/
+                  - text: "\""
+                  - text: "'Wolfbird Hiatus', posted to r/heatedrivalryfanfics, 25 March 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e548] [cursor=pointer]:
+                  - /url: https://ghostarchive.org/archive/D8q3u
+                - text: on 2026-06-18.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27Wolfbird+Hiatus%27%2C+posted+to+r%2Fheatedrivalryfanfics%2C+25+March+2026&rft_id=https%3A%2F%2Fghostarchive.org%2Farchive%2FD8q3u&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e549]:
+            - link "Jump up" [ref=e551] [cursor=pointer]:
+              - /url: "#cite_ref-14"
+              - text: ^
+            - link "wolfbird author's notes" [ref=e553] [cursor=pointer]:
+              - /url: https://archiveofourown.org/works/75354806/chapters/212959501#chapter_13_endnotes
+          - listitem [ref=e554]:
+            - link "Jump up" [ref=e556] [cursor=pointer]:
+              - /url: "#cite_ref-15"
+              - text: ^
+            - generic [ref=e557]:
+              - link "DM received by OpalApparition" [ref=e558] [cursor=pointer]:
+                - /url: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fe28uhuogfarg1.jpeg%3Fwidth%3D924%26format%3Dpjpg%26auto%3Dwebp%26s%3Dcb703fbd71045f5bc03a80bfbc7e644e7363ed5f
+              - text: and Shared via Bluesky
+          - listitem [ref=e559]:
+            - link "Jump up" [ref=e561] [cursor=pointer]:
+              - /url: "#cite_ref-16"
+              - text: ^
+            - generic [ref=e562]:
+              - generic [ref=e563]:
+                - link "\"'Wolfbird by Opal Apparition, Ch. 12, annotated with AI evidence.', [[Tumblr]] post by @norobotsallowed, 19 May 2026\"" [ref=e564] [cursor=pointer]:
+                  - /url: https://web.archive.org/web/20260618203534/https://www.tumblr.com/norobotsallowed/816995831859298304/wolfbird-by-opal-apparition-ch-12-annotated
+                  - text: "\""
+                  - text: "'Wolfbird by Opal Apparition, Ch. 12, annotated with AI evidence.', [[Tumblr]] post by @norobotsallowed, 19 May 2026\""
+                - text: . Archived from
+                - link "the original" [ref=e565] [cursor=pointer]:
+                  - /url: https://www.tumblr.com/norobotsallowed/816995831859298304/wolfbird-by-opal-apparition-ch-12-annotated
+                - text: on 2026-06-18.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27Wolfbird+by+Opal+Apparition%2C+Ch.+12%2C+annotated+with+AI+evidence.%27%2C+Tumblr+post+by+%40norobotsallowed%2C+19+May+2026&rft_id=https%3A%2F%2Fwww.tumblr.com%2Fnorobotsallowed%2F816995831859298304%2Fwolfbird-by-opal-apparition-ch-12-annotated&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e566]:
+            - link "Jump up" [ref=e568] [cursor=pointer]:
+              - /url: "#cite_ref-17"
+              - text: ^
+            - generic [ref=e569]:
+              - generic [ref=e570]:
+                - link "\"'Wolfbird by Opal Apparition, Ch. 12, annotated with AI evidence.', by @norobotsallowed and response\"" [ref=e571] [cursor=pointer]:
+                  - /url: https://web.archive.org/web/20260618205838/https://www.tumblr.com/bonumcor/817007397163925504/this-is-unnecessary-i-believe-the-author-has-even
+                  - text: "\""
+                  - text: "'Wolfbird by Opal Apparition, Ch. 12, annotated with AI evidence.', by @norobotsallowed and response\""
+                - text: . Archived from
+                - link "the original" [ref=e572] [cursor=pointer]:
+                  - /url: https://www.tumblr.com/bonumcor/817007397163925504/this-is-unnecessary-i-believe-the-author-has-even
+                - text: on 2026–06–18.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=%27Wolfbird+by+Opal+Apparition%2C+Ch.+12%2C+annotated+with+AI+evidence.%27%2C+by+%40norobotsallowed+and+response&rft_id=https%3A%2F%2Fwww.tumblr.com%2Fbonumcor%2F817007397163925504%2Fthis-is-unnecessary-i-believe-the-author-has-even&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e573]:
+            - link "Jump up" [ref=e575] [cursor=pointer]:
+              - /url: "#cite_ref-18"
+              - text: ^
+            - link "wolfbird author's notes" [ref=e577] [cursor=pointer]:
+              - /url: https://archiveofourown.org/works/75354806/chapters/212959501#chapter_13_endnotes
+          - listitem [ref=e578]:
+            - link "Jump up" [ref=e580] [cursor=pointer]:
+              - /url: "#cite_ref-19"
+              - text: ^
+            - link "https://www.reddit.com/r/heatedrivalryfanfics/s/EmBjxaEuGb" [ref=e582] [cursor=pointer]:
+              - /url: https://www.reddit.com/r/heatedrivalryfanfics/s/EmBjxaEuGb
+          - listitem [ref=e583]:
+            - link "Jump up" [ref=e585] [cursor=pointer]:
+              - /url: "#cite_ref-20"
+              - text: ^
+            - link "dust bowl's author's notes" [ref=e587] [cursor=pointer]:
+              - /url: https://archiveofourown.org/works/77746391/chapters/203658056
+          - listitem [ref=e588]:
+            - link "Jump up" [ref=e590] [cursor=pointer]:
+              - /url: "#cite_ref-21"
+              - text: ^
+            - link "https://archiveofourown.org/comments/1091919186" [ref=e592] [cursor=pointer]:
+              - /url: https://archiveofourown.org/comments/1091919186
+          - listitem [ref=e593]:
+            - link "Jump up" [ref=e595] [cursor=pointer]:
+              - /url: "#cite_ref-22"
+              - text: ^
+            - generic [ref=e596]:
+              - generic [ref=e597]:
+                - link "\"Post to X.com, 8th May 2026\"" [ref=e598] [cursor=pointer]:
+                  - /url: https://web.archive.org/web/20260612070034/https://nitter.net/narivaaaal/status/2052819671942852792
+                - text: . Archived from
+                - link "the original" [ref=e599] [cursor=pointer]:
+                  - /url: https://nitter.net/narivaaaal/status/2052819671942852792
+                - text: on 2026–06–12.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=Post+to+X.com%2C+8th+May+2026&rft_id=https%3A%2F%2Fnitter.net%2Fnarivaaaal%2Fstatus%2F2052819671942852792&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+          - listitem [ref=e600]:
+            - link "Jump up" [ref=e602] [cursor=pointer]:
+              - /url: "#cite_ref-23"
+              - text: ^
+            - link "Extract from Carry the name, posted as a screen shot to x.com" [ref=e604] [cursor=pointer]:
+              - /url: https://nitter.net/tapatiomagic/status/2046239463647612934
+          - listitem [ref=e605]:
+            - link "Jump up" [ref=e607] [cursor=pointer]:
+              - /url: "#cite_ref-24"
+              - text: ^
+            - generic [ref=e608]:
+              - generic [ref=e609]:
+                - link "\"Post to X.com, 20th April 2026\"" [ref=e610] [cursor=pointer]:
+                  - /url: https://web.archive.org/web/20260612070034/https://nitter.net/narivaaaal/status/2052819671942852792
+                - text: . Archived from
+                - link "the original" [ref=e611] [cursor=pointer]:
+                  - /url: https://nitter.net/tapatiomagic/status/2046239463647612934
+                - text: on 2026–06–12.
+              - generic "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&rft.genre=unknown&rft.btitle=Post+to+X.com%2C+20th+April+2026&rft_id=https%3A%2F%2Fnitter.net%2Ftapatiomagic%2Fstatus%2F2046239463647612934&rfr_id=info%3Asid%2Ffanlore.org%3A2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy"
+      - generic [ref=e613]:
+        - link "Categories" [ref=e614] [cursor=pointer]:
+          - /url: /wiki/Special:Categories
+        - text: ":"
+        - list [ref=e615]:
+          - listitem [ref=e616]:
+            - link "Pages that need expansion" [ref=e617] [cursor=pointer]:
+              - /url: /wiki/Category:Pages_that_need_expansion
+          - listitem [ref=e618]:
+            - link "Unfolding Events" [ref=e619] [cursor=pointer]:
+              - /url: /wiki/Category:Unfolding_Events
+          - listitem [ref=e620]:
+            - link "Fandom Occurrences" [ref=e621] [cursor=pointer]:
+              - /url: /wiki/Category:Fandom_Occurrences
+          - listitem [ref=e622]:
+            - link "Examples Wanted" [ref=e623] [cursor=pointer]:
+              - /url: /wiki/Category:Examples_Wanted
+          - listitem [ref=e624]:
+            - link "2026 Events" [ref=e625] [cursor=pointer]:
+              - /url: /wiki/Category:2026_Events
+          - listitem [ref=e626]:
+            - link "Game Changers" [ref=e627] [cursor=pointer]:
+              - /url: /wiki/Category:Game_Changers
+          - listitem [ref=e628]:
+            - link "AI and Fandom" [ref=e629] [cursor=pointer]:
+              - /url: /wiki/Category:AI_and_Fandom
+  - generic:
+    - heading "Navigation menu" [level=2] [ref=e630]
+    - generic [ref=e631]:
+      - navigation "Personal tools" [ref=e632]:
+        - list [ref=e634]:
+          - listitem [ref=e635]:
+            - link "Create account" [ref=e636] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:CreateAccount&returnto=2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy
+          - listitem [ref=e637]:
+            - link "Log in" [ref=e638] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:UserLogin&returnto=2026+Heated+Rivalry+AI+Accusations+and+Fanfiction+Harassment+Controversy
+      - navigation "Namespaces" [ref=e640]:
+        - list [ref=e641]:
+          - listitem [ref=e642]:
+            - link "Page" [ref=e643] [cursor=pointer]:
+              - /url: /wiki/2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy
+          - listitem [ref=e644]:
+            - link "Talk" [ref=e645] [cursor=pointer]:
+              - /url: /w/index.php?title=Talk:2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&action=edit&redlink=1
+      - generic [ref=e646]:
+        - navigation "Views" [ref=e647]:
+          - list [ref=e648]:
+            - listitem [ref=e649]:
+              - link "Read" [ref=e650] [cursor=pointer]:
+                - /url: /wiki/2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy
+            - listitem [ref=e651]:
+              - link "View source" [ref=e652] [cursor=pointer]:
+                - /url: /w/index.php?title=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&action=edit
+            - listitem [ref=e653]:
+              - link "View history" [ref=e654] [cursor=pointer]:
+                - /url: /w/index.php?title=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&action=history
+        - search [ref=e655]:
+          - heading "Search" [level=3] [ref=e656]
+          - generic [ref=e658]:
+            - searchbox "Search Fanlore" [ref=e659]
+            - button "Search" [ref=e660] [cursor=pointer]
+            - button "Go" [ref=e661] [cursor=pointer]
+    - generic [ref=e662]:
+      - banner [ref=e663]:
+        - link "Visit the main page" [ref=e664] [cursor=pointer]:
+          - /url: /wiki/Main_Page
+      - navigation [ref=e665]:
+        - list [ref=e667]:
+          - listitem [ref=e668]:
+            - link "New Visitor Portal" [ref=e669] [cursor=pointer]:
+              - /url: /wiki/Fanlore:Portal
+      - navigation "Fanlore" [ref=e670]:
+        - heading "Fanlore" [level=3] [ref=e671]
+        - list [ref=e673]:
+          - listitem [ref=e674]:
+            - link "Home" [ref=e675] [cursor=pointer]:
+              - /url: /wiki/Main_Page
+          - listitem [ref=e676]:
+            - link "News" [ref=e677] [cursor=pointer]:
+              - /url: /wiki/Fanlore:News
+          - listitem [ref=e678]:
+            - link "About Fanlore" [ref=e679] [cursor=pointer]:
+              - /url: /wiki/Fanlore:About
+          - listitem [ref=e680]:
+            - link "Recent changes" [ref=e681] [cursor=pointer]:
+              - /url: /wiki/Special:RecentChanges
+          - listitem [ref=e682]:
+            - link "Random page" [ref=e683] [cursor=pointer]:
+              - /url: /wiki/Special:Random
+          - listitem [ref=e684]:
+            - link "Donate/Volunteer" [ref=e685] [cursor=pointer]:
+              - /url: http://transformativeworks.org/how-you-can-help
+      - navigation "Browse Categories" [ref=e686]:
+        - heading "Browse Categories" [level=3] [ref=e687]
+        - list [ref=e689]:
+          - listitem [ref=e690]:
+            - link "Fan Activities" [ref=e691] [cursor=pointer]:
+              - /url: /wiki/Category:Fan_Activities
+          - listitem [ref=e692]:
+            - link "Fan Communities" [ref=e693] [cursor=pointer]:
+              - /url: /wiki/Category:Fan_Communities
+          - listitem [ref=e694]:
+            - link "People" [ref=e695] [cursor=pointer]:
+              - /url: /wiki/Category:People
+          - listitem [ref=e696]:
+            - link "Fandoms" [ref=e697] [cursor=pointer]:
+              - /url: /wiki/Category:Fandoms_by_Source_Text
+          - listitem [ref=e698]:
+            - link "Perspectives on Fans" [ref=e699] [cursor=pointer]:
+              - /url: /wiki/Category:Perspectives_on_Fans
+          - listitem [ref=e700]:
+            - link "Glossary" [ref=e701] [cursor=pointer]:
+              - /url: /wiki/Category:Glossary
+          - listitem [ref=e702]:
+            - link "Tropes & Genres" [ref=e703] [cursor=pointer]:
+              - /url: /wiki/Category:Tropes_%26_Genres
+          - listitem [ref=e704]:
+            - link "Fanworks" [ref=e705] [cursor=pointer]:
+              - /url: /wiki/Category:Fanworks
+          - listitem [ref=e706]:
+            - link "Chronology" [ref=e707] [cursor=pointer]:
+              - /url: /wiki/Category:Chronology
+      - navigation "Shortcuts for Editors" [ref=e708]:
+        - heading "Shortcuts for Editors" [level=3] [ref=e709]
+        - list [ref=e711]:
+          - listitem [ref=e712]:
+            - link "Editing Cheatsheet" [ref=e713] [cursor=pointer]:
+              - /url: /wiki/Help:Cheatsheet
+          - listitem [ref=e714]:
+            - link "Templates" [ref=e715] [cursor=pointer]:
+              - /url: /wiki/Category:Fanlore_Templates
+          - listitem [ref=e716]:
+            - link "Sandbox" [ref=e717] [cursor=pointer]:
+              - /url: /wiki/Fanlore:Sandbox
+          - listitem [ref=e718]:
+            - link "Wish List" [ref=e719] [cursor=pointer]:
+              - /url: /wiki/Fanlore:Wish_List
+      - navigation "Help" [ref=e720]:
+        - heading "Help" [level=3] [ref=e721]
+        - list [ref=e723]:
+          - listitem [ref=e724]:
+            - link "Help Home" [ref=e725] [cursor=pointer]:
+              - /url: /wiki/Help:Contents
+          - listitem [ref=e726]:
+            - link "All Policies" [ref=e727] [cursor=pointer]:
+              - /url: /wiki/Category:Fanlore_Policies
+          - listitem [ref=e728]:
+            - link "Sitemap" [ref=e729] [cursor=pointer]:
+              - /url: /wiki/Fanlore:Sitemap
+          - listitem [ref=e730]:
+            - link "Contact" [ref=e731] [cursor=pointer]:
+              - /url: http://transformativeworks.org/contact_us/?who=Fanlore
+      - navigation "Tools" [ref=e732]:
+        - heading "Tools" [level=3] [ref=e733]
+        - list [ref=e735]:
+          - listitem [ref=e736]:
+            - link "What links here" [ref=e737] [cursor=pointer]:
+              - /url: /wiki/Special:WhatLinksHere/2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy
+          - listitem [ref=e738]:
+            - link "Related changes" [ref=e739] [cursor=pointer]:
+              - /url: /wiki/Special:RecentChangesLinked/2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy
+          - listitem [ref=e740]:
+            - link "Special pages" [ref=e741] [cursor=pointer]:
+              - /url: /wiki/Special:SpecialPages
+          - listitem [ref=e742]:
+            - link "Printable version" [ref=e743] [cursor=pointer]:
+              - /url: javascript:print();
+          - listitem [ref=e744]:
+            - link "Permanent link" [ref=e745] [cursor=pointer]:
+              - /url: https://fanlore.org/w/index.php?title=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&oldid=3061991
+          - listitem [ref=e746]:
+            - link "Page information" [ref=e747] [cursor=pointer]:
+              - /url: /w/index.php?title=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&action=info
+          - listitem [ref=e748]:
+            - link "Cite this page" [ref=e749] [cursor=pointer]:
+              - /url: /w/index.php?title=Special:CiteThisPage&page=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&id=3061991&wpFormIdentifier=titleform
+  - contentinfo [ref=e750]:
+    - list [ref=e751]:
+      - listitem [ref=e752]: This page was last edited on 1 July 2026, at 12:58.
+      - listitem [ref=e753]:
+        - text: Content is available under
+        - link "Fanlore:Copyright" [ref=e754] [cursor=pointer]:
+          - /url: https://fanlore.org/wiki/Fanlore:Copyright
+        - text: .
+    - list:
+      - listitem [ref=e755]:
+        - link "All Fanlore Policies" [ref=e756] [cursor=pointer]:
+          - /url: /wiki/Category:Fanlore_Policies
+      - listitem [ref=e757]:
+        - link "About Fanlore" [ref=e758] [cursor=pointer]:
+          - /url: /wiki/Fanlore:About
+      - listitem [ref=e759]:
+        - link "Terms of Service" [ref=e760] [cursor=pointer]:
+          - /url: /wiki/Fanlore:Terms_of_Service
+      - listitem [ref=e761]:
+        - link "Mobile view" [ref=e762] [cursor=pointer]:
+          - /url: https://fanlore.org/w/index.php?title=2026_Heated_Rivalry_AI_Accusations_and_Fanfiction_Harassment_Controversy&mobileaction=toggle_view_mobile
+    - list [ref=e763]:
+      - listitem [ref=e764]:
+        - link [ref=e765] [cursor=pointer]:
+          - /url: https://creativecommons.org/licenses/by-nc/2.0/
+      - listitem [ref=e766]:
+        - link "Powered by MediaWiki" [ref=e767] [cursor=pointer]:
+          - /url: https://www.mediawiki.org/
+          - img "Powered by MediaWiki" [ref=e768]

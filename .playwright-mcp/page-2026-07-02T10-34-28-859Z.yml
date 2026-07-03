@@ -1,0 +1,601 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - generic [ref=f10e4]:
+        - generic [ref=f10e5]:
+          - text: 
+          - list [ref=f10e7]:
+            - text: 
+            - listitem [ref=f10e8]:
+              - link [ref=f10e9] [cursor=pointer]:
+                - /url: /
+                - img [ref=f10e10]
+            - listitem [ref=f10e11]:
+              - link "Browse " [ref=f10e12] [cursor=pointer]:
+                - /url: /stories
+                - text: Browse
+                - generic [ref=f10e13]: 
+              - text:                                  
+            - listitem [ref=f10e14]:
+              - generic [ref=f10e15]:
+                - textbox "search" [ref=f10e16]
+                - generic [ref=f10e17]:
+                  - generic [ref=f10e18] [cursor=pointer]:
+                    - text: Stories
+                    - generic [ref=f10e19]: 
+                  - text:    
+                - button "" [ref=f10e20] [cursor=pointer]:
+                  - generic [ref=f10e21]: 
+            - listitem [ref=f10e22]
+            - listitem [ref=f10e23]:
+              - link " Login" [ref=f10e24] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=f10e25]: 
+                - text: Login
+            - listitem [ref=f10e26]:
+              - link " Sign Up" [ref=f10e27] [cursor=pointer]:
+                - /url: /register
+                - generic [ref=f10e28]: 
+                - text: Sign Up
+            - listitem [ref=f10e29]:
+              - generic [ref=f10e31] [cursor=pointer]: 
+            - text: 
+        - navigation [ref=f10e32]:
+          - list [ref=f10e33]:
+            - listitem [ref=f10e34]:
+              - link " Groups" [ref=f10e35] [cursor=pointer]:
+                - /url: /groups
+                - generic [ref=f10e36]: 
+                - text: Groups
+              - text: 
+            - listitem [ref=f10e37]:
+              - link " Settings" [ref=f10e38] [cursor=pointer]:
+                - /url: /manage/local-settings
+                - generic [ref=f10e39]: 
+                - text: Settings
+              - text:    
+            - listitem [ref=f10e40]:
+              - link " Help" [ref=f10e41] [cursor=pointer]:
+                - /url: /faq
+                - generic [ref=f10e42]: 
+                - text: Help
+              - text:         
+            - listitem [ref=f10e43]:
+              - link " Chat" [ref=f10e44] [cursor=pointer]:
+                - /url: /chat
+                - generic [ref=f10e45]: 
+                - text: Chat
+      - generic [ref=f10e48]:
+        - text: 
+        - generic [ref=f10e49]:
+          - generic [ref=f10e50]:
+            - link [ref=f10e52] [cursor=pointer]:
+              - /url: /group/1258/long-fics
+            - generic [ref=f10e53]:
+              - img [ref=f10e54]
+              - generic [ref=f10e56]:
+                - link "Long Fics" [ref=f10e57] [cursor=pointer]:
+                  - /url: /group/1258/long-fics
+                - generic [ref=f10e58]:
+                  - text: Founded by
+                  - link "deathtap" [ref=f10e59] [cursor=pointer]:
+                    - /url: /user/29244/deathtap
+                  - text: ·
+                  - link "Report" [ref=f10e60] [cursor=pointer]:
+                    - /url: /report/group/1258
+              - list [ref=f10e62]:
+                - listitem [ref=f10e63]:
+                  - link "381 Stories" [ref=f10e64] [cursor=pointer]:
+                    - /url: /group/1258/long-fics/folders
+                    - text: "381"
+                    - text: Stories
+                - listitem [ref=f10e65]:
+                  - link "1,229 Members" [ref=f10e66] [cursor=pointer]:
+                    - /url: /group/1258/long-fics/members
+                    - text: 1,229
+                    - text: Members
+                - listitem [ref=f10e67]:
+                  - link " Forum" [ref=f10e68] [cursor=pointer]:
+                    - /url: /group/1258/long-fics/forum
+                    - generic [ref=f10e69]: 
+                    - text: Forum
+          - list [ref=f10e70]:
+            - listitem [ref=f10e71]:
+              - link "Forum" [ref=f10e72] [cursor=pointer]:
+                - /url: /group/1258/long-fics/forum
+              - text: 
+            - listitem [ref=f10e73]:
+              - link "How do I write a Longfic?" [ref=f10e74] [cursor=pointer]:
+                - /url: /group/1258/long-fics/thread/129255/how-do-i-write-a-longfic
+          - generic [ref=f10e79]:
+            - link "" [ref=f10e82] [cursor=pointer]:
+              - /url: /report/group-thread/129255
+              - generic [ref=f10e83]: 
+            - generic [ref=f10e84]:
+              - text: 
+              - generic [ref=f10e86]:
+                - text:  
+                - list [ref=f10e88]:
+                  - listitem [ref=f10e89]:
+                    - generic [ref=f10e90]: Viewing 1 - 50 of 11
+                  - listitem [ref=f10e91]:
+                    - generic "Refresh Comments" [ref=f10e92] [cursor=pointer]:
+                      - generic [ref=f10e93]: 
+                  - listitem [ref=f10e94]:
+                    - generic "Post New Comment" [ref=f10e95] [cursor=pointer]:
+                      - generic [ref=f10e96]: 
+              - generic [ref=f10e101]:
+                - generic [ref=f10e103]:
+                  - generic [ref=f10e104]:
+                    - link "Twiface" [ref=f10e105] [cursor=pointer]:
+                      - /url: /user/167017/Twiface
+                    - img [ref=f10e106] [cursor=pointer]
+                  - generic [ref=f10e107]:
+                    - generic [ref=f10e110]:
+                      - generic [ref=f10e111]:
+                        - link "#1" [ref=f10e112] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                        - text: ·
+                        - link "Sep 19th, 2014" [ref=f10e113] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                        - text: ·
+                        - generic [ref=f10e114]:
+                          - generic [ref=f10e116]: 
+                          - text: ·
+                          - generic [ref=f10e118]: 
+                        - text: ·
+                        - generic [ref=f10e119]:
+                          - link " Twiface" [ref=f10e120] [cursor=pointer]:
+                            - /url: "#comment/3640877"
+                          - link " A Dark Reminder" [ref=f10e121] [cursor=pointer]:
+                            - /url: "#comment/3640989"
+                          - link " deathtap" [ref=f10e122] [cursor=pointer]:
+                            - /url: "#comment/3728530"
+                          - link " Rockstar_Raccoon" [ref=f10e123] [cursor=pointer]:
+                            - /url: "#comment/6258655"
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e125] [cursor=pointer]:
+                        - generic [ref=f10e126]: 
+                    - paragraph [ref=f10e128]: This may seem like a simple question, but it's actually a lot more complicated than that.
+                - generic [ref=f10e130]:
+                  - generic [ref=f10e131]:
+                    - link "Twiface" [ref=f10e132] [cursor=pointer]:
+                      - /url: /user/167017/Twiface
+                    - img [ref=f10e133] [cursor=pointer]
+                  - generic [ref=f10e134]:
+                    - generic [ref=f10e137]:
+                      - generic [ref=f10e138]:
+                        - link "#2" [ref=f10e139] [cursor=pointer]:
+                          - /url: "#comment/3640877"
+                        - text: ·
+                        - link "Sep 19th, 2014" [ref=f10e140] [cursor=pointer]:
+                          - /url: "#comment/3640877"
+                        - text: ·
+                        - generic [ref=f10e141]:
+                          - generic [ref=f10e143]: 
+                          - text: ·
+                          - generic [ref=f10e145]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e147] [cursor=pointer]:
+                        - generic [ref=f10e148]: 
+                    - generic [ref=f10e149]:
+                      - paragraph [ref=f10e150]:
+                        - link " Twiface" [ref=f10e151] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                        - text: Ever since I discovered Longfics, I've always wanted to write one myself. I find that writing long isn't too much a problem for me since I always seem to write more than I intend to, but writing a Longfic that's good is what I'm stuck on.
+                      - paragraph [ref=f10e152]:
+                        - text: How do I make a Longfic that actually keeps the reader's attention? I'm kind of an impatient reader myself, and I worry that my readers will get bored after they're only 10,000 words into my stories. Somehow J.K. Rowling and J.R.R. Tolkien got epically long stories of their own published, but I can't rely on Hollywood to turn mine into movies. I'm also astounded at how some people can write
+                        - link "fanfictions approaching a million words long and still attract cult followings" [ref=f10e153] [cursor=pointer]:
+                          - /url: /story/47300/fallout-equestria-murky-number-seven
+                        - text: .
+                      - paragraph [ref=f10e154]:
+                        - text: I have doubts about my own writing ability. I suck at describing things ("The chair was yellow," "He felt sad,") and there's so much action I can write before things get repetitive. How can I improve my own 'writing endurance' and how do these guys keep their readers hooked? I really need the advice, or else my only hope of breaking the one million word benchmark would be to resort to
+                        - link "philosophical preaching" [ref=f10e155] [cursor=pointer]:
+                          - /url: http://en.wikipedia.org/wiki/Atlas_Shrugged
+                        - text: or the shameful story extension tactics of
+                        - link "this guy." [ref=f10e156] [cursor=pointer]:
+                          - /url: /story/30328/the-longest-trollfic-ever
+                - generic [ref=f10e158]:
+                  - generic [ref=f10e159]:
+                    - link "A Dark Reminder" [ref=f10e160] [cursor=pointer]:
+                      - /url: /user/66339/A+Dark+Reminder
+                    - img [ref=f10e161] [cursor=pointer]
+                  - generic [ref=f10e162]:
+                    - generic [ref=f10e165]:
+                      - generic [ref=f10e166]:
+                        - link "#3" [ref=f10e167] [cursor=pointer]:
+                          - /url: "#comment/3640989"
+                        - text: ·
+                        - link "Sep 19th, 2014" [ref=f10e168] [cursor=pointer]:
+                          - /url: "#comment/3640989"
+                        - text: ·
+                        - generic [ref=f10e169]:
+                          - generic [ref=f10e171]: 
+                          - text: ·
+                          - generic [ref=f10e173]: 
+                        - text: ·
+                        - link " Twiface" [ref=f10e175] [cursor=pointer]:
+                          - /url: "#comment/3642377"
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e177] [cursor=pointer]:
+                        - generic [ref=f10e178]: 
+                    - generic [ref=f10e179]:
+                      - paragraph [ref=f10e180]:
+                        - link " Twiface" [ref=f10e181] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                      - paragraph [ref=f10e182]: A part of it (I think) is what kind of story you're trying to make that long. Adventure fics - in my opinion - are the easiest to make long while maintaining interest. Writing a story about a soldier who longs to be home while being conflicted about the war could probably go a long time before it got tiring/boring to readers. Think about what king of story you want to make and think about the plot itself; see if it looks like something that could last a while.
+                      - paragraph [ref=f10e183]: As for describing things (he said with a sigh, feeling as though he hadn't all that he could), I think that comes with experience. Maybe inspiration as well.
+                      - paragraph [ref=f10e184]:
+                        - text: Hope this helped you.
+                        - img ":twilightsheepish:" [ref=f10e185]
+                - generic [ref=f10e187]:
+                  - generic [ref=f10e188]:
+                    - link "Twiface" [ref=f10e189] [cursor=pointer]:
+                      - /url: /user/167017/Twiface
+                    - img [ref=f10e190] [cursor=pointer]
+                  - generic [ref=f10e191]:
+                    - generic [ref=f10e194]:
+                      - generic [ref=f10e195]:
+                        - link "#4" [ref=f10e196] [cursor=pointer]:
+                          - /url: "#comment/3642377"
+                        - text: ·
+                        - link "Sep 19th, 2014" [ref=f10e197] [cursor=pointer]:
+                          - /url: "#comment/3642377"
+                        - text: ·
+                        - generic [ref=f10e198]:
+                          - generic [ref=f10e200]: 
+                          - text: ·
+                          - generic [ref=f10e202]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e204] [cursor=pointer]:
+                        - generic [ref=f10e205]: 
+                    - paragraph [ref=f10e207]:
+                      - link " A Dark Reminder" [ref=f10e208] [cursor=pointer]:
+                        - /url: "#comment/3640989"
+                      - text: It did!
+                      - img ":twilightblush:" [ref=f10e209]
+                - generic [ref=f10e211]:
+                  - generic [ref=f10e212]:
+                    - link "Senyu" [ref=f10e213] [cursor=pointer]:
+                      - /url: /user/49436/Senyu
+                    - img [ref=f10e214] [cursor=pointer]
+                  - generic [ref=f10e215]:
+                    - generic [ref=f10e218]:
+                      - generic [ref=f10e219]:
+                        - link "#5" [ref=f10e220] [cursor=pointer]:
+                          - /url: "#comment/3727192"
+                        - text: ·
+                        - link "Oct 22nd, 2014" [ref=f10e221] [cursor=pointer]:
+                          - /url: "#comment/3727192"
+                        - text: ·
+                        - generic [ref=f10e222]:
+                          - generic [ref=f10e224]: 
+                          - text: ·
+                          - generic [ref=f10e226]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e228] [cursor=pointer]:
+                        - generic [ref=f10e229]: 
+                    - paragraph [ref=f10e231]: Sorry for late comment, but I hope my two cents help. The thing that helped the length for my story was adding parts that were substantial, but not filler; a difference I learned a bit about from proofreaders harping on my faults in my story. One of my problems was having too much tell and not enough show. By incorporating dialogue into parts to add more content but still progress the story, I found new scenes coming to my mind that I hadn't considered the first time. I still have my shortcomings were I have details that don't need to exist, but repolishing helps me catch them everytime. So for me, it was polishing my story over and over that gave it length.
+                - generic [ref=f10e233]:
+                  - generic [ref=f10e234]:
+                    - link "deathtap" [ref=f10e235] [cursor=pointer]:
+                      - /url: /user/29244/deathtap
+                    - generic [ref=f10e236]: Group Admin
+                    - img [ref=f10e237] [cursor=pointer]
+                  - generic [ref=f10e238]:
+                    - generic [ref=f10e241]:
+                      - generic [ref=f10e242]:
+                        - link "#6" [ref=f10e243] [cursor=pointer]:
+                          - /url: "#comment/3728530"
+                        - text: ·
+                        - link "Oct 23rd, 2014" [ref=f10e244] [cursor=pointer]:
+                          - /url: "#comment/3728530"
+                        - text: ·
+                        - generic [ref=f10e245]:
+                          - generic [ref=f10e247]: 
+                          - text: ·
+                          - generic [ref=f10e249]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e251] [cursor=pointer]:
+                        - generic [ref=f10e252]: 
+                    - generic [ref=f10e253]:
+                      - paragraph [ref=f10e254]:
+                        - link " Twiface" [ref=f10e255] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                        - text: Another way is to use a routine differently.
+                      - paragraph [ref=f10e256]: Like Detective Conan.
+                      - paragraph [ref=f10e257]:
+                        - text: Clever detective has something happen to them.
+                        - text: Clever detective has overarching plot (i.e., proving his innocence)
+                        - text: Ends up part of murder agency
+                        - text: Murder happens.
+                        - text: Clues get found.
+                        - text: Murder solved.
+                        - text: Add some overarching plot twists.
+                      - paragraph [ref=f10e258]: Recycle the last 4 points and you have an endless plot. The overarching plot depicts the duration and the gaps between each of these are as long as you want it to be.
+                      - paragraph [ref=f10e259]: This is one example. There are many and, depending on what you want to write about, can be as simple a day-to-day activities to more unique things (like space travel).
+                - generic [ref=f10e261]:
+                  - generic [ref=f10e262]:
+                    - link "Roranicus" [ref=f10e263] [cursor=pointer]:
+                      - /url: /user/201653/Roranicus
+                    - img [ref=f10e264] [cursor=pointer]
+                  - generic [ref=f10e265]:
+                    - generic [ref=f10e268]:
+                      - generic [ref=f10e269]:
+                        - link "#7" [ref=f10e270] [cursor=pointer]:
+                          - /url: "#comment/4175660"
+                        - text: ·
+                        - link "Mar 17th, 2015" [ref=f10e271] [cursor=pointer]:
+                          - /url: "#comment/4175660"
+                        - text: ·
+                        - generic [ref=f10e272]:
+                          - generic [ref=f10e274]: 
+                          - text: ·
+                          - generic [ref=f10e276]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e278] [cursor=pointer]:
+                        - generic [ref=f10e279]: 
+                    - generic [ref=f10e280]:
+                      - paragraph [ref=f10e281]: I'm currently writing a long fic. I have about 100 000 words written (about half of this is published) and I'm barely 1/4 into the story. There are a couple of things I learned along the way.
+                      - paragraph [ref=f10e282]:
+                        - text: "- First and most importantly, don't write a long story just cause you want it to be long. Your story will be as long as it needs to be. If that's 50 000 words, great. If it's 300 000, just as great. As long as it flows well and keeps the reader hooked, you're in business."
+                        - text: "- Now, if you're planning on something you know will be long, plan ahead. Take notes on your characters, locations, plot points. Know where the story will be going and make sure you don't write yourself into a plot hole."
+                        - text: "- Don't lose yourself in side stories. Make sure secondary plotlines are related in some way to the main story and actually bring something rich rather then take the attention away from the main action."
+                        - text: "- Don't sacrifice quality of writing for lenght. Look at each chapter individually and give each the work it deserves in order to be presentable and entertaining."
+                        - text: "- Finally, find ways to motivate yourself. Writing longer stories takes time. You'll get discouraged more then once and the amount of work still to be done will intimidate you. Make sure your friends can support you and believe in the project. You will need them."
+                - generic [ref=f10e284]:
+                  - generic [ref=f10e285]:
+                    - link "ferret" [ref=f10e286] [cursor=pointer]:
+                      - /url: /user/90093/ferret
+                    - img [ref=f10e287] [cursor=pointer]
+                  - generic [ref=f10e288]:
+                    - generic [ref=f10e291]:
+                      - generic [ref=f10e292]:
+                        - link "#8" [ref=f10e293] [cursor=pointer]:
+                          - /url: "#comment/5000152"
+                        - text: ·
+                        - link "Jan 23rd, 2016" [ref=f10e294] [cursor=pointer]:
+                          - /url: "#comment/5000152"
+                        - text: ·
+                        - generic [ref=f10e295]:
+                          - generic [ref=f10e297]: 
+                          - text: ·
+                          - generic [ref=f10e299]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e301] [cursor=pointer]:
+                        - generic [ref=f10e302]: 
+                    - paragraph [ref=f10e304]:
+                      - text: Just wanted to throw this out
+                      - text: "* plot twists"
+                      - text: "* foreshadowing"
+                      - text: "* world building"
+                      - text: "* character development"
+                      - text: That's how I keep a long story interesting to readers. I probably maybe don't succeed much though.
+                - generic [ref=f10e306]:
+                  - generic [ref=f10e307]:
+                    - link "mintgreenconspiracy" [ref=f10e308] [cursor=pointer]:
+                      - /url: /user/177321/mintgreenconspiracy
+                    - generic [ref=f10e309]: Group Admin
+                    - img [ref=f10e310] [cursor=pointer]
+                  - generic [ref=f10e311]:
+                    - generic [ref=f10e314]:
+                      - generic [ref=f10e315]:
+                        - link "#9" [ref=f10e316] [cursor=pointer]:
+                          - /url: "#comment/5034629"
+                        - text: ·
+                        - link "Feb 8th, 2016" [ref=f10e317] [cursor=pointer]:
+                          - /url: "#comment/5034629"
+                        - text: ·
+                        - generic [ref=f10e318]:
+                          - generic [ref=f10e320]: 
+                          - text: ·
+                          - generic [ref=f10e322]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e324] [cursor=pointer]:
+                        - generic [ref=f10e325]: 
+                    - generic [ref=f10e326]:
+                      - paragraph [ref=f10e327]: this advise might be dubious and can probably be ignored (and maybe a mark of inexperience on my end) but instead of asking 'what needs to be said in this chapter' ask, 'what happens next', 'or what else can you talk about', it's resulted in ridiculous word counts so far on my story (I have another 50k-60k words in two more unpublished chapters that's I'm currently in the process of finishing.)
+                      - paragraph [ref=f10e328]: "EDIT: Of course the combination of adventure and crossover might help as my G3-G4 cross over has resulted in more characters to explore then I know what to do with (maybe due to G3s cast of thousands...)"
+                      - paragraph [ref=f10e329]: "EDIT 2: As for keeping interest... can't speak on that... my story's had a niche appeal from the start due to being a G3 crossover to begin with."
+                - generic [ref=f10e331]:
+                  - generic [ref=f10e332]:
+                    - link "Rockstar_Raccoon" [ref=f10e333] [cursor=pointer]:
+                      - /url: /user/126727/Rockstar_Raccoon
+                    - link "Sponsor" [ref=f10e334] [cursor=pointer]:
+                      - /url: /subscribe-star
+                    - img [ref=f10e335] [cursor=pointer]
+                  - generic [ref=f10e336]:
+                    - generic [ref=f10e339]:
+                      - generic [ref=f10e340]:
+                        - link "#10" [ref=f10e341] [cursor=pointer]:
+                          - /url: "#comment/6258655"
+                        - text: ·
+                        - link "Dec 25th, 2017" [ref=f10e342] [cursor=pointer]:
+                          - /url: "#comment/6258655"
+                        - text: ·
+                        - generic [ref=f10e343]:
+                          - generic [ref=f10e345]: 
+                          - text: ·
+                          - generic [ref=f10e347]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e349] [cursor=pointer]:
+                        - generic [ref=f10e350]: 
+                    - generic [ref=f10e351]:
+                      - paragraph [ref=f10e352]:
+                        - link " Twiface" [ref=f10e353] [cursor=pointer]:
+                          - /url: "#comment/3640875"
+                        - text: So, this response is a bit late, but here's my advice as someone who's written a few professional works which are more than 50k words. When I started writing Displaced Into Nothing, I blocked out the entire story as an outline, doing various bit of research, figuring out the nature of plot points that would come late in the story (Chapters 9 and 10) and figuring out how to set them up early on. That's why Chapter 6 has a scene where, out of nowhere, Meta finds a book about her own life, because it becomes relevant in Chapter 9. Knowing how to put in little details early on that back up later events, and don't contradict them, is one of the most important things in a long story.
+                      - paragraph [ref=f10e354]: "The other thing is being ready for a long haul: I've resigned to the fact that I won't be able to get out chapters faster than a certain pace, so I assumed this story would be going for a few months. Setbacks have pushed me back about a month, but hopefully I'll be done soon. The biggest issue I have is that, near the end, my interest in a story starts to wane: right now, I've been writing little snippets of my next story, and it's been distracting me from the current one, because in my mind, I've already dealt with it. The allure of those clever plot points from unwritten chapters has worn off at this point, and so I have to work to stay focused on actually getting them out."
+                      - paragraph [ref=f10e355]: "Writing WELL helps with that: I'm more driven by the fact that I've got one of the most popular HiE fics on the site right now (and I'm pretty sure it's at least one of the top 10 smartest HiE fics of all time) and every time I post a chapter it spends about 12 hours in the Featured box and I get about 50 comments about how something in the chapter was cool or thought provoking. It's praise like that that really keeps me going."
+                      - paragraph [ref=f10e356]: That's just my thoughts on the matter for you.
+                      - paragraph [ref=f10e357]: "Edit: Oh wow, I saw this was from September... I didn't see it was from 2014!"
+                - generic [ref=f10e359]:
+                  - generic [ref=f10e360]:
+                    - link "NachoTheBrony" [ref=f10e361] [cursor=pointer]:
+                      - /url: /user/7493/NachoTheBrony
+                    - img [ref=f10e362] [cursor=pointer]
+                  - generic [ref=f10e363]:
+                    - generic [ref=f10e366]:
+                      - generic [ref=f10e367]:
+                        - link "#11" [ref=f10e368] [cursor=pointer]:
+                          - /url: "#comment/6264541"
+                        - text: ·
+                        - link "Jan 2nd, 2018" [ref=f10e369] [cursor=pointer]:
+                          - /url: "#comment/6264541"
+                        - text: ·
+                        - generic [ref=f10e370]:
+                          - generic [ref=f10e372]: 
+                          - text: ·
+                          - generic [ref=f10e374]: 
+                        - text: ·
+                      - generic "Reply ( hold ctrl to prevent jumping to reply box )" [ref=f10e376] [cursor=pointer]:
+                        - generic [ref=f10e377]: 
+                    - generic [ref=f10e378]:
+                      - paragraph [ref=f10e379]: Hi.
+                      - paragraph [ref=f10e381]: "A brief guide on how to plan and execute long documents:"
+                      - paragraph [ref=f10e382]: First of all, don't just sit down and write.
+                      - paragraph [ref=f10e383]: (Some people can do it, and in fact Isaac Asimov was legendary on his ability to have an idea for breakfast and a full length novel for dinner, but if you could do that, you wouldn't be reading this guide. Besides, while his stories were very intellectually stimulating, he is becoming forgotten due to his characterisation always being flat and stereotypical, and his storytelling generally being very straight-forward rather than the never ending sense of hope of reading Arthur C Clarke, or the juvenile excitement of reading Robert Heinlein.)
+                      - paragraph [ref=f10e384]:
+                        - text: Yes, hurry up, open a new document in a text processor program and write down your ideas.
+                        - text: No; unless your idea is only good for a straight-forward story, that brain dump isn't the actual story.
+                        - text: "Dump as much as possible into this document: the quick outline that you surely thought of at the beginning of everything; important scenes (either as narrative or as outlines); timelines; character profiles; potential titles; et al."
+                      - paragraph [ref=f10e385]: "Also very important: write down an outline. An outline is not a spoiler-free summary meant to interest the readers, but a map that will guide you as a writer, and your editors, through the setting, beginning, mayor events and conclusion of the story."
+                      - paragraph [ref=f10e386]:
+                        - text: "Second:"
+                        - text: "Once you have finished your original dump, save the document under a usable name (say, \"(TITLE)Masterfile\" or \"(TITLE)dumpfile\"). Then make a folder in your computer under that name and transfer the original document there. Then open a second document and transfer there (cut and paste) any non-narrative story contents: basically, anything that is not a scene or an author's note; then save it as something like \"(TITLE)SupportFile\"."
+                      - paragraph [ref=f10e387]:
+                        - text: "Third:"
+                        - text: "Organize the Support File: send executive content, such as the title and the current outline, to the top of the document. Organice other contents according to personal preference and story needs."
+                        - text: "Now, going back and forth between the dump and the support documents, expand the outline. If your story's summary was \"Here's the story of the Osomov bloodline, living through the centuries with a curse that they don't know about, but they are slowly defeating...\", your first outline would have been a rough draft of significant events as the family suffers the curse and a timeline as to its defeat, and the expanded outline would have things like \"2147: the Osomov family, under the name Richardson, five individuals, is on a colony ship leading to Charon. The ship suffers an accident, but the family sacrifice themselves and fight the other adults to fill the lifeboat with the various colonists' children. A baby and a toddler Richardson survive. The Osomov birthmark is down to seven dots.\""
+                      - paragraph [ref=f10e388]:
+                        - text: The next step, of course, is that once you are satisfied with your expanded outline, you can see how many chapters the story is shaping up to need. Of course that it will be subject to revision, but meanwhile, you can splinter the expanded outline into chapter outlines. Or, say, have you found a good place to splinter into Books rather than Chapters?
+                        - text: As you splinter the outline into chapter outlines, write your table of contents.
+                        - text: Expand your chapter outlines. A chapter outline should describe the scenes that happen inside that chapter.
+                      - paragraph [ref=f10e389]: And of course, as more and more non-story content is developed, you may wish to splinter parts of the Support document into their own documents, such as "(Title)Character_Profiles", "(Title)Alliances_and_Enmities_Charts", "(Title)Soma_Family_Monograph" or "(Title)Table_of_Spells".
+                      - paragraph [ref=f10e390]:
+                        - text: "Fourth:"
+                        - text: Once you have satisfactory chapter outlines for your entire book, or books, generate Chapter documents, and then copy/paste the chapter outlines from the Support to the corresponding chapter documents, and cut/paste the scenes from the dump file into the corresponding chapters.
+                        - text: If everything goes right, your Dump document should be empty right now, and your Support document should contain a copy of the entire outline for everything,
+                      - paragraph [ref=f10e391]:
+                        - text: "Fifth:"
+                        - text: Get writing!
+                        - text: "And don't forget to keep consulting and updating the Support document, so:"
+                        - text: (1) You never loose track of a subplot.
+                        - text: (2) You can maintain internal consistency, regardless of how badly you twist the plot.
+                        - text: (3) You can seed plot elements and plot devices half a book before they ever become relevant.
+                      - paragraph [ref=f10e392]: On December, a black old dude receives a magnesium hip replacement. On February, the town receives a Neo Nazi injection, who take refuge on an old, abandoned factory, and the authorities don't bother because they look like just hobos. On June, the Neo Nazis toss the old man's corpse on a chimney, the magnesium implant flares up very violently and sets the inside of the chimney on fire. This brings down the emergency services, which first detain the supposed hobos for destruction or something, but then leads to their arrest once the old man's partial corpse is found.
+              - generic [ref=f10e398]:
+                - list [ref=f10e400]:
+                  - listitem [ref=f10e401]:
+                    - generic [ref=f10e403] [cursor=pointer]: 
+                  - listitem [ref=f10e404]:
+                    - generic [ref=f10e406] [cursor=pointer]: 
+                - list [ref=f10e408]:
+                  - listitem [ref=f10e409]:
+                    - generic [ref=f10e410]: Viewing 1 - 50 of 11
+                  - listitem [ref=f10e411]:
+                    - generic "Refresh Comments" [ref=f10e412] [cursor=pointer]:
+                      - generic [ref=f10e413]: 
+                  - listitem [ref=f10e414]:
+                    - generic "Post New Comment" [ref=f10e415] [cursor=pointer]:
+                      - generic [ref=f10e416]: 
+      - generic [ref=f10e417]:
+        - text: Join our
+        - link "SubscribeStar" [ref=f10e418] [cursor=pointer]:
+          - /url: /subscribe-star
+        - text: to remove these adverts!
+    - generic [ref=f10e419]:
+      - generic [ref=f10e420]:
+        - heading "Stats" [level=1] [ref=f10e421]
+        - paragraph [ref=f10e422]:
+          - text: Page generated in 0.014 seconds
+          - text: Total duration 1.122 seconds
+          - text: 434 users online
+          - text: 448,152 hits today, 1,101,550 yesterday
+        - paragraph [ref=f10e423]:
+          - link "• Site Statistics" [ref=f10e424] [cursor=pointer]:
+            - /url: /statistics
+      - generic [ref=f10e426]:
+        - heading "FIMFiction" [level=1] [ref=f10e427]
+        - paragraph [ref=f10e428]:
+          - text: "My Little Pony: Friendship is Magic Fanfiction"
+          - text: Designed and coded by
+          - link "knighty" [ref=f10e429] [cursor=pointer]:
+            - /url: /user/1/knighty
+          - text: "&"
+          - link "Xaquseg" [ref=f10e430] [cursor=pointer]:
+            - /url: /user/11771/Xaquseg
+          - text: "- © 2011-2026"
+        - paragraph [ref=f10e431]:
+          - link "• Privacy" [ref=f10e432] [cursor=pointer]:
+            - /url: /privacy-policy
+          - link "• Cookies" [ref=f10e433] [cursor=pointer]:
+            - /url: /cookies
+          - link "• Staff" [ref=f10e434] [cursor=pointer]:
+            - /url: /staff
+          - link "• Licenses" [ref=f10e435] [cursor=pointer]:
+            - /url: /licenses
+      - generic [ref=f10e437]:
+        - heading "Follow & Support Us" [level=1] [ref=f10e438]
+        - paragraph [ref=f10e439]:
+          - link "Support us SubStar" [ref=f10e440] [cursor=pointer]:
+            - /url: /subscribe-star
+            - img [ref=f10e441]
+            - generic [ref=f10e442]:
+              - text: Support us
+              - text: SubStar
+          - link "Chat! Discord" [ref=f10e443] [cursor=pointer]:
+            - /url: /discord
+            - img [ref=f10e444]
+            - generic [ref=f10e445]:
+              - text: Chat!
+              - text: Discord
+          - link " Follow us Twitter" [ref=f10e446] [cursor=pointer]:
+            - /url: https://www.twitter.com/fimfiction
+            - generic [ref=f10e447]: 
+            - generic [ref=f10e448]:
+              - text: Follow us
+              - text: Twitter
+        - paragraph [ref=f10e449]:
+          - text: "MLP: Friendship is Magic® - © 2026 Hasbro Inc.®"
+          - text: Fimfiction is in no way affiliated with or endorsed by Hasbro Inc.®
+  - generic [ref=f10e452]:
+    - heading "Cookie Consent" [level=1] [ref=f10e453]
+    - generic [ref=f10e456]:
+      - article [ref=f10e457]:
+        - generic [ref=f10e458]: Your preferences can be updated at any time on our cookies page
+        - generic [ref=f10e459]:
+          - heading "Advertising" [level=1] [ref=f10e460]
+          - list [ref=f10e461]:
+            - listitem [ref=f10e462]:
+              - text: Advertising - These adverts are required to support the site. Please consider supporting our
+              - link "Patreon" [ref=f10e463] [cursor=pointer]:
+                - /url: /patreon
+              - text: if you dislike advertising
+              - link "[toggle info]" [ref=f10e464] [cursor=pointer]:
+                - /url: ""
+        - generic [ref=f10e465]:
+          - heading "Personalised Advertising" [level=1] [ref=f10e466]
+          - list [ref=f10e467]:
+            - listitem [ref=f10e468]:
+              - text: Advertising - Personalised advertising shows you better adverts and helps support the site much more. The number of adverts does not change.
+              - link "[toggle info]" [ref=f10e469] [cursor=pointer]:
+                - /url: ""
+          - paragraph [ref=f10e470]:
+            - generic [ref=f10e471]:
+              - generic: 
+              - text: Allow these cookies (optional)
+        - generic [ref=f10e472]:
+          - heading "Essential Cookies" [level=1] [ref=f10e473]
+          - list [ref=f10e474]:
+            - listitem [ref=f10e475]: Sessions - A cookie is required to keep you logged into the site as you browse.
+            - listitem [ref=f10e476]: Customisation - For example, storing whether you're using dark mode and your chapter formatting options.
+      - generic [ref=f10e477]:
+        - button " Accept" [ref=f10e478] [cursor=pointer]:
+          - generic [ref=f10e479]: 
+          - text: Accept
+        - button " Reject" [ref=f10e480] [cursor=pointer]:
+          - generic [ref=f10e481]: 
+          - text: Reject
+        - link " Help" [ref=f10e482] [cursor=pointer]:
+          - /url: /cookies
+          - generic [ref=f10e483]: 
+          - text: Help
