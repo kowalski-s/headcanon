@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { POST as createChapter } from './route';
 import { PATCH as patchChapter, DELETE as deleteChapter } from './[id]/route';
 import { NextRequest } from 'next/server';
@@ -18,6 +18,10 @@ async function story() {
 describe('write chapter API', () => {
   beforeEach(async () => {
     await createTestUser(USER_ID);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('POST appends chapter with next ordinal', async () => {
@@ -93,6 +97,28 @@ describe('write chapter API', () => {
       where: { userId_date: { userId: USER_ID, date: today } },
     });
     expect(stat?.wordsAdded).toBe(3);
+  }, 15_000);
+
+  it('PATCH не валит autosave, если запись WritingStat падает', async () => {
+    const s = await story();
+    const ch = await prisma.chapter.create({
+      data: { storyId: s.id, ordinal: 1, status: 'DRAFT', text: 'раз два' },
+    });
+    const spy = vi
+      .spyOn(prisma.writingStat, 'upsert')
+      .mockRejectedValueOnce(new Error('transient db failure'));
+    const res = await patchChapter(
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ text: 'раз два три четыре пять' }),
+      }),
+      { params: Promise.resolve({ id: ch.id }) },
+    );
+    expect(spy).toHaveBeenCalled();
+    expect(res.status).toBe(200);
+    const after = await prisma.chapter.findUniqueOrThrow({ where: { id: ch.id } });
+    expect(after.text).toBe('раз два три четыре пять');
   }, 15_000);
 
   it('PATCH с удалением текста не уменьшает WritingStat', async () => {

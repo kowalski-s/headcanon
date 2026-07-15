@@ -36,11 +36,20 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (delta > 0) {
       const date = new Date();
       date.setUTCHours(0, 0, 0, 0);
-      await prisma.writingStat.upsert({
-        where: { userId_date: { userId: ch.story.authorId, date } },
-        create: { userId: ch.story.authorId, date, wordsAdded: delta },
-        update: { wordsAdded: { increment: delta } },
-      });
+      // WritingStat — вторичная метрика; её сбой не должен валить успешный autosave текста.
+      try {
+        await prisma.writingStat.upsert({
+          where: { userId_date: { userId: ch.story.authorId, date } },
+          create: { userId: ch.story.authorId, date, wordsAdded: delta },
+          update: { wordsAdded: { increment: delta } },
+        });
+      } catch (e) {
+        console.error('[write/chapter PATCH] writingStat upsert failed', {
+          chapterId: id,
+          userId: ch.story.authorId,
+          error: e,
+        });
+      }
     }
   }
   return NextResponse.json({ ok: true });
