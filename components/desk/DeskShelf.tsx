@@ -2,16 +2,24 @@
 
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 import { createStory } from '@/lib/write/create-story';
 import { DeskCover, type DeskStory } from './DeskCover';
 
 export function DeskShelf({ stories }: { stories: DeskStory[] }) {
   const router = useRouter();
+  const pendingRef = useRef(false);
 
   // Тот же экшен создания, что в StoryList: POST /api/write/story → редирект в редактор.
+  // pendingRef гасит двойной клик — иначе создаются две «Без названия».
   async function handleCreate() {
+    if (pendingRef.current) return;
+    pendingRef.current = true;
     const storyId = await createStory();
-    if (!storyId) return;
+    if (!storyId) {
+      pendingRef.current = false;
+      return;
+    }
     router.push(('/write/' + storyId) as Route);
   }
 

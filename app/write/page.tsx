@@ -6,6 +6,10 @@ import { EmptyDesk } from '@/components/desk/EmptyDesk';
 import { countWords } from '@/lib/write/word-count';
 import { computeStreak, deskLead, sparklineDays } from '@/lib/write/momentum';
 
+// Стол время-зависим (стрик, «N ночей назад») — без этого Next пререндерит
+// страницу статически на билде и данные замерзают до следующего деплоя.
+export const dynamic = 'force-dynamic';
+
 export default async function DeskPage() {
   const [stories, stats] = await Promise.all([
     prisma.story.findMany({

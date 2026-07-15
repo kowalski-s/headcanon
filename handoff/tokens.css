@@ -1,5 +1,6 @@
 /* headcanon — design tokens (CSS custom properties)
- * Подключить в app/globals.css перед Tailwind layers.
+ * Импортируется в app/globals.css сразу после @import 'tailwindcss'
+ * (все @import — до @config, иначе Vite/PostCSS выбрасывает импорт).
  */
 
 :root {

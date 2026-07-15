@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 import { createStory } from '@/lib/write/create-story';
 import { MonoBadge } from '@/components/ui/MonoBadge';
 
@@ -24,10 +25,17 @@ const visibilityLabel: Record<Story['visibility'], string> = {
 
 export function StoryList({ stories }: Props) {
   const router = useRouter();
+  const pendingRef = useRef(false);
 
+  // pendingRef гасит двойной клик — иначе создаются две «Без названия».
   async function handleNew() {
+    if (pendingRef.current) return;
+    pendingRef.current = true;
     const storyId = await createStory();
-    if (!storyId) return;
+    if (!storyId) {
+      pendingRef.current = false;
+      return;
+    }
     router.push(('/write/' + storyId) as Route);
   }
 

@@ -2,7 +2,7 @@
 
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pill } from '@/components/ui/Pill';
 import { createStory } from '@/lib/write/create-story';
 
@@ -21,11 +21,18 @@ const FANDOMS = [
 export function EmptyDesk() {
   const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
+  const pendingRef = useRef(false);
 
   // Тот же механизм создания, что в DeskShelf: POST /api/write/story → редактор.
+  // pendingRef гасит двойной клик — иначе создаются две «Без названия».
   async function handleStart() {
+    if (pendingRef.current) return;
+    pendingRef.current = true;
     const storyId = await createStory();
-    if (!storyId) return;
+    if (!storyId) {
+      pendingRef.current = false;
+      return;
+    }
     router.push(('/write/' + storyId) as Route);
   }
 
