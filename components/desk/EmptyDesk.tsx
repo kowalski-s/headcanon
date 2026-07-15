@@ -1,0 +1,70 @@
+'use client';
+
+import type { Route } from 'next';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Pill } from '@/components/ui/Pill';
+import { createStory } from '@/lib/write/create-story';
+
+// Локальный список вместо реюза components/feed/FandomChips: его контракт —
+// role="tablist"/"tab" + обязательный track('feed_chip_tap') — семантика ленты,
+// не guided start. Здесь чипы — кнопки с aria-pressed; выбор пока чисто
+// визуальный (передача фандома в создание истории — следующий цикл).
+const FANDOMS = [
+  'Гарри Поттер',
+  'Наруто',
+  'Магистр дьявольского культа',
+  'Всё ради игры',
+  'Оригинальный мир',
+];
+
+export function EmptyDesk() {
+  const router = useRouter();
+  const [selected, setSelected] = useState<string | null>(null);
+
+  // Тот же механизм создания, что в DeskShelf: POST /api/write/story → редактор.
+  async function handleStart() {
+    const storyId = await createStory();
+    if (!storyId) return;
+    router.push(('/write/' + storyId) as Route);
+  }
+
+  return (
+    <section className="flex min-h-[70vh] flex-col items-center justify-center gap-10 px-6 py-16 text-center">
+      <div className="relative">
+        <div
+          aria-hidden
+          className="absolute inset-[-40%] bg-[radial-gradient(circle,var(--hc-glow),transparent_65%)]"
+        />
+        <h1 className="relative font-display italic text-display-l text-ink">
+          выбери фандом — и за стол
+        </h1>
+      </div>
+
+      <div className="flex max-w-md flex-wrap items-center justify-center gap-2">
+        {FANDOMS.map((name) => {
+          const active = selected === name;
+          return (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setSelected(name)}
+              className={`rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition-colors ${
+                active
+                  ? 'border-amber bg-amber text-bg-deep'
+                  : 'border-ink-faint/30 text-ink hover:border-amber/50'
+              }`}
+            >
+              {name}
+            </button>
+          );
+        })}
+      </div>
+
+      <Pill variant="hero" onClick={handleStart}>
+        + начать
+      </Pill>
+    </section>
+  );
+}
