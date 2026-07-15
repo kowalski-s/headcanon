@@ -1,10 +1,7 @@
 const DAY = 86_400_000;
 const utcDay = (d: Date) => Math.floor(d.getTime() / DAY);
 
-export function computeStreak(
-  stats: { date: Date; wordsAdded: number }[],
-  today: Date,
-): number {
+export function computeStreak(stats: { date: Date; wordsAdded: number }[], today: Date): number {
   const days = new Set(stats.filter((s) => s.wordsAdded > 0).map((s) => utcDay(s.date)));
   const t = utcDay(today);
   let cursor = days.has(t) ? t : days.has(t - 1) ? t - 1 : null;
@@ -58,7 +55,8 @@ export function deskLead({
   today: Date;
 }): string {
   const nights = utcDay(today) - utcDay(lastEditedAt);
-  if (nights <= 0) return `Сегодня ты уже была за столом — глава ${chapterOrdinal} ждёт продолжения.`;
+  if (nights <= 0)
+    return `Сегодня ты уже была за столом — глава ${chapterOrdinal} ждёт продолжения.`;
   const lead =
     nights < NIGHT_NUMERALS.length ? NIGHT_NUMERALS[nights] : `${nights} ${nightsWord(nights)}`;
   return `${lead} назад ты оставила «${storyTitle}» — глава ${chapterOrdinal} ждёт.`;

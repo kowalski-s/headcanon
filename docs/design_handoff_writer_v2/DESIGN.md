@@ -12,6 +12,7 @@
 **Энергия — Y2K журнал.** Маркизы-тикеры с эмодзи-звездой, sticker-всплески «★ хит» на главной обложке (повёрнуты на ±8°), малярный скотч-теги на постерах в ленте, ironic-подпись Bodoni-italic «★ полночное чтиво для тех, кто не спит ★», лёгкая голограмма (хром-градиент `#C9D4E8 → #E5A95A → #D67890`) на CTA `▸ watch`.
 
 **Что НЕЛЬЗЯ:**
+
 - Розовый как primary (только точечный акцент).
 - Эмодзи в UI (✦ ✧ ★ ☆ — это типографские символы, можно).
 - Аккуратные «дизайн-системные» rounded-corner-badge с левой цветной полосой.
@@ -26,19 +27,19 @@
 
 См. `tokens.json` → `colors`. Базовые роли:
 
-| Роль | Hex | Где |
-|---|---|---|
-| `bg` | `#160B22` | Полотно ленты, ридера, story page |
-| `bg.alt` | `#1F1230` | Watch-mode (на тон темнее), pressed states |
-| `surface` | `rgba(245,239,224,.04)` | Карточки эпизодов, NEXT-блок в ридере |
-| `ink` | `#F5EFE0` | Body-копия, заголовки |
-| `ink.dim` | `#A89BB5` | Метаданные (timecodes, счётчики), placeholders |
-| `ink.faint` | `#6E6478` | Disabled, дальние мета |
-| `amber` | `#E5A95A` | Primary CTA, drop caps, акцент-курсив, амбер glow |
-| `rose` | `#D67890` | Вторичный акцент (счётчик ♡, отдельные badges) |
-| `chrome.1/2/3` | `#C9D4E8 / #E5A95A / #D67890` | Голограмма-градиент на watch CTA |
-| `border` | `rgba(229,169,90,.12)` | Тонкие границы карточек |
-| `border.strong` | `rgba(229,169,90,.22)` | Frame ридера, сильные разделители |
+| Роль            | Hex                           | Где                                               |
+| --------------- | ----------------------------- | ------------------------------------------------- |
+| `bg`            | `#160B22`                     | Полотно ленты, ридера, story page                 |
+| `bg.alt`        | `#1F1230`                     | Watch-mode (на тон темнее), pressed states        |
+| `surface`       | `rgba(245,239,224,.04)`       | Карточки эпизодов, NEXT-блок в ридере             |
+| `ink`           | `#F5EFE0`                     | Body-копия, заголовки                             |
+| `ink.dim`       | `#A89BB5`                     | Метаданные (timecodes, счётчики), placeholders    |
+| `ink.faint`     | `#6E6478`                     | Disabled, дальние мета                            |
+| `amber`         | `#E5A95A`                     | Primary CTA, drop caps, акцент-курсив, амбер glow |
+| `rose`          | `#D67890`                     | Вторичный акцент (счётчик ♡, отдельные badges)    |
+| `chrome.1/2/3`  | `#C9D4E8 / #E5A95A / #D67890` | Голограмма-градиент на watch CTA                  |
+| `border`        | `rgba(229,169,90,.12)`        | Тонкие границы карточек                           |
+| `border.strong` | `rgba(229,169,90,.22)`        | Frame ридера, сильные разделители                 |
 
 **Свет свечи** — главный нарративный эффект. Это `radial-gradient(circle, #E5A95A88, transparent 60%)` с `mixBlendMode: screen` или `filter: blur(40px)`. Используется в фоне ленты, hero-обложке, Watch-mode фрейме. **Без него Mix-направление превращается в обычный dark UI.**
 
@@ -59,27 +60,27 @@
 
 Tailwind-spacing (4px base) — стандарт. Никаких magic-numbers.
 
-| Радиус | Где |
-|---|---|
-| `0` | Маркиза-тикер, верх-страничный лейаут |
-| `4px` (`rounded`) | Метки таймкодов, мелкие чипы |
-| `8px` (`rounded-lg`) | Карточки эпизодов, NEXT-блок |
-| `10px` (`rounded-xl`) | Watch frame |
-| `14px` (`rounded-2xl`) | Sticky-карточки |
+| Радиус                   | Где                                     |
+| ------------------------ | --------------------------------------- |
+| `0`                      | Маркиза-тикер, верх-страничный лейаут   |
+| `4px` (`rounded`)        | Метки таймкодов, мелкие чипы            |
+| `8px` (`rounded-lg`)     | Карточки эпизодов, NEXT-блок            |
+| `10px` (`rounded-xl`)    | Watch frame                             |
+| `14px` (`rounded-2xl`)   | Sticky-карточки                         |
 | `999px` (`rounded-full`) | Все CTA-кнопки, фандом-чипы, watch-pill |
 
 ---
 
 ## Motion
 
-| Случай | Длительность / easing |
-|---|---|
-| Tap → переход на story page | 320 ms / `cubic-bezier(.2,.8,.2,1)` (cinematic) |
-| Маркиза-тикер сверху | linear infinite, 35s/loop |
-| Свечной glow «дыхание» | 6s ease-in-out, opacity 0.5 ↔ 0.7 |
-| Hover на постерах (desktop) | 200 ms, scale(1.02) + tilt(-1deg) |
-| Page-reveal в ридере | fade-in 240ms, **без слайда** — глаз должен «приехать» к тексту, не страница |
-| Watch mode заходит | crossfade 600ms из обложки в фрейм |
+| Случай                      | Длительность / easing                                                        |
+| --------------------------- | ---------------------------------------------------------------------------- |
+| Tap → переход на story page | 320 ms / `cubic-bezier(.2,.8,.2,1)` (cinematic)                              |
+| Маркиза-тикер сверху        | linear infinite, 35s/loop                                                    |
+| Свечной glow «дыхание»      | 6s ease-in-out, opacity 0.5 ↔ 0.7                                            |
+| Hover на постерах (desktop) | 200 ms, scale(1.02) + tilt(-1deg)                                            |
+| Page-reveal в ридере        | fade-in 240ms, **без слайда** — глаз должен «приехать» к тексту, не страница |
+| Watch mode заходит          | crossfade 600ms из обложки в фрейм                                           |
 
 **Reduced motion:** маркизу останавливаем, glow заменяем статичным радиальным градиентом.
 
@@ -96,20 +97,20 @@ Tailwind-spacing (4px base) — стандарт. Никаких magic-numbers.
 
 Перечень того, что нужно собрать в `components/ui/`:
 
-| Компонент | Описание | Где |
-|---|---|---|
-| `<StoryPoster size>` | 2:3 постер, градиент-фон, плёночное зерно, виньетка, опц. скотч-тег и burst-стикер | Лента, story page, related |
-| `<MarqueeTicker items={...}>` | Бесконечная горизонтальная марка с амбер-фоном и инверсной типографикой | Top of feed mobile + desktop |
-| `<BurstSticker label rotate>` | Звёздный стикер «★ хит» с поворотом | Hero-обложка |
-| `<TapeTag color>` | Малярный скотч с текстом | Постеры в ленте |
-| `<ChromeButton>` | Голограмма-CTA для Watch | Story page, ридер NEXT, лента |
-| `<AmberPill>` | Primary CTA pill с амбер-fill | «продолжить гл. 7», create flow |
-| `<GhostPill>` | Outline-ring pill | «← назад» в create |
-| `<DropCap letter>` | Bodoni-italic первая буква, float-left | Reader, любая длинная вступительная копия |
-| `<EpisodeChip state>` | 140px карточка эпизода (`done` / `now` / `next`) | Watch mode |
-| `<Scrubber value duration>` | Полоса с амбер-fill + glow-точкой ручки | Watch mode |
-| `<CandleGlow x y size>` | Абсолютный позиционируемый свечной градиент | Все экраны |
-| `<TabBar items active>` | Нижний таб с курсив-сериф лейблами | Все mobile |
+| Компонент                     | Описание                                                                           | Где                                       |
+| ----------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------- |
+| `<StoryPoster size>`          | 2:3 постер, градиент-фон, плёночное зерно, виньетка, опц. скотч-тег и burst-стикер | Лента, story page, related                |
+| `<MarqueeTicker items={...}>` | Бесконечная горизонтальная марка с амбер-фоном и инверсной типографикой            | Top of feed mobile + desktop              |
+| `<BurstSticker label rotate>` | Звёздный стикер «★ хит» с поворотом                                                | Hero-обложка                              |
+| `<TapeTag color>`             | Малярный скотч с текстом                                                           | Постеры в ленте                           |
+| `<ChromeButton>`              | Голограмма-CTA для Watch                                                           | Story page, ридер NEXT, лента             |
+| `<AmberPill>`                 | Primary CTA pill с амбер-fill                                                      | «продолжить гл. 7», create flow           |
+| `<GhostPill>`                 | Outline-ring pill                                                                  | «← назад» в create                        |
+| `<DropCap letter>`            | Bodoni-italic первая буква, float-left                                             | Reader, любая длинная вступительная копия |
+| `<EpisodeChip state>`         | 140px карточка эпизода (`done` / `now` / `next`)                                   | Watch mode                                |
+| `<Scrubber value duration>`   | Полоса с амбер-fill + glow-точкой ручки                                            | Watch mode                                |
+| `<CandleGlow x y size>`       | Абсолютный позиционируемый свечной градиент                                        | Все экраны                                |
+| `<TabBar items active>`       | Нижний таб с курсив-сериф лейблами                                                 | Все mobile                                |
 
 Каждый — server-component-friendly где можно (без хуков в чистом UI). Anim-композицию (marquee, candle-breath) — через CSS, не JS.
 

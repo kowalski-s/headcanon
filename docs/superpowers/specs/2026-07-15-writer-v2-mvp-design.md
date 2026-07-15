@@ -8,22 +8,23 @@
 
 ## 1. Что уже есть (не строим заново)
 
-| Готово | Где | Судьба в v2 |
-|---|---|---|
-| TipTap-редактор глав + автосейв | `components/write/Editor.tsx`, `ChapterEditor.tsx` | Рестайл в «тихий центр» + режимы (Этап A2) |
-| Workspace «Мои истории» | `app/write/page.tsx`, `StoryList.tsx` | Заменяется на «Мой стол» (Этап A1) |
-| Главы: CRUD, reorder, publish | `api/write/*` | Как есть |
-| Читалка, лента, story page | `app/(reader)/*`, `app/page.tsx` | Secondary, рестайл в Этапе C |
-| Генератор-мастер + стриминг | `app/create/*`, `api/create/*`, `api/chapter/[id]/stream` | Secondary-вход, не трогаем до Этапа C |
-| Prisma: `Note`, `AiThread`, `AiMessage`, `Character`, `Story.source`, `Tag.isCanonicalIp` | `prisma/schema.prisma` | Модели есть, UI строим |
-| AI-инфра: llm-роутинг по callType, cost-log, версионируемые промпты, pg-boss | `lib/llm*.ts`, `lib/cost/`, `lib/prompts/`, `lib/queue/` | Переиспользуем для всех новых AI-вызовов |
-| `bible_extract` job (AI-извлечение персонажей) | `lib/queue/jobs/extract-bible.ts` | Основа «✦ найдено в тексте» (A3) |
-| Дизайн-токены как CSS-переменные + tailwind preset | `handoff/tokens.css`, `handoff/tailwind.preset.js` | Обновить значения под v2 (A0) |
-| Шрифты Bodoni Moda / EB Garamond / DM Sans / JetBrains Mono | `app/layout.tsx` | Как есть (кириллический фолбэк уже решён) |
+| Готово                                                                                    | Где                                                       | Судьба в v2                                |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------ |
+| TipTap-редактор глав + автосейв                                                           | `components/write/Editor.tsx`, `ChapterEditor.tsx`        | Рестайл в «тихий центр» + режимы (Этап A2) |
+| Workspace «Мои истории»                                                                   | `app/write/page.tsx`, `StoryList.tsx`                     | Заменяется на «Мой стол» (Этап A1)         |
+| Главы: CRUD, reorder, publish                                                             | `api/write/*`                                             | Как есть                                   |
+| Читалка, лента, story page                                                                | `app/(reader)/*`, `app/page.tsx`                          | Secondary, рестайл в Этапе C               |
+| Генератор-мастер + стриминг                                                               | `app/create/*`, `api/create/*`, `api/chapter/[id]/stream` | Secondary-вход, не трогаем до Этапа C      |
+| Prisma: `Note`, `AiThread`, `AiMessage`, `Character`, `Story.source`, `Tag.isCanonicalIp` | `prisma/schema.prisma`                                    | Модели есть, UI строим                     |
+| AI-инфра: llm-роутинг по callType, cost-log, версионируемые промпты, pg-boss              | `lib/llm*.ts`, `lib/cost/`, `lib/prompts/`, `lib/queue/`  | Переиспользуем для всех новых AI-вызовов   |
+| `bible_extract` job (AI-извлечение персонажей)                                            | `lib/queue/jobs/extract-bible.ts`                         | Основа «✦ найдено в тексте» (A3)           |
+| Дизайн-токены как CSS-переменные + tailwind preset                                        | `handoff/tokens.css`, `handoff/tailwind.preset.js`        | Обновить значения под v2 (A0)              |
+| Шрифты Bodoni Moda / EB Garamond / DM Sans / JetBrains Mono                               | `app/layout.tsx`                                          | Как есть (кириллический фолбэк уже решён)  |
 
 ## 2. Источник правды по дизайну
 
 `docs/design_handoff_writer_v2/` — канон для всех writer-поверхностей:
+
 - `DESIGN.md` — визуальная ДНК, токены, запреты;
 - `DESIGN-writer.md` — принцип «тихий центр, выразительные края», тон AI, запреты v2;
 - `README.md` — маппинг экранов на `prototypes/screens-pivot*.jsx`;
@@ -38,6 +39,7 @@
 **A0 — Дизайн-фундамент v2.** Обновить `handoff/tokens.css` + preset под палитру v2 (bg `#160B22`, solid `surface #1F1230`, `panel #1A0E29`, ink-based borders), добавить светлую тему редактора «бумага» (scoped CSS-переменные, `data-theme="paper"`), ревизию кнопочного языка (пилюли weight 500, узкие паддинги, без glow-теней, Bodoni-курсив в лейблах), mono-ярлык как атом.
 
 **A1 — Мой стол** (`screens-pivot6.jsx`: `PvDeskDesktop/Mobile/EmptyMobile`). Заменяет `app/write`:
+
 - полка обложек 2:3 — реюз `StoryPoster`; **типографская обложка** для черновиков без арта (Bodoni-титул + mono-статус `ЧЕРНОВИК · ГЛ. 7 · 12 480 СЛ`); пустой черновик — пунктирная рамка;
 - momentum-панель (боль №1 аудитории — прокрастинация): стрик «N ночей подряд», спарклайн слов за 14 дней, «последнее редактирование», литературная подводка (шаблонная, без LLM — «Три ночи назад ты оставила …, гл. N ждёт») + CTA продолжить;
 - пустой стол = guided start (фандом-чипы + один CTA), не blank canvas.
@@ -45,6 +47,7 @@
 Данные: новая модель `WritingStat` (`userId`, `date`, `wordsAdded`, `@@unique([userId, date])`); autosave-роут при сохранении главы пишет положительную дельту слов. Стрик и спарклайн считаются кодом из последних 14–30 строк.
 
 **A2 — Тихий редактор** (`screens-pivot5.jsx`: `PvQuietEditor*`). Рестайл существующего TipTap:
+
 - колонка Garamond max-620px, 17–18px/1.62, ragged-right при письме;
 - 3 режима: **письмо / фокус** (неактивные абзацы opacity .3 + радиальное затемнение) / **печатная машинка** (активный абзац по центру вертикали); переключатель внизу; chrome тает до opacity .16;
 - светлая тема «бумага» (переключатель);
@@ -52,11 +55,13 @@
 - запреты: никакого зерна/стикеров/glow поверх текста; свет свечи — только тонкая inset-виньетка.
 
 **A3 — Библия персонажей** (`screens-pivot2.jsx`: `PvBibleDesktop`):
+
 - CRUD UI поверх существующей модели `Character`: карточка = маленькая обложка-градиент + Bodoni-имя + mono-теги роли; несколько структурных полей (имя, роль, затравка, описание) — не лорбук со свободным текстом;
 - колонка «✦ найдено в тексте»: AI-извлечённые факты (реюз/расширение `bible_extract`) с accept/reject «в библию ✓ / мимо»;
 - API: `api/write/story/[id]/characters` CRUD (auth + ownership как в существующих write-роутах).
 
 **A4 — Граф связей** (сигнатурная фича; `screens-pivot7.jsx`: `PvGraphCore`):
+
 - новая модель `CharacterRelation`: `storyId`, `fromId`, `toId`, `kind` (enum: ROMANCE / ENMITY / FAMILY / FRIENDSHIP / MENTORSHIP / OTHER), `label` (подпись Bodoni-курсивом), `isPast` (пунктир), `source` (MANUAL / AI), `status` (SUGGESTED / ACCEPTED / REJECTED);
 - AI предлагает связи из текста глав (structured output, новый callType `relation_suggest`, через pg-boss job по образцу `bible_extract`) с accept/reject; ручное добавление тоже есть — «граф сам собирается, пока пишешь»;
 - рендер: **d3-force + SVG** (не react-force-graph/sigma — ≤30 узлов, нужен полный контроль ДНК: свечной glow-«дыхание», rose = чувство / amber = сюжет, выделение по клику, `prefers-reduced-motion`);

@@ -43,9 +43,9 @@ describe('deskLead', () => {
     ).toBe('Три ночи назад ты оставила «Пепел и мята» — глава 7 ждёт.');
   });
   it('сегодняшняя правка — другой шаблон', () => {
-    expect(
-      deskLead({ storyTitle: 'X', chapterOrdinal: 2, lastEditedAt: today, today }),
-    ).toBe('Сегодня ты уже была за столом — глава 2 ждёт продолжения.');
+    expect(deskLead({ storyTitle: 'X', chapterOrdinal: 2, lastEditedAt: today, today })).toBe(
+      'Сегодня ты уже была за столом — глава 2 ждёт продолжения.',
+    );
   });
 });
 
