@@ -4,22 +4,24 @@
 
 :root {
   /* Colors */
-  /* warmer plum than M1-initial #160b22 — matches v2 mocaps (CleanShot 2026-05-10) where
-     Hogwarts/Dramione covers are richer plum/burgundy than the cooler navy palette of
-     refs/01..08. Bumped after side-by-side diff in tmp/m1-actual vs handoff/screens/refs/v2-*. */
-  --hc-bg: #1a0e26;
-  --hc-bg-alt: #221432;
+  /* v2 (design_handoff_writer_v2, 2026-07): канон DESIGN.md — #160b22.
+     Прежний тёплый #1a0e26 (bump 2026-05-10) отменён handoff-ом v2. */
+  --hc-bg: #160b22;
+  --hc-bg-alt: #1f1230;
   --hc-bg-deep: #08040f;
 
   --hc-surface: rgba(245, 239, 224, 0.04);
   --hc-surface-raised: rgba(245, 239, 224, 0.06);
+  --hc-surface-solid: #1f1230; /* v2: карточки стола/библии */
+  --hc-panel: #1a0e29; /* v2: панели и инпуты */
 
   --hc-ink: #f5efe0;
   --hc-ink-dim: #a89bb5;
   --hc-ink-faint: #6e6478;
 
   --hc-amber: #e5a95a;
-  --hc-amber-soft: rgba(229, 169, 90, 0.18);
+  --hc-amber-soft: rgba(229, 169, 90, 0.14);
+  --hc-glow: rgba(229, 169, 90, 0.22);
   --hc-rose: #d67890;
 
   --hc-chrome-1: #c9d4e8;
@@ -32,8 +34,9 @@
     var(--hc-chrome-3)
   );
 
-  --hc-border: rgba(229, 169, 90, 0.12);
-  --hc-border-strong: rgba(229, 169, 90, 0.22);
+  /* v2: линии — ink-based, не amber-based */
+  --hc-border: rgba(245, 239, 224, 0.1);
+  --hc-border-strong: rgba(245, 239, 224, 0.2);
 
   /* Typography (CSS vars set by next/font in layout.tsx) */
   /* --font-display, --font-body, --font-ui, --font-mono */
@@ -78,4 +81,21 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Светлая тема редактора «бумага» (v2). Вешается на контейнер: data-theme="paper" */
+[data-theme='paper'] {
+  --hc-bg: #ede4d4;
+  --hc-surface-solid: #f7f1e4;
+  --hc-panel: #f7f1e4;
+  --hc-ink: #241830;
+  --hc-ink-dim: #5c4f6e;
+  --hc-ink-faint: #8a7f96;
+  --hc-amber: #a8691f;
+  --hc-amber-soft: rgba(168, 105, 31, 0.14);
+  --hc-glow: rgba(168, 105, 31, 0.18);
+  --hc-border: rgba(36, 24, 48, 0.12);
+  --hc-border-strong: rgba(36, 24, 48, 0.24);
+  background: var(--hc-bg);
+  color: var(--hc-ink);
 }

@@ -22,7 +22,10 @@ module.exports = {
         surface: {
           DEFAULT: 'var(--hc-surface)',
           raised: 'var(--hc-surface-raised)',
+          solid: 'var(--hc-surface-solid)',
         },
+        panel: 'var(--hc-panel)',
+        glow: 'var(--hc-glow)',
         ink: {
           DEFAULT: 'var(--hc-ink)',
           dim: 'var(--hc-ink-dim)',
