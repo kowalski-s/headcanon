@@ -32,6 +32,7 @@ model User {
   createDrafts      CreateDraft[]
   dailyUsage        DailyUsage[]
   notes             Note[]
+  writingStats      WritingStat[]
 }
 
 // =============================================================================
@@ -446,6 +447,18 @@ model DailyUsage {
   day     DateTime @db.Date
   stories Int      @default(0)
   @@id([userId, day])
+}
+
+/// Дневная дельта написанных слов — топливо momentum-панели «Моего стола».
+model WritingStat {
+  id         String   @id @default(cuid())
+  userId     String   @db.Uuid
+  date       DateTime @db.Date
+  wordsAdded Int      @default(0)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@map("writing_stats")
 }
 
 model ChapterUsage {

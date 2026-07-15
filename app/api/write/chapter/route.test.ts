@@ -72,6 +72,52 @@ describe('write chapter API', () => {
     expect(res.status).toBe(404);
   }, 15_000);
 
+  it('PATCH text пишет положительную дельту слов в WritingStat', async () => {
+    const s = await story();
+    const ch = await prisma.chapter.create({
+      data: { storyId: s.id, ordinal: 1, status: 'DRAFT', text: 'раз два' },
+    });
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    await prisma.writingStat.deleteMany({ where: { userId: USER_ID, date: today } });
+    const res = await patchChapter(
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ text: 'раз два три четыре пять' }),
+      }),
+      { params: Promise.resolve({ id: ch.id }) },
+    );
+    expect(res.status).toBe(200);
+    const stat = await prisma.writingStat.findUnique({
+      where: { userId_date: { userId: USER_ID, date: today } },
+    });
+    expect(stat?.wordsAdded).toBe(3);
+  }, 15_000);
+
+  it('PATCH с удалением текста не уменьшает WritingStat', async () => {
+    const s = await story();
+    const ch = await prisma.chapter.create({
+      data: { storyId: s.id, ordinal: 1, status: 'DRAFT', text: 'раз два три четыре пять' },
+    });
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    await prisma.writingStat.deleteMany({ where: { userId: USER_ID, date: today } });
+    await patchChapter(
+      new NextRequest('http://x', {
+        method: 'PATCH',
+        headers: auth,
+        body: JSON.stringify({ text: 'раз два' }),
+      }),
+      { params: Promise.resolve({ id: ch.id }) },
+    );
+    const stat = await prisma.writingStat.findUnique({
+      where: { userId_date: { userId: USER_ID, date: today } },
+    });
+    expect(stat?.wordsAdded ?? 0).toBeGreaterThanOrEqual(0);
+    expect(stat).toBeNull();
+  }, 15_000);
+
   it('DELETE removes chapter', async () => {
     const s = await story();
     const ch = await prisma.chapter.create({

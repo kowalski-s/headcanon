@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { getUserIdOrThrow } from '@/lib/auth/server';
+import { countWords } from '@/lib/write/word-count';
 
 const Patch = z.object({
   text: z.string().optional(),
@@ -30,6 +31,18 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const data: Record<string, unknown> = { ...parsed.data };
   if (parsed.data.text !== undefined) data.userEdited = true;
   await prisma.chapter.update({ where: { id }, data });
+  if (parsed.data.text !== undefined) {
+    const delta = countWords(parsed.data.text) - countWords(ch.text ?? '');
+    if (delta > 0) {
+      const date = new Date();
+      date.setUTCHours(0, 0, 0, 0);
+      await prisma.writingStat.upsert({
+        where: { userId_date: { userId: ch.story.authorId, date } },
+        create: { userId: ch.story.authorId, date, wordsAdded: delta },
+        update: { wordsAdded: { increment: delta } },
+      });
+    }
+  }
   return NextResponse.json({ ok: true });
 }
 
