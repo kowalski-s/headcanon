@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>headcanon — три направления дизайна</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter:wght@300..800&family=Inter+Tight:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400..600&family=DM+Serif+Display&family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Italiana&family=Bangers&family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&family=Lora:ital,wght@0,400..700;1,400..700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; background:#0a0712; color:#f5efe0; min-height:100%; font-family: Inter, system-ui, sans-serif; }
+  /* Design canvas backdrop is overridden by the starter; we only style around it */
+  body { overflow: hidden; }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Starters -->
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="browser-window.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<!-- Data + screens -->
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="screens-cozy.jsx"></script>
+<script type="text/babel" src="screens-y2k.jsx"></script>
+<script type="text/babel" src="screens-anime.jsx"></script>
+<script type="text/babel" src="screens-mix.jsx"></script>
+<script type="text/babel" src="screens-mix-desktop.jsx"></script>
+<script type="text/babel" src="screens-mix-desktop2.jsx"></script>
+<script type="text/babel" src="screens-pivot.jsx"></script>
+<script type="text/babel" src="screens-pivot2.jsx"></script>
+<script type="text/babel" src="screens-pivot3.jsx"></script>
+<script type="text/babel" src="screens-pivot4.jsx"></script>
+<script type="text/babel" src="screens-pivot5.jsx"></script>
+<script type="text/babel" src="screens-pivot6.jsx"></script>
+<script type="text/babel" src="screens-pivot7.jsx"></script>
+<script type="text/babel" src="screens-pivot8.jsx"></script>
+<script type="text/babel" src="screens-pivot9.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "focus": "pivot",
+  "theme": "dark",
+  "density": "cinematic",
+  "accent": "amber",
+  "typeset": "literary",
+  "editorTheme": "dark"
+}/*EDITMODE-END*/;
+
+// Helper: phone wrapper
+function Phone({ children, dark = true, w = 360, h = 740 }) {
+  return (
+    <IOSDevice width={w} height={h} dark={dark} statusBar={false} homeIndicator={true}>
+      <div style={{ width:'100%', height:'100%', overflow:'hidden' }}>{children}</div>
+    </IOSDevice>
+  );
+}
+
+// Helper: desktop browser wrapper
+function Desktop({ children, url = 'headcanon.app', w = 1280, h = 800 }) {
+  return (
+    <ChromeWindow url={url} tabs={[{ title:'headcanon — лента', active:true }]} activeIndex={0} width={w} height={h}>
+      <div style={{ width:'100%', height:'100%', overflow:'hidden', background:'#0a0712' }}>{children}</div>
+    </ChromeWindow>
+  );
+}
+
+function HeadcanonCanvas() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  // Apply typeset class to <body> so all .mix subtrees inherit — survives
+  // DesignCanvas re-mounting artboards (verifier fix: don't mutate artboard nodes).
+  React.useEffect(() => {
+    const cls = ['ts-editorial','ts-literary','ts-modern','ts-indie'];
+    cls.forEach(c => document.body.classList.remove(c));
+    document.body.classList.add('ts-' + (t.typeset || 'editorial'));
+  }, [t.typeset]);
+
+  // Apply theme/density/accent globally — for now just used as informational chips;
+  // the screens are individually styled per direction. But we DO swap the overall focus.
+  const showPivot = t.focus === 'all' || t.focus === 'pivot';
+  const showMix  = t.focus === 'all' || t.focus === 'mix';
+  const showCozy = t.focus === 'all' || t.focus === 'cozy';
+  const showY2K  = t.focus === 'all' || t.focus === 'y2k';
+  const showMng  = t.focus === 'all' || t.focus === 'manga';
+
+  return (
+    <>
+      <DesignCanvas>
+        {showPivot && (
+          <>
+          <DCSection id="pv-journey" title="00 · Путь пользователя: лендинг → первый вход → главная" subtitle="Лендинг (не залогинен) → рега → первый вход (путь + фандомы; на мобиле — онбординг в 09) → главная с writer-блоком и лентой">
+            <DCArtboard id="pv-landing-d" label="Desktop · Лендинг" width={1280} height={800}>
+              <Desktop url="headcanon.app"><PvLandingDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-landing-m" label="Mobile · Лендинг" width={360} height={740}>
+              <Phone><PvLandingMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="pv-firstrun-d" label="Desktop · Первый вход после реги" width={1280} height={800}>
+              <Desktop url="headcanon.app/welcome"><PvFirstRunDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-home-d" label="Desktop · Главная (залогинена)" width={1280} height={800}>
+              <Desktop url="headcanon.app/home"><PvHomeDesktop/></Desktop>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="pv-desk" title="05 · Мой стол — дашборд писателя" subtitle="Край, выразительный: черновики-обложки (в т.ч. типографские) + momentum-панель. Guided-start вместо пустого листа">
+            <DCArtboard id="pv-desk-d" label="Desktop · Мой стол" width={1280} height={800}>
+              <Desktop url="headcanon.app/desk"><PvDeskDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-desk-m" label="Mobile · Мой стол" width={360} height={740}>
+              <Phone><PvDeskMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="pv-desk-empty" label="Mobile · Пустой стол — guided start" width={360} height={740}>
+              <Phone><PvDeskEmptyMobile/></Phone>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="pv-editor" title="06 · Редактор — тихий центр" subtitle="Центр, тихий: ragged-right, минимум chrome, свет свечи только виньеткой. → Переключай режимы письмо / фокус / печ.машинка внизу макета">
+            <DCArtboard id="pv-editor-d" label="Desktop · Редактор (живые режимы)" width={1280} height={800}>
+              <Desktop url="headcanon.app/write/winter-light/ch-7"><PvQuietEditorDesktop light={t.editorTheme === 'light'}/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-editor-m" label="Mobile · Редактор (живые режимы)" width={360} height={740}>
+              <Phone><PvQuietEditorMobile light={t.editorTheme === 'light'}/></Phone>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="pv-ai" title="07 · AI-соавтор — чат о твоём тексте" subtitle="Живой: справа чат — напиши что угодно, соавтор ответит про рукопись. В центре inline-механика: «развернуть» → повествование → в текст / иначе / мимо">
+            <DCArtboard id="pv-ai-d" label="Desktop · AI-соавтор (живой)" width={1280} height={800}>
+              <Desktop url="headcanon.app/write/winter-light/ch-7"><PvAssistDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-ai-m" label="Mobile · AI-соавтор (живой)" width={360} height={740}>
+              <Phone><PvAssistMobile/></Phone>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="pv-graph" title="08 · Граф связей — сигнатурная фича" subtitle="Живой: узлы дышат свечным светом. → Клик по персонажу подсвечивает его связи, клик по холсту — сброс">
+            <DCArtboard id="pv-graph-d" label="Desktop · Граф связей (живой)" width={1280} height={800}>
+              <Desktop url="headcanon.app/write/winter-light/graph"><PvGraphDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-graph-m" label="Mobile · Граф связей (живой)" width={360} height={740}>
+              <Phone><PvGraphMobile/></Phone>
+            </DCArtboard>
+          </DCSection>
+
+          <DCSection id="pv-more" title="09 · Библия · кабинет · онбординг" subtitle="Character bible с AI-извлечением, кабинеты автора/читателя, развилка онбординга">
+            <DCArtboard id="pv-bible" label="Desktop · Character Bible + AI-извлечение" width={1280} height={800}>
+              <Desktop url="headcanon.app/write/winter-light/bible"><PvBibleDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-cab-author" label="Desktop · Кабинет — панель автора" width={1280} height={800}>
+              <Desktop url="headcanon.app/me/author"><PvCabinetAuthorDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-cab-reader" label="Desktop · Кабинет — панель читателя" width={1280} height={800}>
+              <Desktop url="headcanon.app/me"><PvCabinetReaderDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="pv-cab-author-mob" label="Mobile · Кабинет автора" width={360} height={740}>
+              <Phone><PvCabinetAuthorMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="pv-cab-reader-mob" label="Mobile · Кабинет читателя" width={360} height={740}>
+              <Phone><PvCabinetReaderMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="pv-onboarding" label="Mobile · Onboarding — развилка 3 путей" width={360} height={740}>
+              <Phone><PvOnboardingMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="pv-home" label="Mobile · Новая главная — 2 блока" width={360} height={740}>
+              <Phone><PvHomeMobile/></Phone>
+            </DCArtboard>
+          </DCSection>
+          </>
+        )}
+
+        {showMix && (
+          <DCSection id="mix" title="04 · Editorial Y2K (Cozy × Tumblr)" subtitle="Микс: баклажан + амбер база, маркизы, стикер-всплески, голограмма-хром, ironic Times-italic — без хот-пинка">
+            <DCArtboard id="mix-feed" label="Mobile · Feed" width={360} height={740}>
+              <Phone><MixFeedMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mix-create" label="Mobile · Создание (этап 2/5)" width={360} height={740}>
+              <Phone><MixCreateMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mix-story" label="Mobile · Story page" width={360} height={740}>
+              <Phone><MixStoryMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mix-reader" label="Mobile · Reader (drop caps)" width={360} height={740}>
+              <Phone><MixReaderMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mix-watch" label="Mobile · Watch mode" width={360} height={740}>
+              <Phone><MixWatchMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mix-desktop" label="Desktop · Feed" width={1280} height={800}>
+              <Desktop url="headcanon.app"><MixFeedDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="mix-desktop-create" label="Desktop · Создание" width={1280} height={800}>
+              <Desktop url="headcanon.app/new"><MixCreateDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="mix-desktop-story" label="Desktop · Story page" width={1280} height={800}>
+              <Desktop url="headcanon.app/s/winter-light"><MixStoryDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="mix-desktop-reader" label="Desktop · Reader (magazine spread)" width={1280} height={800}>
+              <Desktop url="headcanon.app/read/ch-7"><MixReaderDesktop/></Desktop>
+            </DCArtboard>
+            <DCArtboard id="mix-desktop-watch" label="Desktop · Watch mode" width={1280} height={800}>
+              <Desktop url="headcanon.app/watch/ep-2"><MixWatchDesktop/></Desktop>
+            </DCArtboard>
+          </DCSection>
+        )}
+
+        {showCozy && (
+          <DCSection id="cozy" title="01 · Cozy Cinematic" subtitle="A24 × Penguin Classics × Apple TV+ — рекомендация из дизайн-доки">
+            <DCArtboard id="cozy-feed" label="Mobile · Feed" width={360} height={740}>
+              <Phone><CozyFeedMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="cozy-create" label="Mobile · Создание (этап 2/5)" width={360} height={740}>
+              <Phone><CozyCreateMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="cozy-story" label="Mobile · Story page" width={360} height={740}>
+              <Phone><CozyStoryMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="cozy-desktop" label="Desktop · Feed" width={1280} height={800}>
+              <Desktop><CozyFeedDesktop/></Desktop>
+            </DCArtboard>
+          </DCSection>
+        )}
+
+        {showY2K && (
+          <DCSection id="y2k" title="02 · Y2K Tumblr Revival" subtitle="Tumblr 2012 × dreamcore × glitter × хот-пинк">
+            <DCArtboard id="y2k-feed" label="Mobile · Feed" width={360} height={740}>
+              <Phone dark={true}><Y2kFeedMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="y2k-create" label="Mobile · Создание (этап 2/5)" width={360} height={740}>
+              <Phone dark={true}><Y2kCreateMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="y2k-story" label="Mobile · Story page" width={360} height={740}>
+              <Phone dark={true}><Y2kStoryMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="y2k-desktop" label="Desktop · Feed" width={1280} height={800}>
+              <Desktop url="headcanon.tumblr.app"><Y2kFeedDesktop/></Desktop>
+            </DCArtboard>
+          </DCSection>
+        )}
+
+        {showMng && (
+          <DCSection id="mng" title="03 · Anime / Manga Inflected" subtitle="Hoyolab × Pixiv × Crunchyroll — манга-панели + ben-day + SFX">
+            <DCArtboard id="mng-feed" label="Mobile · Feed" width={360} height={740}>
+              <Phone dark={false}><MngFeedMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mng-create" label="Mobile · Создание (этап 2/5)" width={360} height={740}>
+              <Phone dark={false}><MngCreateMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mng-story" label="Mobile · Story page" width={360} height={740}>
+              <Phone dark={false}><MngStoryMobile/></Phone>
+            </DCArtboard>
+            <DCArtboard id="mng-desktop" label="Desktop · Feed" width={1280} height={800}>
+              <Desktop url="headcanon.manga"><MngFeedDesktop/></Desktop>
+            </DCArtboard>
+          </DCSection>
+        )}
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks · headcanon">
+        <TweakSection title="Редактор (Pivot v2)">
+          <TweakRadio label="Тема редактора" value={t.editorTheme} onChange={(v)=>setTweak('editorTheme', v)}
+            options={[{value:'dark',label:'♁ Ночь'},{value:'light',label:'☀ Бумага'}]}/>
+        </TweakSection>
+        <TweakSection title="Шрифты (вариант 04)">
+          <TweakSelect label="Типографика" value={t.typeset} onChange={(v)=>setTweak('typeset', v)}
+            options={[
+              { value:'editorial', label:'Editorial · Cormorant + Lora' },
+              { value:'literary',  label:'Literary · Bodoni + Garamond' },
+              { value:'modern',    label:'Modern · Bricolage + DM Sans' },
+              { value:'indie',    label:'Indie · Fraunces + Newsreader (было)' },
+            ]}/>
+          <div style={{ fontSize: 11, lineHeight: 1.45, opacity:.6, padding:'4px 6px 0' }}>
+            Переключает только Mix-направление.
+          </div>
+        </TweakSection>
+        <TweakSection title="Что показать">
+          <TweakSelect label="Фокус" value={t.focus} onChange={(v)=>setTweak('focus', v)}
+            options={[
+              { value:'all',   label:'Все направления' },
+              { value:'pivot', label:'05 · Pivot v2 — Writer platform ★' },
+              { value:'mix',   label:'04 · Mix (Cozy × Y2K)' },
+              { value:'cozy',  label:'01 · Cozy Cinematic' },
+              { value:'y2k',   label:'02 · Y2K Tumblr' },
+              { value:'manga', label:'03 · Anime / Manga' },
+            ]}/>
+        </TweakSection>
+        <TweakSection title="Подсказка">
+          <div style={{ fontSize: 12, lineHeight: 1.5, opacity:.7, padding:'2px 4px' }}>
+            Перетащи макеты, чтобы менять порядок. Двойной клик по карточке — фуллскрин.
+            Колесо / pinch — зум канвы. Стрелки в фуллскрине — навигация.
+          </div>
+        </TweakSection>
+        <TweakSection title="Тема (превью — пока инфо)">
+          <TweakRadio label="Theme" value={t.theme} onChange={(v)=>setTweak('theme', v)}
+            options={[{value:'dark',label:'Тёмная'},{value:'light',label:'Светлая'}]}/>
+          <TweakRadio label="Плотность" value={t.density} onChange={(v)=>setTweak('density', v)}
+            options={[{value:'cinematic',label:'Cinematic'},{value:'compact',label:'Compact'}]}/>
+          <TweakColor label="Акцент" value={t.accent} onChange={(v)=>setTweak('accent', v)}
+            options={['amber','rose','pink','cyan']}/>
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<HeadcanonCanvas/>);
+</script>
+</body>
+</html>

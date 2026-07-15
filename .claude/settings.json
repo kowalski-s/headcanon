@@ -21,8 +21,16 @@
   "hooks": {
     "Stop": [
       {
-        "hooks": [{ "type": "command", "command": "node .claude/hooks/format.mjs" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/format.mjs"
+          }
+        ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "notion@claude-plugins-official": true
   }
 }

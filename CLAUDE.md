@@ -8,15 +8,17 @@ Headcanon — инструмент для авторов фанфиков с AI-
 
 ## Дизайн-handoff — источник правды
 
-Полный дизайн-пакет лежит в `/handoff` (создан Claude Design). При любых вопросах по UI/UX, токенам, типографике, экранам — **handoff важнее моих случайных интерпретаций**.
+**Для writer-поверхностей v2 (актуальный цикл)** — пакет `docs/design_handoff_writer_v2/` (создан Claude Design, 2026-07). При любых вопросах по UI/UX writer-экранов — он важнее любых интерпретаций:
 
-- [handoff/README.md](handoff/README.md) — порядок чтения для агента
-- [handoff/DESIGN.md](handoff/DESIGN.md) — дизайн-система (направление: **Editorial Y2K**, не Cozy Cinematic — последнее устарело, было в Notion-исследовании)
-- [handoff/tokens.json](handoff/tokens.json) + [handoff/tokens.css](handoff/tokens.css) + [handoff/tailwind.preset.js](handoff/tailwind.preset.js) — токены
-- [handoff/typography.md](handoff/typography.md) — Bodoni Moda + EB Garamond + DM Sans
-- [handoff/screens/\*.md](handoff/screens/) — спеки экранов
-- [handoff/TASKS.md](handoff/TASKS.md) — канонический implementation backlog M0–M5 (главный источник тикетов; `docs/roadmap.md` — высокоуровневые фазы)
-- [handoff/prototypes/headcanon.html](handoff/prototypes/headcanon.html) — статичный референс, **не код для копирования** (React 18 без сборки + inline-стили; в репо переписывается на Next.js + Tailwind)
+- [design_handoff_writer_v2/README.md](docs/design_handoff_writer_v2/README.md) — обзор, токены v2, маппинг экранов на прототипы
+- [design_handoff_writer_v2/DESIGN.md](docs/design_handoff_writer_v2/DESIGN.md) — визуальная ДНК (канон по токенам/типографике)
+- [design_handoff_writer_v2/DESIGN-writer.md](docs/design_handoff_writer_v2/DESIGN-writer.md) — арт-дирекшн writer-поверхностей: «тихий центр, выразительные края», тон AI, запреты v2. При конфликте по токенам главнее DESIGN.md, по продукту — DESIGN-writer.md
+- [design_handoff_writer_v2/prototypes/headcanon.html](docs/design_handoff_writer_v2/prototypes/headcanon.html) — канва экранов 00–09 (секции 01–04 — архив, не реализуем), **не код для копирования**
+
+**Legacy-пакет `/handoff`** остаётся каноном по токенам-инфраструктуре ([tokens.css](handoff/tokens.css) + [tailwind.preset.js](handoff/tailwind.preset.js) — обновляются значениями v2, тикет A0-01), [typography.md](handoff/typography.md) и v1-экранам (читалка/лента/генератор).
+
+- [handoff/TASKS.md](handoff/TASKS.md) — канонический implementation backlog (главный источник тикетов; `docs/roadmap.md` — высокоуровневые фазы)
+- Спека текущего цикла — [docs/superpowers/specs/2026-07-15-writer-v2-mvp-design.md](docs/superpowers/specs/2026-07-15-writer-v2-mvp-design.md)
 
 ## Решённые технические выборы
 
@@ -38,7 +40,7 @@ Headcanon — инструмент для авторов фанфиков с AI-
 - **Tag-based video gating с первого дня.** `Tag.isCanonicalIp` → видео-генерация доступна только для оригинальных миров (`storyHasCanonicalIp === false`). Текст/аудио/иллюстрации — для всех.
 - **Универсальные фандомы** — без ручной курации канонов командой. LLM использует знания из претрейна (модель character.ai / NovelAI).
 - **Mobile-first, тёмная тема по умолчанию** (late-night reading).
-- **Free tier для чтения и письма обязателен.** Лимиты — только на AI-вызовы, не на письмо в черновике. Платное: AI-генерации сверх лимита, аудио, скрытие AI-generated, видео для оригиналов.
+- **Free tier для чтения и письма обязателен.** Лимиты — только на AI-вызовы, не на письмо в черновике. Платное: AI-генерации сверх лимита, аудио, обложки/иллюстрации, видео для оригиналов. ⚠️ «Скрытие AI-generated» **не монетизируем** (решение 2026-07-03: прозрачность — норма, бейдж «человек · AI-ассистировано»; монетизируем качество).
 - **РФ-first, ниша — русскоязычные авторы (Фикбук-сегмент).** Архитектура не запирает глобал позже.
 
 ## Архитектурные правила
