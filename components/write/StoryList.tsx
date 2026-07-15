@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
-import { apiFetch } from '@/lib/api/client';
+import { createStory } from '@/lib/write/create-story';
 import { MonoBadge } from '@/components/ui/MonoBadge';
 
 type Story = {
@@ -26,12 +26,8 @@ export function StoryList({ stories }: Props) {
   const router = useRouter();
 
   async function handleNew() {
-    const res = await apiFetch('/api/write/story', {
-      method: 'POST',
-      body: JSON.stringify({ title: 'Без названия' }),
-    });
-    if (!res.ok) return;
-    const { storyId } = (await res.json()) as { storyId: string };
+    const storyId = await createStory();
+    if (!storyId) return;
     router.push(('/write/' + storyId) as Route);
   }
 

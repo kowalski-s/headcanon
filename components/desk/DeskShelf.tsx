@@ -2,7 +2,7 @@
 
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
-import { apiFetch } from '@/lib/api/client';
+import { createStory } from '@/lib/write/create-story';
 import { DeskCover, type DeskStory } from './DeskCover';
 
 export function DeskShelf({ stories }: { stories: DeskStory[] }) {
@@ -10,12 +10,8 @@ export function DeskShelf({ stories }: { stories: DeskStory[] }) {
 
   // Тот же экшен создания, что в StoryList: POST /api/write/story → редирект в редактор.
   async function handleCreate() {
-    const res = await apiFetch('/api/write/story', {
-      method: 'POST',
-      body: JSON.stringify({ title: 'Без названия' }),
-    });
-    if (!res.ok) return;
-    const { storyId } = (await res.json()) as { storyId: string };
+    const storyId = await createStory();
+    if (!storyId) return;
     router.push(('/write/' + storyId) as Route);
   }
 
