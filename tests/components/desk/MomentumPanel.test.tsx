@@ -32,10 +32,11 @@ describe('MomentumPanel', () => {
       />,
     );
     expect(screen.queryByText(/подряд/)).not.toBeInTheDocument();
-    expect(container.querySelector('svg polyline')).toBeInTheDocument();
+    // Спарклайн-столбики (по канве 05): по одному rect на ночь, пустые — «пеньки»
+    expect(container.querySelectorAll('svg rect')).toHaveLength(14);
   });
 
-  it('спарклайн из одной точки не ломает polyline (нет Infinity/NaN)', () => {
+  it('спарклайн из одной точки не ломает разметку (нет Infinity/NaN)', () => {
     const { container } = render(
       <MomentumPanel
         streak={1}
@@ -45,8 +46,9 @@ describe('MomentumPanel', () => {
         continueLabel={null}
       />,
     );
-    const points = container.querySelector('svg polyline')?.getAttribute('points') ?? '';
-    expect(points).not.toMatch(/Infinity|NaN/);
-    expect(points.length).toBeGreaterThan(0);
+    const bar = container.querySelector('svg rect');
+    expect(bar).toBeInTheDocument();
+    const attrs = ['x', 'y', 'width', 'height'].map((a) => bar?.getAttribute(a)).join(' ');
+    expect(attrs).not.toMatch(/Infinity|NaN/);
   });
 });

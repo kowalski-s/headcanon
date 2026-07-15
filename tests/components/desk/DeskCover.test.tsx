@@ -20,18 +20,21 @@ const story = {
 const NBSP = '\u00A0';
 
 describe('DeskCover', () => {
-  it('типографская обложка: титул + mono-статус с ru-RU числом', () => {
+  it('типографская обложка: лейбл сверху, титул, mono-статистика с ru-RU числом', () => {
     render(<DeskCover story={story} />);
     expect(screen.getByText('Пепел и мята')).toBeInTheDocument();
+    // По канве 05: «ЧЕРНОВИК» — отдельный лейбл сверху, внизу короткая строка «ГЛ. · СЛ»
+    expect(screen.getByText('ЧЕРНОВИК')).toBeInTheDocument();
     // Дефолтный normalizer testing-library схлопывает NBSP в обычный пробел —
     // находим по нормализованному тексту, а точный U+00A0 ассертим через textContent.
-    const status = screen.getByText(/ЧЕРНОВИК · ГЛ\. 7 · 12 480 СЛ/i);
-    expect(status.textContent).toBe(`ЧЕРНОВИК · ГЛ. 7 · 12${NBSP}480 СЛ`);
+    const stats = screen.getByText(/ГЛ\. 7 · 12 480 СЛ/i);
+    expect(stats.textContent).toBe(`ГЛ. 7 · 12${NBSP}480 СЛ`);
   });
 
-  it('опубликованная — статус без «черновик»', () => {
+  it('опубликованная — лейбл «опубликовано», без «черновик»', () => {
     render(<DeskCover story={{ ...story, isPublished: true }} />);
     expect(screen.queryByText(/ЧЕРНОВИК/i)).not.toBeInTheDocument();
+    expect(screen.getByText('ОПУБЛИКОВАНО')).toBeInTheDocument();
     expect(screen.getByText(/ГЛ\. 7/i)).toBeInTheDocument();
   });
 

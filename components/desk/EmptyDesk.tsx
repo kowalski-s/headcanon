@@ -32,9 +32,11 @@ export function EmptyDesk() {
   return (
     <section className="flex min-h-[70vh] flex-col items-center justify-center gap-10 px-6 py-16 text-center">
       <div className="relative">
+        {/* Свечной ореол за заголовком: квадратный контейнер, чтобы circle-градиент
+            не обрезался в полосу на широком блоке */}
         <div
           aria-hidden
-          className="absolute inset-[-40%] bg-[radial-gradient(circle,var(--hc-glow),transparent_65%)]"
+          className="absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,var(--hc-glow),transparent_62%)]"
         />
         <h1 className="relative font-display italic text-display-l text-ink">
           выбери фандом — и за стол

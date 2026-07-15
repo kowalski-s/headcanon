@@ -4,7 +4,7 @@ import { MomentumPanel } from '@/components/desk/MomentumPanel';
 const meta: Meta<typeof MomentumPanel> = {
   title: 'Desk/MomentumPanel',
   component: MomentumPanel,
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', nextjs: { appDirectory: true } },
 };
 
 export default meta;

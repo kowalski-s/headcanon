@@ -4,7 +4,7 @@ import { DeskCover } from '@/components/desk/DeskCover';
 const meta: Meta<typeof DeskCover> = {
   title: 'Desk/DeskCover',
   component: DeskCover,
-  parameters: { layout: 'centered' },
+  parameters: { layout: 'centered', nextjs: { appDirectory: true } },
   decorators: [
     (Story) => (
       <div className="w-56">

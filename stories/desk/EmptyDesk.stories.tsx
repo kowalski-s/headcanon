@@ -4,7 +4,7 @@ import { EmptyDesk } from '@/components/desk/EmptyDesk';
 const meta: Meta<typeof EmptyDesk> = {
   title: 'Desk/EmptyDesk',
   component: EmptyDesk,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', nextjs: { appDirectory: true } },
 };
 
 export default meta;

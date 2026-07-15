@@ -1,6 +1,8 @@
+/* @import-ы должны идти до всех прочих statements (включая @config) —
+   иначе Vite/PostCSS (Storybook) молча выбрасывает импорт токенов. */
 @import 'tailwindcss';
-@config '../tailwind.config.ts';
 @import '../handoff/tokens.css';
+@config '../tailwind.config.ts';
 
 html {
   background: var(--hc-bg);

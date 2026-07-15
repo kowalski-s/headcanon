@@ -4,7 +4,7 @@ import { DeskShelf } from '@/components/desk/DeskShelf';
 const meta: Meta<typeof DeskShelf> = {
   title: 'Desk/DeskShelf',
   component: DeskShelf,
-  parameters: { layout: 'padded' },
+  parameters: { layout: 'padded', nextjs: { appDirectory: true } },
 };
 
 export default meta;
