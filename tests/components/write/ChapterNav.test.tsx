@@ -7,7 +7,9 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ refresh, push: vi.fn() }),
 }));
 
-const apiFetch = vi.fn(() => Promise.resolve({ ok: true }) as unknown as Promise<Response>);
+const apiFetch = vi.fn(
+  (..._args: unknown[]) => Promise.resolve({ ok: true }) as unknown as Promise<Response>,
+);
 vi.mock('@/lib/api/client', () => ({
   apiFetch: (...args: unknown[]) => apiFetch(...args),
 }));

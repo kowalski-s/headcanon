@@ -97,15 +97,19 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
+            aria-label="Открыть содержание"
             className="shrink-0 font-mono text-mono-s tracking-caps uppercase text-ink-faint transition-colors hover:text-ink-dim"
           >
-            содержание
+            <span className="hidden sm:inline">содержание</span>
+            <span className="sm:hidden" aria-hidden>
+              ☰
+            </span>
           </button>
           <span className="truncate font-display text-sm italic text-ink-dim">{storyTitle}</span>
-          <span className="text-ink-faint" aria-hidden>
+          <span className="hidden text-ink-faint sm:inline" aria-hidden>
             ·
           </span>
-          <span className="shrink-0 font-mono text-mono-s tracking-caps uppercase text-ink-faint">
+          <span className="hidden shrink-0 font-mono text-mono-s tracking-caps uppercase text-ink-faint sm:inline">
             гл. {active.ordinal} черновик
           </span>
         </div>
@@ -119,7 +123,7 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
               {statusLabel[status]}
             </span>
           )}
-          <span className="font-mono text-mono-s tracking-caps uppercase text-ink-faint">
+          <span className="hidden font-mono text-mono-s tracking-caps uppercase text-ink-faint sm:inline">
             {wordCount.toLocaleString('ru-RU')} слов
           </span>
           <PublishToggle storyId={storyId} visibility={visibility} />
@@ -128,14 +132,14 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
 
       {/* ── manuscript column ── */}
       <main className="relative z-[3] flex-1 overflow-hidden">
-        <div className="mx-auto flex h-full w-full max-w-[620px] flex-col px-11 pt-11">
+        <div className="mx-auto flex h-full w-full max-w-[620px] flex-col px-5 pt-8 sm:px-11 sm:pt-11">
           {mode === 'write' && (
             <div className="mb-6 shrink-0">
               <p className="font-mono text-mono-s tracking-caps uppercase text-amber">
                 глава {active.ordinal}
               </p>
               {active.title && (
-                <h2 className="mt-2 font-display text-[30px] font-medium leading-[1.05] text-ink">
+                <h2 className="mt-2 font-display text-[23px] font-medium leading-[1.08] text-ink sm:text-[30px] sm:leading-[1.05]">
                   {active.title}
                 </h2>
               )}
@@ -166,7 +170,7 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
       </main>
 
       {/* ── нижняя строка: AI-заглушка + переключатель режимов ── */}
-      <footer className="relative z-[6] flex items-center justify-between gap-4 border-t border-DEFAULT bg-panel/80 px-6 py-2.5 backdrop-blur">
+      <footer className="relative z-[6] flex flex-wrap items-center justify-between gap-3 border-t border-DEFAULT bg-panel/80 px-6 py-2.5 backdrop-blur">
         {/* AI assistant placeholder — W3 (заменит задача AI-соавтора) */}
         <button
           disabled

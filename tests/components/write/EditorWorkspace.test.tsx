@@ -72,7 +72,7 @@ describe('EditorWorkspace', () => {
   it('кнопка «содержание» открывает выдвижную панель глав', () => {
     renderWorkspace();
     expect(screen.queryByRole('dialog')).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: 'содержание' }));
+    fireEvent.click(screen.getByRole('button', { name: /содержание/i }));
     expect(screen.getByRole('dialog', { name: 'Содержание' })).toBeInTheDocument();
   });
 });
