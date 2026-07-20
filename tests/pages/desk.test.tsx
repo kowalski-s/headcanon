@@ -60,13 +60,13 @@ beforeEach(() => {
 });
 
 describe('Desk page (/write)', () => {
-  it('renders shelf with covers, create tile and momentum panel when stories exist', async () => {
+  it('renders header, hero lead, shelf covers and momentum panel when stories exist', async () => {
     storyFindMany.mockResolvedValue(STORIES as never);
     statFindMany.mockResolvedValue(STATS as never);
 
     render(await DeskPage());
 
-    // Заголовок стола
+    // Доступный заголовок стола (визуально — в шапке/лиде, семантически — sr-only h1)
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/мой стол/i);
 
     // Полка: обложки обеих историй, ссылки в редактор
@@ -76,15 +76,21 @@ describe('Desk page (/write)', () => {
     expect(screen.getByText('Зимняя соната')).toBeInTheDocument();
     expect(screen.getByText('Полночный экспресс')).toBeInTheDocument();
 
-    // Плитка создания — внутри DeskShelf
+    // Шапка смонтирована: primary «новая история» (POST-экшен, поэтому кнопка)
     expect(screen.getByRole('button', { name: /новая история/i })).toBeInTheDocument();
+    // Подвал полки ведёт в выбор фандома
+    expect(links).toContain('/create');
 
-    // Momentum-панель: лид про последнюю историю, спарклайн-ярлык, кнопка продолжения
+    // Hero-лид над полкой: подводка про последнюю историю + CTA продолжения
     expect(screen.getByText(/глава 2 ждёт/i)).toBeInTheDocument();
-    expect(screen.getByText(/слова · 14 ночей/i)).toBeInTheDocument();
-    expect(screen.getByText(/продолжить главу 2/i)).toBeInTheDocument();
-    // Стрик: сегодня и вчера есть слова → «2 ночи подряд»
-    expect(screen.getByText(/2 ночи подряд/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /продолжить гл\. 2/i })).toHaveAttribute(
+      'href',
+      '/write/story-1?ch=2',
+    );
+    // Momentum-панель «ритм письма»: спарклайн-ярлык + стрик
+    expect(screen.getByText(/слов за 14 ночей/i)).toBeInTheDocument();
+    // Стрик: сегодня и вчера есть слова → 2 ночи письма подряд (число и лейбл — соседние span)
+    expect(screen.getByText(/ночи письма подряд/i)).toBeInTheDocument();
   });
 
   it('renders EmptyDesk when there are no stories', async () => {
@@ -93,11 +99,9 @@ describe('Desk page (/write)', () => {
 
     render(await DeskPage());
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      /выбери фандом — и за стол/i,
-    );
-    // Полки и панели нет
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/твой стол пока.*пуст/i);
+    // Шапки/полки/панели нет — пустой стол это focused guided start без навигации
     expect(screen.queryByText(/мой стол/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/слова · 14 ночей/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/слов за 14 ночей/i)).not.toBeInTheDocument();
   });
 });

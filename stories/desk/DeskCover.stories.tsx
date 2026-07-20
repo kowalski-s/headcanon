@@ -24,7 +24,32 @@ export const Typographic: Story = {
       title: 'Пепел и мята',
       ordinalCount: 7,
       words: 12480,
-      isPublished: false,
+      visibility: 'PRIVATE',
+    },
+  },
+};
+
+export const Active: Story = {
+  args: {
+    story: {
+      id: 's1',
+      title: 'Пепел и мята',
+      ordinalCount: 7,
+      words: 12480,
+      visibility: 'PRIVATE',
+      isActive: true,
+    },
+  },
+};
+
+export const Unlisted: Story = {
+  args: {
+    story: {
+      id: 's3',
+      title: 'Тихий берег',
+      ordinalCount: 1,
+      words: 940,
+      visibility: 'UNLISTED',
     },
   },
 };
@@ -36,7 +61,7 @@ export const Gradient: Story = {
       title: 'Соль на рёбрах',
       ordinalCount: 12,
       words: 48210,
-      isPublished: true,
+      visibility: 'PUBLIC',
       gradientClass: 'bg-gradient-to-br from-[#160B22] to-[#3D2A1C]',
     },
   },

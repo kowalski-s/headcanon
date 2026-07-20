@@ -1,10 +1,8 @@
 'use client';
 
-import type { Route } from 'next';
-import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Pill } from '@/components/ui/Pill';
-import { createStory } from '@/lib/write/create-story';
+import { useCreateStory } from '@/lib/write/use-create-story';
 
 // Локальный список вместо реюза components/feed/FandomChips: его контракт —
 // role="tablist"/"tab" + обязательный track('feed_chip_tap') — семантика ленты,
@@ -15,42 +13,37 @@ const FANDOMS = [
   'Наруто',
   'Магистр дьявольского культа',
   'Всё ради игры',
-  'Оригинальный мир',
+  'Свой мир',
 ];
 
 export function EmptyDesk() {
-  const router = useRouter();
   const [selected, setSelected] = useState<string | null>(null);
-  const pendingRef = useRef(false);
-
-  // Тот же механизм создания, что в DeskShelf: POST /api/write/story → редактор.
-  // pendingRef гасит двойной клик — иначе создаются две «Без названия».
-  async function handleStart() {
-    if (pendingRef.current) return;
-    pendingRef.current = true;
-    const storyId = await createStory();
-    if (!storyId) {
-      pendingRef.current = false;
-      return;
-    }
-    router.push(('/write/' + storyId) as Route);
-  }
+  const { create, pending } = useCreateStory();
 
   return (
-    <section className="flex min-h-[70vh] flex-col items-center justify-center gap-10 px-6 py-16 text-center">
-      <div className="relative">
-        {/* Свечной ореол за заголовком: квадратный контейнер, чтобы circle-градиент
-            не обрезался в полосу на широком блоке */}
-        <div
-          aria-hidden
-          className="absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,var(--hc-glow),transparent_62%)]"
-        />
-        <h1 className="relative font-display italic text-display-l text-ink">
-          выбери фандом — и за стол
+    <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-6 py-16 text-center">
+      {/* свечной ореол за заголовком (guided start, DESIGN-writer §6) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[38%] h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,var(--hc-glow),transparent_62%)]"
+      />
+
+      <div className="relative mb-7 max-w-md">
+        <div className="font-display text-[15px] italic text-amber" aria-hidden>
+          ✦
+        </div>
+        <h1 className="mt-3 font-display text-display-l font-medium text-balance text-ink">
+          Твой стол пока <em className="not-italic text-amber">пуст</em>.
         </h1>
+        <p className="mt-3 font-body text-base italic leading-relaxed text-ink-dim text-pretty">
+          Но пустой лист — плохое начало. Выбери фандом, а сцену найдём вместе.
+        </p>
       </div>
 
-      <div className="flex max-w-md flex-wrap items-center justify-center gap-2">
+      <p className="relative mb-3 font-mono text-[9px] tracking-wide text-ink-dim">
+        с чего начнём этой ночью
+      </p>
+      <div className="relative mb-7 flex max-w-md flex-wrap items-center justify-center gap-2">
         {FANDOMS.map((name) => {
           const active = selected === name;
           return (
@@ -59,10 +52,10 @@ export function EmptyDesk() {
               type="button"
               aria-pressed={active}
               onClick={() => setSelected(name)}
-              className={`rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-wide transition-colors ${
+              className={`rounded-full border px-4 py-2 font-display text-sm italic transition-colors ${
                 active
-                  ? 'border-amber bg-amber text-bg-deep'
-                  : 'border-ink-faint/30 text-ink hover:border-amber/50'
+                  ? 'border-amber bg-amber-soft text-amber'
+                  : 'border-border text-ink-dim hover:border-amber/50'
               }`}
             >
               {name}
@@ -71,9 +64,13 @@ export function EmptyDesk() {
         })}
       </div>
 
-      <Pill variant="hero" onClick={handleStart}>
+      <Pill variant="hero" onClick={create} className={pending ? 'opacity-70' : ''}>
         + начать
       </Pill>
+
+      <p className="absolute bottom-6 left-0 right-0 font-body text-xs italic text-ink-faint">
+        ★ полночное чтиво для тех, кто не спит ★
+      </p>
     </section>
   );
 }

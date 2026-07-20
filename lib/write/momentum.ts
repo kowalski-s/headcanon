@@ -24,6 +24,13 @@ export function sparklineDays(
   return Array.from({ length: days }, (_, i) => byDay.get(t - (days - 1 - i)) ?? 0);
 }
 
+const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+
+// Атмосферный кикер над hero-лидом (канва 05): «вт · поздняя ночь · свеча горит».
+export function deskKicker(today: Date): string {
+  return `${WEEKDAYS[today.getDay()]} · поздняя ночь · свеча горит`;
+}
+
 export function nightsWord(n: number): string {
   const mod100 = n % 100;
   const mod10 = n % 10;
