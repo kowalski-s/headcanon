@@ -27,8 +27,11 @@ const Body = z
     path: ['message'],
   });
 
-export async function POST(req: NextRequest, ctx: { params: Promise<{ storyId: string }> }) {
-  const { storyId } = await ctx.params;
+// Слаг сегмента — [id] (совпадает с соседними route.ts/publish под .../story/[id]),
+// иначе Next падает: «different slug names for the same dynamic path». Внутри зовём его
+// storyId для читаемости. Публичный URL /api/write/story/<id>/assist не меняется.
+export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+  const { id: storyId } = await ctx.params;
 
   let userId: string;
   try {

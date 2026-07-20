@@ -35,7 +35,7 @@ afterAll(async () => {
 function post(storyId: string, body: unknown, headers: Record<string, string> = {}) {
   return POST(
     new NextRequest('http://x', { method: 'POST', headers, body: JSON.stringify(body) }),
-    { params: Promise.resolve({ storyId }) },
+    { params: Promise.resolve({ id: storyId }) },
   );
 }
 
