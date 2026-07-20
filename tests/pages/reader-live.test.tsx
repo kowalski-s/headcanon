@@ -99,4 +99,23 @@ describe('ReaderPageView — live path', () => {
     expect(headings.length).toBeGreaterThanOrEqual(1);
     expect(headings[0]).toHaveTextContent(/Письмо/i);
   });
+
+  it('writer-path: «назад» из живой истории ведёт в редактор, а не в 404-колофон', () => {
+    const storyId = '00000000-0000-0000-0000-000000000001';
+    render(
+      <ReaderPageView
+        storyId={storyId}
+        chapterN="1"
+        live={{
+          chapterId: 'ch-uuid-1234',
+          title: 'Первая встреча',
+          ordinal: 1,
+          authorId: storyId,
+          initialParagraphs: TEST_PARAGRAPHS,
+        }}
+      />,
+    );
+    const back = screen.getByRole('link', { name: /back/i });
+    expect(back).toHaveAttribute('href', `/write/${storyId}`);
+  });
 });

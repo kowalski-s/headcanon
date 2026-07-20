@@ -24,4 +24,20 @@ describe('Reader page', () => {
       ).length,
     ).toBeGreaterThanOrEqual(1);
   });
+
+  it('открывает любую фикстур-историю без 404 (сквозной reader-path)', () => {
+    // До фикса контент был только у hero-1/7 → все прочие главы падали в notFound().
+    // Теперь карточка ленты → колофон → «читать» открывает главу с плейсхолдер-прозой.
+    expect(() => render(<ReaderPageView storyId="s1" chapterN="1" />)).not.toThrow();
+    const headings = screen.getAllByRole('heading', { level: 1 });
+    expect(headings.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('в ридере нет watch-входов (видео заморожено — Phase 3)', () => {
+    render(<ReaderPageView storyId="hero-1" chapterN="7" />);
+    const watchLinks = screen
+      .queryAllByRole('link')
+      .filter((a) => a.getAttribute('href')?.includes('/watch'));
+    expect(watchLinks).toHaveLength(0);
+  });
 });

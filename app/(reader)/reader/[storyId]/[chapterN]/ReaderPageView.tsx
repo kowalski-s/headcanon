@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import { ReaderTopBar } from '@/components/reader/ReaderTopBar';
@@ -257,6 +258,9 @@ function LiveReader({
         chapterN={n}
         chapterTitle={live.title}
         onOpenSettings={() => setSettingsOpen(true)}
+        // Writer-path: живая история открыта из редактора; колофона /story/[uuid]
+        // для неё нет → «назад» ведёт в редактор, а не в 404.
+        backHref={`/write/${storyId}` as Route}
       />
       <ReaderProgressBar percent={percent} pageLabel={`стр ${currentPage} / ${pagesTotal}`} />
       <div className="mx-auto max-w-[860px] px-4 pt-6">

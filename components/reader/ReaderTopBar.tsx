@@ -6,12 +6,22 @@ type Props = {
   chapterN: number;
   chapterTitle: string;
   onOpenSettings: () => void;
+  /**
+   * Куда ведёт «←». По умолчанию — колофон истории `/story/[id]` (reader-path,
+   * фикстуры). На writer-path (живая история, открытая из редактора) колофона для
+   * UUID-истории нет — там передаётся `/write/[id]`, чтобы «назад» не упирался в 404.
+   */
+  backHref?: Route;
 };
 
-export function ReaderTopBar({ storyId, chapterN, chapterTitle, onOpenSettings }: Props) {
+export function ReaderTopBar({ storyId, chapterN, chapterTitle, onOpenSettings, backHref }: Props) {
   return (
     <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-ink-faint/10 bg-bg/95 px-4 py-2 backdrop-blur">
-      <Link href={`/story/${storyId}` as Route} aria-label="back" className="font-mono text-base">
+      <Link
+        href={backHref ?? (`/story/${storyId}` as Route)}
+        aria-label="back"
+        className="font-mono text-base"
+      >
         ←
       </Link>
       <div className="flex flex-col items-center text-center">

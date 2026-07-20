@@ -67,9 +67,37 @@ const ch7: ChapterContent = {
   ],
 };
 
+/**
+ * Заглушечная проза для любой фикстур-главы, у которой нет вручную написанного
+ * контента (сейчас руками написана только hero-1 / гл.7). Без этого сквозной
+ * reader-path упирался в 404: карточка ленты → колофон открывался, но «читать»
+ * вело в главу без контента → notFound(). Теперь любая PUBLIC-фикстура-история
+ * открывается и в колофоне, и в ридере. Текст — плейсхолдер, не финальная проза.
+ */
+function buildFixtureChapter(storyId: string, chapter: Chapter): ChapterContent {
+  const title = chapter.title;
+  return {
+    storyId,
+    n: chapter.n,
+    title,
+    section: title,
+    paragraphs: [
+      `Глава начиналась тихо, как начинаются все главы, которым ещё предстоит стать важными. «${title}» — так она называлась, и название пока держало в себе больше, чем страница.`,
+      'За окном шёл тот самый вечер, когда кажется, что всё вокруг замедляется — и город, и голоса, и собственное дыхание. Она остановилась на пороге и позволила себе одну минуту ничего не решать.',
+      'Он заметил её раньше, чем она успела придумать, что сказать. Между ними было ровно столько расстояния, сколько нужно, чтобы каждый шаг стал выбором, а не случайностью.',
+      '— Ты всё-таки пришла, — сказал он, и в этих трёх словах было и удивление, и что-то ещё, чему пока не находилось имени.',
+      'Она не ответила сразу. Иногда молчание — это тоже глава: ты читаешь его между строк и понимаешь больше, чем сказали бы любые слова. Продолжение следовало, и оба это знали.',
+    ],
+  };
+}
+
 export function getChapterContent(storyId: string, n: number): ChapterContent | null {
   if (storyId === heroStory.id && n === 7) return ch7;
-  return null;
+  const detail = getStoryDetail(storyId);
+  if (!detail) return null;
+  const chapter = detail.chapters.find((c) => c.n === n);
+  if (!chapter) return null;
+  return buildFixtureChapter(storyId, chapter);
 }
 
 export const heroProgress: ReadingProgress = { lastChapterN: 7, lastParagraph: 0 };
