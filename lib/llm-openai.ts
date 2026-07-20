@@ -7,7 +7,16 @@ import type { LlmAdapter, LlmStreamOpts, LlmStructuredOpts } from './llm';
 // gpt-4o-mini hallucinated character names and canon facts in chapter prose, paragraph
 // regens, and bible extraction. Structured suggest/tag calls (ship/trope/auto-tag) stay
 // on mini — they're short, cached, and don't need the larger model.
-const PROSE_CALL_TYPES = new Set(['chapter_stream', 'chapter_tweak', 'bible_extract']);
+// assist_chat/assist_expand discuss and generate the author's own prose, so they need the
+// stronger prose model even though assist_expand uses structured output (same reasoning as
+// bible_extract, which is structured but prose-quality-sensitive and stays on gpt-4o).
+const PROSE_CALL_TYPES = new Set([
+  'chapter_stream',
+  'chapter_tweak',
+  'bible_extract',
+  'assist_chat',
+  'assist_expand',
+]);
 const PROSE_CALL_PREFIXES = ['paragraph_']; // paragraph_regen|continue|expand|compress
 const PROSE_MODEL = process.env.LLM_MODEL_PROSE ?? 'gpt-4o';
 
