@@ -25,10 +25,11 @@ export function StoryPageView({ id }: { id: string }) {
 
   if (!detail) notFound();
 
-  const { story, chapters, progress, watchAvailable, saved } = detail;
+  // watch-входы скрыты — видео заморожено (Phase 3). `watchAvailable` из detail
+  // намеренно не разбираем: UI-CTA нет, роут /watch жив только по прямому URL.
+  const { story, chapters, progress, saved } = detail;
   const continueChapter = progress?.lastChapterN ?? 1;
   const ctaLabel = progress ? `★ продолжить главу ${continueChapter}` : '★ начать ★';
-  const watchLabel = `▸ watch · ${story.watchEpisodes ?? 0}m`;
   const headlineMain = story.title.replace(/\.$/, '');
   const headlineHasDot = story.title.endsWith('.');
 
@@ -117,22 +118,7 @@ export function StoryPageView({ id }: { id: string }) {
         <div className="flex flex-col gap-3 pt-4">
           <MonoBadge tone="amber">{story.fandom.name.toLowerCase()} · 1997 · must read</MonoBadge>
           <StoryMetaPanel story={story} />
-
-          {watchAvailable ? (
-            <Link
-              href={`/watch/${story.id}/${continueChapter}` as Route}
-              onClick={() => track('story_watch_tap')}
-              className="flex items-center justify-between rounded-full border border-chrome-1/30 bg-surface-raised px-4 py-2.5 font-mono text-mono-s tracking-caps uppercase"
-            >
-              <span className="flex items-center gap-2 text-chrome-1">
-                <span aria-hidden>▸</span>
-                watch mode · {story.watchEpisodes}m
-              </span>
-              <span aria-hidden className="text-amber">
-                ☀
-              </span>
-            </Link>
-          ) : null}
+          {/* watch mode скрыт — видео заморожено (Phase 3). */}
         </div>
       </div>
 
@@ -162,15 +148,7 @@ export function StoryPageView({ id }: { id: string }) {
             >
               {ctaLabel}
             </Link>
-            {watchAvailable ? (
-              <Link
-                href={`/watch/${story.id}/${continueChapter}` as Route}
-                onClick={() => track('story_watch_tap')}
-                className="rounded-full border border-chrome-1/40 bg-surface-raised px-5 py-3 font-mono text-mono-m tracking-caps uppercase text-chrome-1"
-              >
-                {watchLabel}
-              </Link>
-            ) : null}
+            {/* watch-CTA скрыт — видео заморожено (Phase 3). */}
           </div>
 
           <div className="mt-1 font-mono text-mono-s tracking-caps text-ink-faint uppercase">

@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import type { Route } from 'next';
-import { track } from '@/lib/track';
 import type { Chapter } from '@/lib/types/story';
 
-type Props = { storyId: string; nextChapter: Chapter | null; hasWatch: boolean };
+// `hasWatch` остаётся в пропсах ради стабильного контракта с ReaderShell, но
+// watch-чип скрыт — видео заморожено (Phase 3). Не удалять — вернём в Phase 3.
+type Props = { storyId: string; nextChapter: Chapter | null; hasWatch?: boolean };
 
-export function NextChapterCard({ storyId, nextChapter, hasWatch }: Props) {
+export function NextChapterCard({ storyId, nextChapter }: Props) {
   if (!nextChapter) return null;
   return (
     <div className="mx-auto mt-12 max-w-[660px] border-t border-ink-faint/20 px-4 py-6">
@@ -19,15 +20,7 @@ export function NextChapterCard({ storyId, nextChapter, hasWatch }: Props) {
           <span className="font-display italic">{nextChapter.title}</span>
           <span className="font-mono text-[10px] text-ink-dim">{nextChapter.minutes}m</span>
         </Link>
-        {hasWatch ? (
-          <Link
-            href={`/watch/${storyId}/${nextChapter.n}` as Route}
-            onClick={() => track('reader_watch_chip_tap')}
-            className="rounded-full border border-chrome-2 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-chrome-2"
-          >
-            ▸ watch
-          </Link>
-        ) : null}
+        {/* watch-чип скрыт — видео заморожено (Phase 3). */}
       </div>
     </div>
   );

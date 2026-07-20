@@ -21,4 +21,13 @@ describe('FeedHeader', () => {
     render(<FeedHeader authed={false} />);
     expect(screen.getByRole('link', { name: /новая история/i })).toBeInTheDocument();
   });
+
+  it('не показывает watch-вход (видео заморожено — Phase 3)', () => {
+    render(<FeedHeader />);
+    expect(screen.queryByRole('link', { name: /watch/i })).toBeNull();
+    const watchLinks = screen
+      .queryAllByRole('link')
+      .filter((a) => a.getAttribute('href')?.includes('/watch'));
+    expect(watchLinks).toHaveLength(0);
+  });
 });

@@ -12,4 +12,12 @@ describe('Story page', () => {
     expect(screen.getAllByText(/lunahalf/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('07')).toBeInTheDocument();
   });
+
+  it('колофон не показывает watch-входов (видео заморожено — Phase 3)', () => {
+    render(<StoryPageView id="hero-1" />);
+    const watchLinks = screen
+      .getAllByRole('link')
+      .filter((a) => a.getAttribute('href')?.includes('/watch'));
+    expect(watchLinks).toHaveLength(0);
+  });
 });

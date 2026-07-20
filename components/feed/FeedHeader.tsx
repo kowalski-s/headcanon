@@ -14,9 +14,7 @@ export function FeedHeader({ authed = false }: { authed?: boolean }) {
         >
           canon
         </span>
-        <span aria-hidden className="ml-1.5 text-[13px] font-normal text-amber">
-          ✦
-        </span>
+        {/* ✦-бейдж у логотипа убран — «чистое название» (видео-ревью). */}
       </Link>
 
       <nav className="flex gap-5 font-mono text-mono-s tracking-caps uppercase">
@@ -29,9 +27,8 @@ export function FeedHeader({ authed = false }: { authed?: boolean }) {
         <Link href={'/tropes' as Route} className="text-ink-dim transition-colors hover:text-ink">
           тропы
         </Link>
-        <Link href={'/watch' as Route} className="text-ink-dim transition-colors hover:text-ink">
-          watch ▸
-        </Link>
+        {/* watch скрыт — видео заморожено (Phase 3). Роут /watch жив по прямому URL,
+            но UI-входов быть не должно. Не удалять — вернём в Phase 3. */}
       </nav>
 
       <div className="ml-auto flex items-center gap-3">

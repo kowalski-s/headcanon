@@ -14,4 +14,21 @@ describe('Feed page', () => {
       .filter((a) => a.getAttribute('href')?.startsWith('/story/'));
     expect(cards.length).toBeGreaterThanOrEqual(5);
   });
+
+  it('несёт общую шапку SiteHeader: логотип → /, навигация «мой стол» → /write', () => {
+    render(<FeedPage />);
+    expect(screen.getByRole('link', { name: /headcanon/i })).toHaveAttribute('href', '/');
+    // «мой стол» ведёт в /write и с десктоп-навигации (SiteHeader), и с мобильного TabBar.
+    const deskLinks = screen.getAllByRole('link', { name: /мой стол/i });
+    expect(deskLinks.length).toBeGreaterThanOrEqual(1);
+    for (const link of deskLinks) expect(link).toHaveAttribute('href', '/write');
+  });
+
+  it('не содержит watch-входов (видео заморожено — Phase 3)', () => {
+    render(<FeedPage />);
+    const watchLinks = screen
+      .getAllByRole('link')
+      .filter((a) => a.getAttribute('href')?.includes('/watch'));
+    expect(watchLinks).toHaveLength(0);
+  });
 });

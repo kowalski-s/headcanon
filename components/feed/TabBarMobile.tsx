@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 
-type TabKey = 'feed' | 'create' | 'saved' | 'me';
+type TabKey = 'feed' | 'desk' | 'create' | 'saved' | 'me';
 
 const tabs: Array<{ key: TabKey; label: string; href: string }> = [
   { key: 'feed', label: 'лента', href: '/' },
+  { key: 'desk', label: 'мой стол', href: '/write' },
   { key: 'create', label: 'создать', href: '/create' },
   { key: 'saved', label: 'полка', href: '/me/saved' },
   { key: 'me', label: 'я', href: '/me' },
@@ -12,7 +13,7 @@ const tabs: Array<{ key: TabKey; label: string; href: string }> = [
 
 export function TabBarMobile({ active }: { active: TabKey }) {
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 grid grid-cols-4 border-t border-ink-faint/20 bg-bg/95 backdrop-blur">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 grid grid-cols-5 border-t border-ink-faint/20 bg-bg/95 backdrop-blur">
       {tabs.map((t) => (
         <Link
           key={t.key}

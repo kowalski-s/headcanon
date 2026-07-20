@@ -14,7 +14,8 @@ type Props = {
   content: ChapterContent;
   prevChapter: Chapter | null;
   nextChapter: Chapter | null;
-  hasWatch: boolean;
+  // `hasWatch` остаётся в контракте, но watch-CTA скрыт — видео заморожено (Phase 3).
+  hasWatch?: boolean;
   settings: ReaderSettings;
   onOpenSettings: () => void;
 };
@@ -30,7 +31,6 @@ export function ReaderSpreadDesktop({
   content,
   prevChapter,
   nextChapter,
-  hasWatch,
   settings,
   onOpenSettings,
 }: Props) {
@@ -200,14 +200,7 @@ export function ReaderSpreadDesktop({
               >
                 запомнить · ch.{chapter} ▸
               </Link>
-              {hasWatch ? (
-                <Link
-                  href={`/watch/${storyId}/${nextChapter.n}` as Route}
-                  className="ml-auto rounded-full border border-chrome-2/40 px-3 py-1.5 font-mono text-mono-s tracking-caps text-chrome-2 uppercase"
-                >
-                  ▸ watch
-                </Link>
-              ) : null}
+              {/* watch-CTA скрыт — видео заморожено (Phase 3). */}
             </div>
           </div>
         ) : null}

@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { FeedHeader } from '@/components/feed/FeedHeader';
-import { FeedHeaderMobile } from '@/components/feed/FeedHeaderMobile';
+import Link from 'next/link';
+import type { Route } from 'next';
+import { SiteHeader } from '@/components/layout/SiteHeader';
 import { FeedHeroDesktop } from '@/components/feed/FeedHeroDesktop';
 import { FeedHeroMobile } from '@/components/feed/FeedHeroMobile';
 import { FeedGrid } from '@/components/feed/FeedGrid';
@@ -30,10 +31,20 @@ export default function FeedPage() {
     track('feed_viewed');
   }, []);
 
+  // Общая шапка (канва 05): лого · мой стол · лента · кабинет + primary «+ новая история».
+  // На ленте primary ведёт в мастер обложки (/create) — тот же вход, что был у FeedHeader.
+  const newStoryAction = (
+    <Link
+      href={'/create' as Route}
+      className="rounded-full bg-amber px-[13px] py-[5px] font-display text-[12.5px] font-medium italic text-bg-deep transition-[filter] hover:brightness-110"
+    >
+      + новая история
+    </Link>
+  );
+
   return (
     <div className="min-h-screen bg-bg text-ink pb-20 lg:pb-0">
-      <FeedHeader />
-      <FeedHeaderMobile />
+      <SiteHeader active="feed" primaryAction={newStoryAction} />
 
       <div className="lg:hidden">
         <FandomChips chips={fandomChips} onSelect={() => {}} />

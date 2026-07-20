@@ -12,7 +12,6 @@ const HERO_GENRES = ['enemies-to-lovers', 'slow burn'];
 export function FeedHeroDesktop({ story }: { story: Story }) {
   const continueChapter = 7;
   const readerHref = `/reader/${story.id}/${continueChapter}` as Route;
-  const watchHref = `/watch/${story.id}/${continueChapter}` as Route;
   const storyHref = `/story/${story.id}` as Route;
 
   return (
@@ -53,15 +52,7 @@ export function FeedHeroDesktop({ story }: { story: Story }) {
           >
             ★ продолжить главу {continueChapter}
           </Link>
-          {story.hasWatch ? (
-            <Link
-              href={watchHref}
-              onClick={() => track('feed_hero_watch_tap', { story_id: story.id })}
-              className="rounded-full border border-chrome-1/40 bg-surface-raised px-5 py-3 font-mono text-mono-m tracking-caps uppercase text-chrome-1"
-            >
-              ▸ watch · {story.watchEpisodes}m
-            </Link>
-          ) : null}
+          {/* watch-CTA скрыт — видео заморожено (Phase 3). */}
           <Link
             href={storyHref}
             className="ml-3 font-mono text-mono-s tracking-caps text-ink-dim uppercase hover:text-ink"
