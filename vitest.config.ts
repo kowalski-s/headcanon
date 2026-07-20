@@ -31,6 +31,8 @@ export default defineConfig({
           setupFiles: ['./tests/setup.ts'],
           // DB-touching tests share a single dev Postgres → serialize file execution
           fileParallelism: false,
+          // agent-worktrees содержат полные копии репо — их тесты не наши
+          exclude: ['**/node_modules/**', '**/.next/**', '.claude/**'],
         },
       },
       {
