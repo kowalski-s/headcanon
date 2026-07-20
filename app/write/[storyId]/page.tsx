@@ -1,9 +1,12 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { DEV_USER_ID } from '@/lib/auth/dev-user';
 import { prisma } from '@/lib/prisma';
 import { ChapterNav } from '@/components/write/ChapterNav';
-import { ChapterEditor } from '@/components/write/ChapterEditor';
-import { PublishToggle } from '@/components/write/PublishToggle';
+import { EditorWorkspace } from '@/components/write/EditorWorkspace';
+
+// Черновик всегда свежий из БД — активная глава и порядок меняются вне кэша.
+export const dynamic = 'force-dynamic';
 
 type Props = {
   params: Promise<{ storyId: string }>;
@@ -25,51 +28,34 @@ export default async function WriteStoryPage({ params, searchParams }: Props) {
 
   const activeOrdinal = Number(ch ?? '1');
   const active = story.chapters.find((c) => c.ordinal === activeOrdinal) ?? story.chapters[0];
+  const chapters = story.chapters.map((c) => ({ id: c.id, ordinal: c.ordinal, title: c.title }));
+
+  // Пустая история — guided start вместо голого холста.
+  if (!active) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-bg px-6 text-ink">
+        <Link
+          href="/write"
+          className="absolute left-6 top-5 font-mono text-mono-s tracking-caps uppercase text-ink-dim hover:text-ink"
+        >
+          ← на стол
+        </Link>
+        <h1 className="text-center font-display text-3xl italic text-ink">{story.title}</h1>
+        <p className="font-body text-body-l italic text-ink-faint">Здесь пока чистый лист.</p>
+        <div className="w-56">
+          <ChapterNav storyId={story.id} chapters={[]} activeOrdinal={1} />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-bg text-ink">
-      {/* Top bar */}
-      <header className="flex items-center justify-between gap-4 px-6 py-4 border-b border-DEFAULT">
-        <h1 className="font-display text-2xl truncate">{story.title}</h1>
-        <PublishToggle storyId={story.id} visibility={story.visibility} />
-      </header>
-
-      {/* Main layout */}
-      <div className="flex min-h-[calc(100vh-65px)]">
-        {/* Left sidebar — chapter nav */}
-        <aside className="w-56 shrink-0 border-r border-DEFAULT px-4 py-6">
-          <ChapterNav
-            storyId={story.id}
-            chapters={story.chapters.map((c) => ({
-              id: c.id,
-              ordinal: c.ordinal,
-              title: c.title,
-            }))}
-            activeOrdinal={active?.ordinal ?? 1}
-          />
-        </aside>
-
-        {/* Center — editor or empty state */}
-        <main className="flex-1 px-8 py-6">
-          {active ? (
-            <>
-              <ChapterEditor key={active.id} chapterId={active.id} initialMarkdown={active.text} />
-              {/* AI assistant placeholder — W3 */}
-              <button
-                disabled
-                title="Скоро"
-                className="mt-6 rounded-full border border-chrome-1/20 px-5 py-2.5 font-mono text-mono-m tracking-caps uppercase text-ink-dim opacity-40 cursor-not-allowed"
-              >
-                AI-ассистент
-              </button>
-            </>
-          ) : (
-            <p className="font-mono text-mono-s tracking-caps uppercase text-ink-dim">
-              Добавьте первую главу с помощью кнопки слева.
-            </p>
-          )}
-        </main>
-      </div>
-    </div>
+    <EditorWorkspace
+      storyId={story.id}
+      storyTitle={story.title}
+      visibility={story.visibility}
+      chapters={chapters}
+      active={{ id: active.id, ordinal: active.ordinal, title: active.title, text: active.text }}
+    />
   );
 }
