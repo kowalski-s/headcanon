@@ -29,6 +29,7 @@ async function makeStory() {
 
 afterAll(async () => {
   await prisma.story.deleteMany({ where: { id: { in: createdStoryIds } } });
+  await prisma.dailyUsage.deleteMany({ where: { userId: OTHER_USER } });
 });
 
 function post(storyId: string, body: unknown, headers: Record<string, string> = {}) {
@@ -115,5 +116,32 @@ describe('POST /api/write/story/[storyId]/assist', () => {
     const json = await res.json();
     expect(json.teaser).toBeTruthy();
     expect(json.passage).toContain('обернулся');
+  }, 15_000);
+
+  it('429 when the daily assist quota is exhausted', async () => {
+    const { user, story, chapter } = await makeStory();
+    await prisma.dailyUsage.deleteMany({ where: { userId: user.id } });
+    const prev = process.env.FREE_DAILY_ASSISTS;
+    process.env.FREE_DAILY_ASSISTS = '1';
+    try {
+      const ok = await post(
+        story.id,
+        { action: 'chat', chapterId: chapter.id, message: 'привет' },
+        { 'x-test-user-id': user.id },
+      );
+      expect(ok.status).toBe(200);
+      await ok.text(); // drain the stream
+      const blocked = await post(
+        story.id,
+        { action: 'expand', chapterId: chapter.id },
+        { 'x-test-user-id': user.id },
+      );
+      expect(blocked.status).toBe(429);
+      expect((await blocked.json()).error).toBe('quota_exceeded');
+    } finally {
+      if (prev === undefined) delete process.env.FREE_DAILY_ASSISTS;
+      else process.env.FREE_DAILY_ASSISTS = prev;
+      await prisma.dailyUsage.deleteMany({ where: { userId: user.id } });
+    }
   }, 15_000);
 });

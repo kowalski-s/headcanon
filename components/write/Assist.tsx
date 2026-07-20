@@ -257,6 +257,7 @@ export function AssistPanel({
     <aside
       aria-label="Соавтор"
       aria-hidden={!open}
+      inert={!open}
       className="pointer-events-none absolute inset-y-0 right-0 z-[12] hidden w-[340px] max-w-[86vw] translate-x-full flex-col border-l border-DEFAULT bg-bg-deep/95 backdrop-blur transition-transform duration-300 ease-out data-[open=true]:pointer-events-auto data-[open=true]:translate-x-0 motion-reduce:transition-none sm:flex"
       data-open={open}
     >

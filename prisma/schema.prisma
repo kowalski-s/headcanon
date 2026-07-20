@@ -446,6 +446,7 @@ model DailyUsage {
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   day     DateTime @db.Date
   stories Int      @default(0)
+  assists Int      @default(0)
   @@id([userId, day])
 }
 

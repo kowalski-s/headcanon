@@ -3,8 +3,12 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { getUserIdOrThrow } from '@/lib/auth/server';
 import { openaiLlm } from '@/lib/llm-openai';
+import { debitDaily } from '@/lib/quota/check-and-debit';
 import * as assist from '@/lib/prompts/assist';
 import { canonicalFandom } from '@/lib/fandom/canonical';
+
+// Свободный дневной лимит обращений к соавтору (chat + разворот). Override для тестов.
+const FREE_DAILY_ASSISTS = 50;
 
 const HistoryItem = z.object({
   role: z.enum(['user', 'assistant']),
@@ -45,6 +49,11 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ storyId: s
   if (!chapter || chapter.storyId !== storyId || chapter.story.authorId !== userId) {
     return NextResponse.json({ error: 'not found' }, { status: 404 });
   }
+
+  // Лимит — только на AI-вызов (chat и разворот одинаково стоят обращения к соавтору).
+  const limit = Number(process.env.FREE_DAILY_ASSISTS ?? FREE_DAILY_ASSISTS);
+  const quota = await debitDaily(userId, 'assists', limit);
+  if (!quota.allowed) return NextResponse.json({ error: 'quota_exceeded' }, { status: 429 });
 
   const fandomTag = chapter.story.tags.find((st) => st.tag.type === 'FANDOM')?.tag;
   const meta: assist.AssistMeta = {

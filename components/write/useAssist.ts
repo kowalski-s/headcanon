@@ -1,7 +1,11 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiFetch } from '@/lib/api/client';
+
+// Тихое сообщение при исчерпании дневного лимита (тон DESIGN-writer — без канцелярита).
+const QUOTA_NOTE =
+  'На сегодня свободные обращения к соавтору закончились — он вернётся к твоей рукописи завтра.';
 
 export type ChatMessage =
   | { id: string; kind: 'user'; text: string }
@@ -29,6 +33,11 @@ export function useAssist({ storyId, chapterId, onInsert }: Options) {
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
+  // Зеркало messages для чтения актуального состояния вне setState-апдейтера (accept).
+  const messagesRef = useRef<ChatMessage[]>(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
   const endpoint = `/api/write/story/${storyId}/assist`;
 
   const patch = useCallback((id: string, next: Partial<ChatMessage>) => {
@@ -66,6 +75,10 @@ export function useAssist({ storyId, chapterId, onInsert }: Options) {
           method: 'POST',
           body: JSON.stringify({ action: 'chat', chapterId, message: text, history }),
         });
+        if (res.status === 429) {
+          patch(aiId, { text: QUOTA_NOTE, streaming: false });
+          return;
+        }
         if (!res.ok || !res.body) {
           const payload = await res.json().catch(() => ({}));
           throw new Error(payload.error ?? `HTTP ${res.status}`);
@@ -101,6 +114,14 @@ export function useAssist({ storyId, chapterId, onInsert }: Options) {
           method: 'POST',
           body: JSON.stringify({ action, chapterId, message: instruction }),
         });
+        if (res.status === 429) {
+          // Убираем карточку-«думает» и оставляем тихую заметку в чате.
+          setMessages((ms) => [
+            ...ms.filter((m) => m.id !== id),
+            { id: nextId(), kind: 'ai', text: QUOTA_NOTE, streaming: false },
+          ]);
+          return;
+        }
         if (!res.ok) {
           const payload = await res.json().catch(() => ({}));
           throw new Error(payload.error ?? `HTTP ${res.status}`);
@@ -134,13 +155,14 @@ export function useAssist({ storyId, chapterId, onInsert }: Options) {
   /** «в текст» — вставить фрагмент в конец главы. */
   const accept = useCallback(
     (id: string) => {
-      setMessages((ms) => {
-        const msg = ms.find((m) => m.id === id);
-        if (msg && msg.kind === 'suggestion' && msg.status === 'ready') onInsert(msg.passage);
-        return ms.map((m) =>
-          m.id === id && m.kind === 'suggestion' ? { ...m, status: 'accepted' } : m,
-        );
-      });
+      // Side effect держим ВНЕ setState-апдейтера: апдейтер обязан быть чистым
+      // (React/StrictMode вправе вызвать его повторно → иначе двойная вставка).
+      const msg = messagesRef.current.find((m) => m.id === id);
+      if (!msg || msg.kind !== 'suggestion' || msg.status !== 'ready') return;
+      onInsert(msg.passage);
+      setMessages((ms) =>
+        ms.map((m) => (m.id === id && m.kind === 'suggestion' ? { ...m, status: 'accepted' } : m)),
+      );
     },
     [onInsert],
   );

@@ -63,7 +63,7 @@ export function buildChat(args: {
 
   const historyBlock = args.history
     .slice(-10)
-    .map((m) => `${m.role === 'user' ? 'Автор' : 'Ты'}: ${m.content}`)
+    .map((m) => `${m.role === 'user' ? 'Автор' : 'Ты'}: ${wrapUserInput(m.content)}`)
     .join('\n');
 
   const user = [
