@@ -20,7 +20,7 @@ export type DeskStory = {
 
 // ru-RU в Node/ICU отдаёт narrow no-break space (U+202F) как разделитель групп —
 // нормализуем к обычному no-break space (U+00A0), тест ассертит именно его.
-const ruNum = (n: number) => n.toLocaleString('ru-RU').replace(/\s/g, ' ');
+const ruNum = (n: number) => n.toLocaleString('ru-RU').replace(/\s/g, '\u00A0');
 
 // Бейдж состояния по канве 05 (PvStoryCover): опубликовано / по ссылке / черновик.
 const VISIBILITY_LABEL: Record<DeskVisibility, string> = {

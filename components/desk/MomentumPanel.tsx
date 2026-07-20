@@ -1,6 +1,6 @@
 import { nightsWord } from '@/lib/write/momentum';
 
-const ruNum = (n: number) => n.toLocaleString('ru-RU').replace(/\s/g, ' ');
+const ruNum = (n: number) => n.toLocaleString('ru-RU').replace(/\s/g, '\u00A0');
 
 // Инлайновый амберный спарклайн-столбики (по канве 05) — никаких chart-библиотек.
 function Sparkline({ values }: { values: number[] }) {

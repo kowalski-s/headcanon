@@ -13,7 +13,7 @@ const story: DeskStory = {
 
 // В mono-статусе группы разрядов нормализованы к U+00A0 (no-break space) —
 // Node/ICU для ru-RU отдаёт U+202F (narrow no-break space), компонент заменяет.
-const NBSP = ' ';
+const NBSP = '\u00A0';
 
 describe('DeskCover', () => {
   it('типографская обложка: лейбл сверху, титул, mono-статистика с ru-RU числом', () => {
