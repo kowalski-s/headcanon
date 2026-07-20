@@ -1,5 +1,5 @@
 'use client';
-import { useEditor, EditorContent, Extension } from '@tiptap/react';
+import { useEditor, EditorContent, Extension, type Editor as TiptapEditor } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
@@ -16,6 +16,8 @@ type Props = {
   mode?: EditorMode;
   onWordCount?: (n: number) => void;
   onTyping?: () => void;
+  /** Отдаёт наверх экземпляр редактора (для вставки прозы из AI-панели). */
+  onEditorReady?: (editor: TiptapEditor | null) => void;
 };
 
 /**
@@ -46,7 +48,14 @@ const ActiveParagraph = Extension.create({
   },
 });
 
-export function Editor({ initialMarkdown, onSave, mode = 'write', onWordCount, onTyping }: Props) {
+export function Editor({
+  initialMarkdown,
+  onSave,
+  mode = 'write',
+  onWordCount,
+  onTyping,
+  onEditorReady,
+}: Props) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -84,6 +93,12 @@ export function Editor({ initialMarkdown, onSave, mode = 'write', onWordCount, o
       }, 1500);
     },
   });
+
+  // Отдаём экземпляр редактора наверх (AI-панель вставляет прозу «в текст»).
+  useEffect(() => {
+    onEditorReady?.(editor ?? null);
+    return () => onEditorReady?.(null);
+  }, [editor, onEditorReady]);
 
   // Печатная машинка: держим строку с кареткой по центру вертикали.
   useEffect(() => {

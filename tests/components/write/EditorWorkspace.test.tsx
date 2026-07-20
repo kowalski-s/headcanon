@@ -63,10 +63,12 @@ describe('EditorWorkspace', () => {
     expect(screen.getByTestId('manuscript')).toHaveAttribute('data-mode', 'focus');
   });
 
-  it('AI-заглушка присутствует и задизейблена', () => {
+  it('кнопка «соавтор» разворачивает выдвижную панель-чат', () => {
     renderWorkspace();
-    const ai = screen.getByRole('button', { name: 'AI-ассистент' });
-    expect(ai).toBeDisabled();
+    const panel = screen.getByRole('complementary', { hidden: true });
+    expect(panel).toHaveAttribute('data-open', 'false');
+    fireEvent.click(screen.getByRole('button', { name: 'Соавтор' }));
+    expect(screen.getByRole('complementary')).toHaveAttribute('data-open', 'true');
   });
 
   it('кнопка «содержание» открывает выдвижную панель глав', () => {

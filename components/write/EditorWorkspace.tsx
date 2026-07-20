@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { Editor as TiptapEditor } from '@tiptap/react';
 import { ChapterEditor, type SaveStatus } from './ChapterEditor';
 import { ChapterNav } from './ChapterNav';
 import { PublishToggle } from './PublishToggle';
+import { AssistPanel, AssistSheet } from './Assist';
+import { useAssist } from './useAssist';
 import type { EditorMode } from './Editor';
 
 type Chapter = { id: string; ordinal: number; title: string | null };
@@ -31,7 +34,29 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
   const [typing, setTyping] = useState(false);
   const [chromeHover, setChromeHover] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const editorRef = useRef<TiptapEditor | null>(null);
+
+  const handleEditorReady = useCallback((ed: TiptapEditor | null) => {
+    editorRef.current = ed;
+  }, []);
+
+  // Вставка «в текст» — как обычный ввод: транзакция TipTap триггерит тот же debounce-save.
+  const insertProse = useCallback((passage: string) => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    const nodes = passage
+      .split(/\n{2,}/)
+      .map((p) => p.trim())
+      .filter(Boolean)
+      .map((text) => ({ type: 'paragraph', content: [{ type: 'text', text }] }));
+    if (!nodes.length) return;
+    editor.chain().focus().insertContentAt(editor.state.doc.content.size, nodes).run();
+  }, []);
+
+  const chat = useAssist({ storyId, chapterId: active.id, onInsert: insertProse });
 
   const handleTyping = useCallback(() => {
     setTyping(true);
@@ -154,6 +179,7 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
               onStatusChange={setStatus}
               onWordCount={setWordCount}
               onTyping={handleTyping}
+              onEditorReady={handleEditorReady}
             />
           </div>
         </div>
@@ -169,15 +195,30 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
         )}
       </main>
 
-      {/* ── нижняя строка: AI-заглушка + переключатель режимов ── */}
+      {/* ── нижняя строка: соавтор + переключатель режимов ── */}
       <footer className="relative z-[6] flex flex-wrap items-center justify-between gap-3 border-t border-DEFAULT bg-panel/80 px-6 py-2.5 backdrop-blur">
-        {/* AI assistant placeholder — W3 (заменит задача AI-соавтора) */}
+        {/* Desktop — тоггл выдвижной панели-чата */}
         <button
-          disabled
-          title="Скоро"
-          className="rounded-full border border-chrome-1/20 px-5 py-2.5 font-mono text-mono-m tracking-caps uppercase text-ink-dim opacity-40 cursor-not-allowed"
+          type="button"
+          onClick={() => setPanelOpen((v) => !v)}
+          aria-pressed={panelOpen}
+          aria-label="Соавтор"
+          className={`hidden items-center gap-2 rounded-full border px-4 py-2 font-mono text-mono-m tracking-caps uppercase transition-colors sm:inline-flex ${
+            panelOpen ? 'border-amber/50 text-amber' : 'border-DEFAULT text-ink-dim hover:text-ink'
+          }`}
         >
-          AI-ассистент
+          <span aria-hidden>✦</span> соавтор
+        </button>
+        {/* Mobile — строка «написать ИИшке» → bottom sheet */}
+        <button
+          type="button"
+          onClick={() => setSheetOpen(true)}
+          className="inline-flex items-center gap-2 rounded-full border border-DEFAULT px-4 py-2 font-display text-[13px] italic text-ink-dim sm:hidden"
+        >
+          <span className="text-amber" aria-hidden>
+            ✦
+          </span>
+          написать ИИшке
         </button>
 
         <div
@@ -200,6 +241,20 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
           ))}
         </div>
       </footer>
+
+      {/* ── AI-соавтор: выдвижная панель (desktop) + bottom sheet (mobile) ── */}
+      <AssistPanel
+        open={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        chat={chat}
+        subtitle={`видит гл. ${active.ordinal}`}
+      />
+      <AssistSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        chat={chat}
+        subtitle={`видит гл. ${active.ordinal}`}
+      />
 
       {/* ── выдвижная панель содержания ── */}
       {drawerOpen && (
