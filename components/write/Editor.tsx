@@ -73,10 +73,15 @@ export function Editor({ initialMarkdown, onSave, mode = 'write', onWordCount, o
     onUpdate: ({ editor }) => {
       onTyping?.();
       setIsEmpty(editor.isEmpty);
-      const md = tiptapDocToMarkdown(editor.getJSON() as never);
-      onWordCount?.(countWords(md));
+      // Сериализацию всего документа (markdown + подсчёт слов) откладываем в тот же
+      // 1500ms debounce, что и save — иначе на каждый кейстрок гоняли бы getJSON по
+      // всей главе (5–10к слов) и лагала бы печать. Счётчику слов live-обновление не нужно.
       if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => onSave(md), 1500);
+      timer.current = setTimeout(() => {
+        const md = tiptapDocToMarkdown(editor.getJSON() as never);
+        onWordCount?.(countWords(md));
+        onSave(md);
+      }, 1500);
     },
   });
 

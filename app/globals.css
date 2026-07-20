@@ -64,10 +64,13 @@ kbd {
   caret-color: var(--hc-amber);
   outline: none;
   text-align: left; /* ragged-right — justify только в ридере/превью */
-  text-wrap: pretty;
+  /* НЕ text-wrap: pretty — pretty перекладывает переломы строк при наборе (как в
+     .reader-streaming), строки «прыгают». В редакторе — дефолтный wrap. */
 }
 .hc-manuscript .ProseMirror p {
   margin: 0.9em 0 0;
+  /* перебиваем глобальный p { text-wrap: pretty } — иначе строки «прыгают» при наборе */
+  text-wrap: wrap;
 }
 .hc-manuscript .ProseMirror > *:first-child {
   margin-top: 0;

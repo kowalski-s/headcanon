@@ -175,7 +175,7 @@ export function EditorWorkspace({ storyId, storyTitle, visibility, chapters, act
         <button
           disabled
           title="Скоро"
-          className="mt-6 rounded-full border border-chrome-1/20 px-5 py-2.5 font-mono text-mono-m tracking-caps uppercase text-ink-dim opacity-40 cursor-not-allowed"
+          className="rounded-full border border-chrome-1/20 px-5 py-2.5 font-mono text-mono-m tracking-caps uppercase text-ink-dim opacity-40 cursor-not-allowed"
         >
           AI-ассистент
         </button>
