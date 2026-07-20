@@ -52,3 +52,57 @@ kbd {
   background: var(--hc-amber);
   color: var(--hc-bg);
 }
+
+/* ── Тихий редактор (A2): холст письма ────────────────────────────────
+   Проза — Garamond-колонка, ragged-right, амбер-курсор. Скоуп .hc-manuscript,
+   чтобы не задеть остальной UI. Режимы фокус/машинка — через data-mode. */
+.hc-manuscript .ProseMirror {
+  font-family: var(--font-body), 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.62;
+  color: var(--hc-ink);
+  caret-color: var(--hc-amber);
+  outline: none;
+  text-align: left; /* ragged-right — justify только в ридере/превью */
+  text-wrap: pretty;
+}
+.hc-manuscript .ProseMirror p {
+  margin: 0.9em 0 0;
+}
+.hc-manuscript .ProseMirror > *:first-child {
+  margin-top: 0;
+}
+.hc-manuscript .ProseMirror h2,
+.hc-manuscript .ProseMirror h3 {
+  font-family: var(--font-display), 'Bodoni Moda', serif;
+  color: var(--hc-ink);
+  line-height: 1.15;
+  margin: 1.2em 0 0;
+}
+
+/* Фокус — гаснет всё, кроме текущего абзаца (+ радиальная виньетка рисуется в оболочке) */
+.hc-manuscript[data-mode='focus'] .ProseMirror > *,
+.hc-manuscript[data-mode='typewriter'] .ProseMirror > * {
+  transition:
+    opacity 0.5s,
+    color 0.5s,
+    filter 0.5s;
+}
+.hc-manuscript[data-mode='focus'] .ProseMirror > *:not(.hc-active-para) {
+  opacity: 0.32;
+  filter: blur(0.4px);
+}
+
+/* Печатная машинка — моно-шрифт, увеличенные межабзацные отступы, дыхание сверху/снизу */
+.hc-manuscript[data-mode='typewriter'] .ProseMirror {
+  font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  font-size: 16px;
+  line-height: 1.75;
+  padding: 42vh 0;
+}
+.hc-manuscript[data-mode='typewriter'] .ProseMirror p {
+  margin: 1.5em 0 0;
+}
+.hc-manuscript[data-mode='typewriter'] .ProseMirror > *:not(.hc-active-para) {
+  opacity: 0.28;
+}

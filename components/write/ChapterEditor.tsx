@@ -1,18 +1,34 @@
 'use client';
 
-import { useState } from 'react';
-import { Editor } from './Editor';
+import { useEffect, useState } from 'react';
+import { Editor, type EditorMode } from './Editor';
 import { apiFetch } from '@/lib/api/client';
+
+export type SaveStatus = 'idle' | 'saving' | 'saved';
 
 type Props = {
   chapterId: string;
   initialMarkdown: string;
+  mode?: EditorMode;
+  /** Поднимаем статус автосейва и счётчик слов в chrome-шапку. */
+  onStatusChange?: (status: SaveStatus) => void;
+  onWordCount?: (n: number) => void;
+  onTyping?: () => void;
 };
 
-type SaveStatus = 'idle' | 'saving' | 'saved';
-
-export function ChapterEditor({ chapterId, initialMarkdown }: Props) {
+export function ChapterEditor({
+  chapterId,
+  initialMarkdown,
+  mode = 'write',
+  onStatusChange,
+  onWordCount,
+  onTyping,
+}: Props) {
   const [status, setStatus] = useState<SaveStatus>('idle');
+
+  useEffect(() => {
+    onStatusChange?.(status);
+  }, [status, onStatusChange]);
 
   async function save(markdown: string) {
     setStatus('saving');
@@ -23,20 +39,13 @@ export function ChapterEditor({ chapterId, initialMarkdown }: Props) {
     setStatus('saved');
   }
 
-  const statusLabel: Record<SaveStatus, string | null> = {
-    idle: null,
-    saving: 'Сохранение…',
-    saved: 'Сохранено',
-  };
-
   return (
-    <div className="flex flex-col gap-2">
-      <Editor initialMarkdown={initialMarkdown} onSave={save} />
-      {status !== 'idle' && (
-        <p className="font-mono text-mono-s tracking-caps uppercase text-ink-faint">
-          {statusLabel[status]}
-        </p>
-      )}
-    </div>
+    <Editor
+      initialMarkdown={initialMarkdown}
+      onSave={save}
+      mode={mode}
+      onWordCount={onWordCount}
+      onTyping={onTyping}
+    />
   );
 }
